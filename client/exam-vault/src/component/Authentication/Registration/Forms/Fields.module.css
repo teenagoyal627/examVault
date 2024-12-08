@@ -1,0 +1,54 @@
+.teacherForm{
+    display: flex;
+    flex-direction: column;
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+
+}
+
+.teacherForm label{
+    font-size: 1.2rem;
+}
+
+.teacherForm input{
+    border-radius: 5px;
+    margin-top: .1rem ;
+    margin-bottom: 1.2rem;
+    height: 40px;
+
+}
+
+.teacherForm select{
+    height: 35px;
+    margin-bottom: 1.2rem;
+
+
+}
+
+.heading{
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+
+.button{
+    color: rgb(4, 4, 4);
+    padding: 10px 20px;
+    border: none;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+    background-color: #dcdcda;
+  }
+  
+  
+  .button:hover{
+    background-color: green;
+    color: white;
+  }

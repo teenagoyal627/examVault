@@ -1,0 +1,31 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(165, 195, 142);
+    color: black;
+    padding: 1rem;
+}
+
+.title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.navLinks{
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+
+}
+
+.navLinks .li{
+    margin-right: 6rem;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: white;
+}
