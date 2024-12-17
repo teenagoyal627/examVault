@@ -18,6 +18,7 @@ const navigate =useNavigate()
     startYear:"",
     endYear:"",
     department:"",
+    semester:"",
     university:"",
     college:""
   })
@@ -62,6 +63,7 @@ const navigate =useNavigate()
       <FieldsInput label='Confirm Password' type='password' name='confirmPass' value={studentData.confirmPass} onChange={handleStudentChange}/>
       <FieldsInput label='Student ID' type='text' name='studentId' value={studentData.studentId} onChange={handleStudentChange}/>
       <FieldsInput label='Department' type='select' name='department' value={studentData.department} onChange={handleStudentChange} options={['CSE','Civil','ME','EE','Other']}/>
+      <FieldsInput label='Semester' type='select' name='semester' value={studentData.semester} onChange={handleStudentChange} options={['I','II','III','IV','V','VI','VII','VIII']}/>
       <FieldsInput label='Start Year' type='date' name='startYear' value={studentData.startYear} onChange={handleStudentChange}/>
       <FieldsInput label='End Year' type='date' name='endYear' value={studentData.endYear} onChange={handleStudentChange}/>
       <FieldsInput label='University' type='select' name='university' value={studentData.university} onChange={handleStudentChange} options={['BTU','CU','AMITY','Other']}/>

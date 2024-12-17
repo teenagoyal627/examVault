@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from "../../../../../Firebase";
 import axios from "axios";
 
@@ -15,21 +15,31 @@ export const studentRegSubmitHandler = async (
       auth,
       regData.email,
       regData.password
-    ).then(async (userCredential) => {
-      const userId = userCredential.user.uid;
-      if (userId) {
+    )
+    const idToken= await getAuth().currentUser.getIdToken()
         const userDetails = {
-          user_id: userId,
           name: regData.name,
           email: regData.email,
+          role_id:regData.studentId,
+          department:regData.department,
+          semester:regData.semester,
+          university:regData.university,
+          college:regData.college,
+          start_year:regData.startYear,
+          end_year:regData.endYear,
+
         };
         const apiUrl = "http://localhost:5000/studentReg";
-        await axios.post(apiUrl, userDetails).then((res) => {
+        await axios.post(apiUrl, userDetails,{
+          headers:{
+            Authorization:`Bearer ${idToken}`,
+          }
+        }).then((res) => {
+          
           navigate("/all_paper");
         });
       }
-    });
-  } catch (error) {
+   catch (error) {
     switch (error.code) {
       case "auth/email-already-in-use":
         setShowModal(true);
@@ -57,24 +67,27 @@ export const teacherRegSubmitHandler = async (
       auth,
       regData.email,
       regData.password
-    ).then(async (userCredential) => {
-      const userId = userCredential.user.uid;
-      if (userId) {
+    )
+    const idToken=await getAuth().currentUser.getIdToken()
         const userDetails = {
-          user_id: userId,
           name: regData.name,
           email: regData.email,
+          role_id:regData.teacherId,
+          department:regData.department,
+          university:regData.university,
+          college:regData.college,
         };
         const apiUrl = "http://localhost:5000/teacherReg";
-        await axios.post(apiUrl, userDetails).then((res) => {
-            setShowModal(true);
-            setModalContent({
-              title: "Message Box",
-              body: "Your registration has been register. Once approved, you will be notify.",
-            });
+        await axios.post(apiUrl,userDetails,{
+          headers:{
+            Authorization:`Bearer ${idToken}`,
+          }
+        })
+        setShowModal(true);
+        setModalContent({
+          title: "Registration Successful",
+          body: "Your registration has been submitted. Once approved, you will be notified.",
         });
-      }
-    });
   } catch (error) {
     switch (error.code) {
       case "auth/email-already-in-use":
@@ -89,3 +102,14 @@ export const teacherRegSubmitHandler = async (
     }
   }
 };
+
+
+export const teacherHandleConfirm=(modalContent,navigate,setShowModal)=>{
+  if(modalContent.title==="Registration Successful")
+    {
+      navigate('/')
+    }else{
+      setShowModal(false)
+      navigate('/teacher_form')
+    }
+}

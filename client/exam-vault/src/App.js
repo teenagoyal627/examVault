@@ -6,7 +6,7 @@ import FrontPage from './component/FrontPage/FrontPage'
 import TeacherRegistration from './component/Authentication/Registration/Forms/RegistrationForms/TeacherRegistration'
 import StudentRegistration from './component/Authentication/Registration/Forms/RegistrationForms/StudentRegistration'
 import AllPaper from './component/AllPapers/AllPaper'
-
+import UploadPapers from './component/AllPapers/UploadPaper/UploadPapers'
 
 const router=createBrowserRouter([
   {
@@ -27,8 +27,15 @@ const router=createBrowserRouter([
   },
   {
     path:'/all_paper',
-    element:<AllPaper/>
-  }
+    element:<AllPaper/>,
+    children:[
+      {
+        path:'upload_paper',
+        element:<UploadPapers/>
+      }
+    ]
+  },
+
 
 ])
 

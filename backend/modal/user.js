@@ -20,23 +20,5 @@ const UserSchema=new mongoose.Schema({
 
 
 
-const PaperSchema=new mongoose.Schema({
-    user_id:{type:String},
-    subject:{type:String},
-    title:{type:String},
-    year:{type:Number},
-    semester:{type:String},
-    department:{type:String},
-    created_at:{type:Date,default:Date.now},
-    approval_status:{type:String,default:false},
-    approval_at:{type:Date},
-    approved_by:{type:String},
-    comment:{type:String},
-    updated_at:{type:Date}
-
-
-})
-
 const UserData=mongoose.model("userdetails",UserSchema)
-const PaperData=mongoose.model("papers",PaperSchema)
-module.exports={UserData,PaperData}
+module.exports =UserData

@@ -8,7 +8,7 @@ const FrontPageNavbar = () => {
    <a href="/" className={classes.title}>Exam Vault</a>
    </div>
     <ul className={classes.navLinks}>
-        <Link to='/login' className={classes.li}><li>Login</li></Link>
+        <Link to='/login_form' className={classes.li}><li>Login</li></Link>
     </ul>
    </nav>
   )

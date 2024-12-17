@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { handleLoginChange, loginSubmitHandler,handleConfirm } from './LoginUtility'
-import Card from '../../UI/Card'
 import FrontPageNavbar from '../../Navbar/FrontPageNavbar'
 import classes from './Login.module.css'
 import MessageBox from '../../MessageBox'
@@ -23,9 +22,9 @@ const Login = () => {
     }
 
   return (
-    <>
+    <div>
 <FrontPageNavbar/>
-    <Card>
+<div className={classes.modal}>
     <h5 className={classes.heading}>Login Form</h5>
     <hr/>
     <form onSubmit={(e)=>loginSubmitHandler(e,loginData,setShowModal,setModalContent)} className={classes.loginForm}>
@@ -34,8 +33,9 @@ const Login = () => {
         <label>Password</label>
         <input type="password" id='password' value={loginData.password} onChange={(e)=>handleLoginChange(e,setLoginData)} required/>
         <button className={classes.button}>Login</button>
+
     </form>
-    </Card>
+    </div>
     <MessageBox
   showModal={showModal}
   handleClose={handleClose}
@@ -43,7 +43,7 @@ const Login = () => {
   body={modalContent.body}
   handleConfirm={()=>handleConfirm(setShowModal,navigate,modalContent)}
  />
-    </>
+    </div>
 
   )
 }

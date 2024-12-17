@@ -3,7 +3,7 @@ import FrontPageNavbar from '../../../../Navbar/FrontPageNavbar'
 import Card from '../../../../UI/Card'
 import classes from '../Fields.module.css'
 import FieldsInput from '../FieldsInput'
-import { teacherRegSubmitHandler } from './Utility'
+import { teacherRegSubmitHandler, teacherHandleConfirm } from './Utility'
 import { useNavigate } from "react-router"
 import MessageBox from '../../../../MessageBox'
 
@@ -40,9 +40,6 @@ const TeacherRegistration = () => {
     setShowModal(false)
   }
   
-  const handleConfirm=()=>{
-    navigate('..')
-  }
 
   return (
 <div>
@@ -69,7 +66,7 @@ const TeacherRegistration = () => {
   handleClose={handleClose}
   title={modalContent.title}
   body={modalContent.body}
-  handleConfirm={handleConfirm}
+  handleConfirm={()=>teacherHandleConfirm(modalContent,navigate,setShowModal)}
 
  />
 </div>

@@ -1,6 +1,6 @@
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../../Firebase"
- 
+import axios from "axios"
 
 
 export const loginSubmitHandler=async(e,loginData,setShowModal,setModalContent)=>{
@@ -10,15 +10,40 @@ export const loginSubmitHandler=async(e,loginData,setShowModal,setModalContent)=
     try{
        const userLoginCredential= await signInWithEmailAndPassword(auth,loginData.email,loginData.password)
        const user=userLoginCredential.user;
-       console.log(user)
-       if(user.uid){
+       console.log(user.uid)
+      //  const token=user.accessToken;
+      //  const payload=jwtDecode(token)
+      //  console.log(payload)
+      const idToken=getAuth().currentUser.getIdToken()
+          console.log(idToken)
+      const apiUrl = 'http://localhost:5000/get_role'
+   await axios.get(apiUrl,{
+        headers:{
+          Authorization:`Bearer ${idToken}`
+        }
+      })
+      .then((response)=>{
+        if(!response){
+          
+        }
+        const role=response.data.role;
         setShowModal(true)
         setModalContent({
           title:"Login Successfully",
-          body:"You are successfully login "
+          body:`You are logged in as a ${role}`
         })
-       }
-    //    history.replace('/')
+      }).catch((error)=>{
+        if(error.response){
+          console.log(error.response.data.error)
+        }
+        setShowModal(true)
+        setModalContent({
+          title:"Login Error",
+          body:`Error comes getting response${error}`
+        })
+      })
+      
+       
     }catch(error){
       setShowModal(true)
       setModalContent({
