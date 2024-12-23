@@ -19,19 +19,23 @@ const UploadPapers = () => {
 
   const[showModal,setShowModal]=useState(false)
   const[selectedFile,setSelectedFile]=useState(null)
+  const[selectedFileType,setSelectedFileType]=useState("jpeg")
+  const[fileUrl,setFileUrl]=useState("")
   const[modalContent,setModalContent]=useState({
     title:'',
     body:''
   })
 
   return (
-    <form onSubmit={(e)=>newPaperSubmitHandler(e,newPaper,setShowModal,setModalContent)}>
+    <form 
+    onSubmit={(e)=>newPaperSubmitHandler(e,newPaper,setShowModal,setModalContent)}
+    >
     <Card>
       <h5 className={classes.heading}>New Paper</h5>
       <hr />
       <label className={classes.label}>Upload Paper</label><br/>
       <div className={classes.fileInputWrapper}>
-          <button className={classes.customFileButton} onClick={()=>modalOpenHandler(setShowModal,setModalContent)}>
+          <button type="button" className={classes.customFileButton} onClick={()=>modalOpenHandler(setShowModal,setModalContent,setSelectedFileType)}>
             Select Paper File
           </button>
           {selectedFile && <p className={classes.fileName}>{selectedFile}</p>}
@@ -39,7 +43,7 @@ const UploadPapers = () => {
             id="fileInput"
             type="file"
             className={classes.hiddenFileInput}
-            onChange={(e)=>fileChangeHandler(e,setSelectedFile)}
+            onChange={(e)=>fileChangeHandler(e,setSelectedFile,selectedFileType,setShowModal,setModalContent,setFileUrl)}
           />
         </div>
       <FieldsInput
@@ -105,7 +109,7 @@ const UploadPapers = () => {
   handleClose={()=>setShowModal(false)}
   title={modalContent.title}
   body={modalContent.body}
-  handleConfirm={()=>fileUploadConfirmHandler(setShowModal)}
+  handleConfirm={()=>fileUploadConfirmHandler(selectedFile,setFileUrl,setShowModal,setModalContent)}
 
  />}
     </form>

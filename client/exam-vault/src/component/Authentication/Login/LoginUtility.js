@@ -48,7 +48,7 @@ export const loginSubmitHandler=async(e,loginData,setShowModal,setModalContent)=
       setShowModal(true)
       setModalContent({
         title:"Login Error",
-        body:"Please write right credentials."
+        body:`${error}`
       })
     }
 

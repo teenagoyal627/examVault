@@ -109,7 +109,7 @@ app.get('/get_role',verifyToken,async(req,res)=>{
      }
 
     }catch(error){
-        res.status(500).json({error:error})
+        res.status(500).json({error:` Error getting role ${error}`})
     }
 })
 
@@ -118,20 +118,21 @@ app.get('/get_role',verifyToken,async(req,res)=>{
 app.post('/upload_paper',verifyToken,async(req,res)=>{
 try{
   const {uid}=req;
- const{title,department,subject,year,semester,paper_type,exam_type}=req.body;
+ const{department,subject,year,semester,paper_type,exam_type}=req.body;
 
   const newPaper=new PaperData({
     user_id:uid,
     subject,
-    title,
+    paper_type,
+    exam_type,
     year,
     semester,
     department,
-    approval_status:false,
-    approval_at:null,
-    approved_by:null,
-    comment:null,
-    updated_at:null
+    approval_status,
+    approval_at,
+    approved_by,
+    comment,
+    updated_at
   })
   await newPaper.save()
   res.status(200).json({success:true,message:"Paper successfully uploaded..."})
@@ -141,6 +142,30 @@ try{
 } 
 })
 
+app.get('/my_paper',async(req,res)=>{
+    try{
+        const{uid}=req.query;
+        if(!uid){
+            console.log(uid)
+            return res.status(400).json({error:"User ID is required"})
+        }
+        const papers=await PaperData.find({user_id:uid})
+        console.log("paper",papers)
+        res.json(papers)
+    }catch(error){
+        res.status(500).json({error:"internal server error"})
+    }
+})
+
+
+app.get('/all_paper',async(req,res)=>{
+    try{
+        const allPaper=await PaperData.find()
+        res.json(allPaper)
+    }catch(error){
+        res.status(500).json({error:"error fetching data..."})
+    }
+})
 
 const PORT=5000;
 app.listen(PORT,()=>{

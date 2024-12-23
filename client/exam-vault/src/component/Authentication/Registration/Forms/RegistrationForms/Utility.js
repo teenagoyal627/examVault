@@ -17,6 +17,7 @@ export const studentRegSubmitHandler = async (
       regData.password
     )
     const idToken= await getAuth().currentUser.getIdToken()
+    console.log(idToken)
         const userDetails = {
           name: regData.name,
           email: regData.email,

@@ -8,7 +8,7 @@ const AllPaperNavBar = () => {
     items: [
       {
         text: 'Home',
-        link: '/all_paper'
+        link: '/all_paper/home'
       },
       {
         text: 'Upload Papers',
@@ -16,7 +16,7 @@ const AllPaperNavBar = () => {
       },
       {
         text: 'My Papers',
-        link: '/my_paper'
+        link: '/all_paper/my_paper'
       },
       {
         text: 'Stats',
@@ -28,7 +28,7 @@ const AllPaperNavBar = () => {
     },
     style: {
       barStyles: {
-        background: '#444'
+        background: 'rgb(165, 195, 142)'
       },
       sidebarStyles: {
         background: '#222',

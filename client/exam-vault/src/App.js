@@ -7,6 +7,8 @@ import TeacherRegistration from './component/Authentication/Registration/Forms/R
 import StudentRegistration from './component/Authentication/Registration/Forms/RegistrationForms/StudentRegistration'
 import AllPaper from './component/AllPapers/AllPaper'
 import UploadPapers from './component/AllPapers/UploadPaper/UploadPapers'
+import MyPaper from './component/AllPapers/MyPaper/MyPaper'
+import CommunityPaper from './component/AllPapers/CommunityPaper/CommunityPaper'
 
 const router=createBrowserRouter([
   {
@@ -29,9 +31,18 @@ const router=createBrowserRouter([
     path:'/all_paper',
     element:<AllPaper/>,
     children:[
+
+      {
+        path:'home',
+        element:<CommunityPaper/>
+      },
       {
         path:'upload_paper',
         element:<UploadPapers/>
+      },
+      {
+        path:'my_paper',
+        element:<MyPaper/>
       }
     ]
   },

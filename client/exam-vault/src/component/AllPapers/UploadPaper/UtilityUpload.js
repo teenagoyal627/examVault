@@ -10,7 +10,7 @@ export const newPaperChangeHandler = (e, setNewPaper) => {
   }));
 };
 
-export const fileUploadConfirmHandler = (setShowModal) => {
+export const fileUploadConfirmHandler = (selectedFile,setFileUrl,setShowModal,setModalContent) => {
   setShowModal(false);
   document.getElementById("fileInput").click();
 };
@@ -33,11 +33,33 @@ export const modalOpenHandler = (setShowModal, setModalContent) => {
   });
 };
 
-export const fileChangeHandler = (e, setSelectedFile) => {
+export const fileChangeHandler = (e, setSelectedFile,selectedFileType,setShowModal,setModalContent) => {
+
   const file = e.target.files[0];
-  if (file) {
-    setSelectedFile(file.name);
+  if (!file) {
+   return;
   }
+  const fileType=file.type.split("/")[1];
+  const fileSizeMB=file.size/(1024*1024);
+
+  if(selectedFileType === 'jpeg' && fileType!=="jpeg"){
+    setShowModal(true)
+    setModalContent({
+      title:"Invalid File Type",
+      body:"You can only upload JPEG files for this selection."
+    })
+    return;
+  }
+
+  if(selectedFileType==='pdf' && fileType!=='pdf'){
+    setShowModal(true)
+    setModalContent({
+      title:"Invalid File Type",
+      body:"You can only upload PDF files for this selection."
+    })
+    return;
+  }
+  setSelectedFile(file.name)
 };
 
 export const newPaperSubmitHandler = async(e,newPaper,setShowModal,setModalContent) => {
@@ -59,14 +81,8 @@ export const newPaperSubmitHandler = async(e,newPaper,setShowModal,setModalConte
     headers:{
         Authorization:`Bearer ${idToken}`
     }
-   }).then((res)=>{
-    setShowModal(true)
-    setModalContent({
-        title:"Successful Message",
-        body:"Paper is successfully uploaded...."
-    })
-   }) 
-   
+   })
+   console.log("Paper is successfully submitted on mongodb..")
 }
    catch(error){
     setShowModal(true)
@@ -77,3 +93,4 @@ export const newPaperSubmitHandler = async(e,newPaper,setShowModal,setModalConte
 
 }
 }
+
