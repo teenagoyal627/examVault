@@ -118,6 +118,19 @@ app.get('/get_role',verifyToken,async(req,res)=>{
 app.post('/upload_paper',verifyToken,async(req,res)=>{
 try{
   const {uid}=req;
+  const user=await UserData.findOne({user_id:uid})
+  const role=user.role;
+  const name=user.name;
+  let approval_status="Pending";
+  let approval_at=null;
+  let approved_by=null;
+  let comment="no comment";
+  let updated_at=null
+  if(role==="teacher"){
+      approval_status="Approved";
+      approval_at=Date.now();
+      approved_by=name;
+  }
  const{department,subject,year,semester,paper_type,exam_type}=req.body;
 
   const newPaper=new PaperData({
@@ -128,11 +141,11 @@ try{
     year,
     semester,
     department,
-    approval_status,
-    approval_at,
-    approved_by,
-    comment,
-    updated_at
+    approval_status:approval_status,
+    approval_at:approval_at,
+    approved_by:approved_by,
+    comment:comment,
+    updated_at:updated_at
   })
   await newPaper.save()
   res.status(200).json({success:true,message:"Paper successfully uploaded..."})
@@ -160,7 +173,8 @@ app.get('/my_paper',async(req,res)=>{
 
 app.get('/all_paper',async(req,res)=>{
     try{
-        const allPaper=await PaperData.find()
+        const allPaper=await PaperData.find({approval_status:'Approved'})
+        
         res.json(allPaper)
     }catch(error){
         res.status(500).json({error:"error fetching data..."})
