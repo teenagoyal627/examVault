@@ -10,7 +10,7 @@ const CommunityPaper = () => {
   const[approvalStatus,setApprovalStatus]=useState("Pending")
   const[approvalTime,setApprovalTime]=useState("null")
   const[approvedBy,setApprovedBy]=useState(false)
-  const apiurl = "http://localhost:5000/all_paper";
+  const apiurl = "http://localhost:5000/papers/all_paper";
 
   useEffect(() => {
    fetchData()

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../UI/Card";
 import FieldsInput from "../../Authentication/Registration/Forms/FieldsInput";
 import subjects from "./Subject";
 import classes from "./UploadPaper.module.css";
 import MessageBox from "../../MessageBox";
 import { fileChangeHandler, fileUploadConfirmHandler, modalOpenHandler, newPaperChangeHandler, newPaperSubmitHandler } from "./UtilityUpload";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const UploadPapers = () => {
   const [newPaper, setNewPaper] = useState({
@@ -25,10 +27,25 @@ const UploadPapers = () => {
     title:'',
     body:''
   })
+  const { id } = useParams();
+ const apiurl = 'http://localhost:5000/papers'
+
+  useEffect(()=>{
+    if(id){
+console.log(id)
+axios.get(`${apiurl}/edit_paper/${id}`)
+.then((response)=>{
+  console.log(response.data)
+  setNewPaper(response.data)
+ }).catch((error)=>{
+  console.log(error)
+})
+}
+},[id])
 
   return (
     <form 
-    onSubmit={(e)=>newPaperSubmitHandler(e,newPaper,setShowModal,setModalContent)}
+    onSubmit={(e)=>newPaperSubmitHandler(e,id,newPaper,setShowModal,setModalContent)}
     >
     <Card>
       <h5 className={classes.heading}>New Paper</h5>

@@ -2,14 +2,24 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import classes from './MyPaper.module.css'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { deletePaperHandler, editPaperHandler } from './MyPaperUtility'
+import { deleteHandler, deletePaperHandler, editPaperHandler } from './MyPaperUtility'
+import MessageBox from '../../MessageBox'
+import {  useNavigate } from 'react-router'
 
 const MyPaper = () => {
   const [paperData, setPaperData] = useState([])
   const [userId, setUserId] = useState(null)
   const [approvedBy, setApprovedBy] = useState(false)
+  const[showModal,setShowModal]=useState(false)
+  const[modalContent,setModalContent]=useState({
+    title:'',
+    body:''
+  })
+  const[paperId,setPaperId]=useState(null)
+ const navigate=useNavigate()
 
-  const apiurl = 'http://localhost:5000/my_paper'
+
+  const apiurl = 'http://localhost:5000/papers/my_paper'
 
   useEffect(() => {
     const auth = getAuth()
@@ -146,11 +156,11 @@ const MyPaper = () => {
                 </table>
                 <div>
                   <button className={classes.Button}>View</button>
-                  <button onClick={editPaperHandler} className={classes.Button}>
+                  <button onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
                     Edit
                   </button>
                   <button
-                    onClick={deletePaperHandler}
+                    onClick={()=>deleteHandler(data._id,setModalContent,setShowModal,setPaperId)}
                     className={classes.Button}
                   >
                     Delete
@@ -161,6 +171,13 @@ const MyPaper = () => {
           ))}
         </div>
       )}
+      <MessageBox
+  showModal={showModal}
+  handleClose={()=>setShowModal(false)}
+  title={modalContent.title}
+  body={modalContent.body}
+  handleConfirm={()=>deletePaperHandler(paperId,setShowModal,modalContent,setPaperData)}
+ />
     </>
   )
 }

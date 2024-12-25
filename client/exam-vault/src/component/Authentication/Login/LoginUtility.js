@@ -16,7 +16,7 @@ export const loginSubmitHandler=async(e,loginData,setShowModal,setModalContent)=
       //  console.log(payload)
       const idToken=getAuth().currentUser.getIdToken()
           console.log(idToken)
-      const apiUrl = 'http://localhost:5000/get_role'
+      const apiUrl = 'http://localhost:5000/login/get_role'
    await axios.get(apiUrl,{
         headers:{
           Authorization:`Bearer ${idToken}`

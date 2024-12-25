@@ -37,7 +37,7 @@ const router=createBrowserRouter([
         element:<CommunityPaper/>
       },
       {
-        path:'upload_paper',
+        path:'upload_paper/:id?',
         element:<UploadPapers/>
       },
       {

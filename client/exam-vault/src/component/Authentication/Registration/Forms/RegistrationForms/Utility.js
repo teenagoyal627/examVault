@@ -30,7 +30,7 @@ export const studentRegSubmitHandler = async (
           end_year:regData.endYear,
 
         };
-        const apiUrl = "http://localhost:5000/studentReg";
+        const apiUrl = "http://localhost:5000/users/studentReg";
         await axios.post(apiUrl, userDetails,{
           headers:{
             Authorization:`Bearer ${idToken}`,
@@ -78,7 +78,7 @@ export const teacherRegSubmitHandler = async (
           university:regData.university,
           college:regData.college,
         };
-        const apiUrl = "http://localhost:5000/teacherReg";
+        const apiUrl = "http://localhost:5000/users/teacherReg";
         await axios.post(apiUrl,userDetails,{
           headers:{
             Authorization:`Bearer ${idToken}`,

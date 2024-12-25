@@ -17,7 +17,8 @@ const PaperSchema=new Schema({
     approval_at:{type:Date},
     approved_by:{type:String},
     comment:{type:String},
-    updated_at:{type:Date}
+    updated_at:{type:Date},
+    deleted:{type:String,default:false}
 
 
 })

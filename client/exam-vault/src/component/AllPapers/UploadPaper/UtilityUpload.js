@@ -62,7 +62,7 @@ export const fileChangeHandler = (e, setSelectedFile,selectedFileType,setShowMod
   setSelectedFile(file.name)
 };
 
-export const newPaperSubmitHandler = async(e,newPaper,setShowModal,setModalContent) => {
+export const newPaperSubmitHandler = async(e,id,newPaper,setShowModal,setModalContent) => {
   try{
     e.preventDefault();
   const idToken=await getAuth().currentUser.getIdToken();
@@ -76,8 +76,12 @@ export const newPaperSubmitHandler = async(e,newPaper,setShowModal,setModalConte
     exam_type: newPaper.exam_type,
   }
 
-  const apiUrl="http://localhost:5000/upload_paper"
-   await axios.post(apiUrl,paperDetails,{
+  const axiosMethod=id ? axios.put:axios.post;
+  const apiUrl="http://localhost:5000/papers"
+  const axiosUrl=id? `${apiUrl}/edit_paper/${id}`
+  :`${apiUrl}/upload_paper`
+  console.log(axiosUrl)
+   await axiosMethod(axiosUrl,paperDetails,{
     headers:{
         Authorization:`Bearer ${idToken}`
     }
@@ -87,8 +91,8 @@ export const newPaperSubmitHandler = async(e,newPaper,setShowModal,setModalConte
    catch(error){
     setShowModal(true)
     setModalContent({
-        title:"error",
-        body:`${error}`
+        title:"Error",
+        body:`Error while uploding the paper  ${error}`
     })
 
 }
