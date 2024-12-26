@@ -5,7 +5,7 @@ import subjects from "./Subject";
 import classes from "./UploadPaper.module.css";
 import MessageBox from "../../MessageBox";
 import { fileChangeHandler, fileUploadConfirmHandler, modalOpenHandler, newPaperChangeHandler, newPaperSubmitHandler } from "./UtilityUpload";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const UploadPapers = () => {
@@ -19,6 +19,7 @@ const UploadPapers = () => {
     exam_type: "",
   });
 
+  const navigate=useNavigate()
   const[showModal,setShowModal]=useState(false)
   const[selectedFile,setSelectedFile]=useState(null)
   const[selectedFileType,setSelectedFileType]=useState("jpeg")
@@ -33,7 +34,7 @@ const UploadPapers = () => {
   useEffect(()=>{
     if(id){
 console.log(id)
-axios.get(`${apiurl}/edit_paper/${id}`)
+axios.get(`${apiurl}/get_paper/${id}`)
 .then((response)=>{
   console.log(response.data)
   setNewPaper(response.data)
@@ -45,7 +46,7 @@ axios.get(`${apiurl}/edit_paper/${id}`)
 
   return (
     <form 
-    onSubmit={(e)=>newPaperSubmitHandler(e,id,newPaper,setShowModal,setModalContent)}
+    onSubmit={(e)=>newPaperSubmitHandler(e,id,newPaper,setShowModal,setModalContent,navigate)}
     >
     <Card>
       <h5 className={classes.heading}>New Paper</h5>

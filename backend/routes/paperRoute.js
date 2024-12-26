@@ -76,13 +76,44 @@ router.get("/all_paper", async (req, res) => {
 });
 
 
-router.get("/edit_paper/:id",async(req,res)=>{
+router.get("/get_paper/:id",async(req,res)=>{
    const{id}=req.params;
   await PaperData.findById(id)
    .then((paper)=>res.status(200).json(paper))
    .catch((error)=>res.status(500).json({message:"Error while updating the paper",error}))
 })
 
+router.put("/edit_paper/:id", async (req, res) => {
+    const { id } = req.params;
+    const { title, department, subject, year, semester, paper_type, exam_type } = req.body;
+    try {
+        const updatedPaper = await PaperData.findByIdAndUpdate(
+            id,
+            {
+                title,
+                department,
+                subject,
+                year,
+                semester,
+                paper_type,
+                exam_type,
+                updated_at: Date.now(),
+                deleted:false
+            },
+            { new: true } 
+        );
+
+        if (!updatedPaper) {
+            return res.status(404).json({ message: "Paper not found" });
+        }
+
+        res.status(200).json({ message: "Paper updated successfully", updatedPaper });
+    } catch (error) {
+        res.status(500).json({ message: "Error while updating the paper", error });
+    }
+});
+
+ 
 
 router.put("/:id/delete",async(req,res)=>{
     const {id}=req.params;

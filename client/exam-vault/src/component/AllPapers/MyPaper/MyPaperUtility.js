@@ -30,3 +30,7 @@ export const deletePaperHandler=async(id,setShowModal,modalContent,setPaperData)
     }
 
 }
+
+export const viewHandler=()=>{
+    console.log("view button is clicked..")
+}

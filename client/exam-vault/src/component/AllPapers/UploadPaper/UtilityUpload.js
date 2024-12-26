@@ -62,7 +62,7 @@ export const fileChangeHandler = (e, setSelectedFile,selectedFileType,setShowMod
   setSelectedFile(file.name)
 };
 
-export const newPaperSubmitHandler = async(e,id,newPaper,setShowModal,setModalContent) => {
+export const newPaperSubmitHandler = async(e,id,newPaper,setShowModal,setModalContent,navigate) => {
   try{
     e.preventDefault();
   const idToken=await getAuth().currentUser.getIdToken();
@@ -87,6 +87,12 @@ export const newPaperSubmitHandler = async(e,id,newPaper,setShowModal,setModalCo
     }
    })
    console.log("Paper is successfully submitted on mongodb..")
+   setShowModal(true)
+   setModalContent({
+       title:"Confirmation",
+       body:"Paper is successfully uploaded."
+   })
+   navigate('/all_paper/my_paper')
 }
    catch(error){
     setShowModal(true)

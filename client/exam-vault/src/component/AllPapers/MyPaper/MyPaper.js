@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import classes from './MyPaper.module.css'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { deleteHandler, deletePaperHandler, editPaperHandler } from './MyPaperUtility'
+import { deleteHandler, deletePaperHandler, editPaperHandler, viewHandler } from './MyPaperUtility'
 import MessageBox from '../../MessageBox'
 import {  useNavigate } from 'react-router'
 
@@ -155,7 +155,7 @@ const MyPaper = () => {
                   </tbody>
                 </table>
                 <div>
-                  <button className={classes.Button}>View</button>
+                  <button onClick={viewHandler} className={classes.Button}>View</button>
                   <button onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
                     Edit
                   </button>
