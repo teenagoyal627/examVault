@@ -19,7 +19,7 @@ const MyPaper = () => {
  const navigate=useNavigate()
 
 
-  const apiurl = 'http://localhost:5000/papers/my_paper'
+ const apiUrl = `${process.env.REACT_APP_APIURL}`
 
   useEffect(() => {
     const auth = getAuth()
@@ -38,7 +38,7 @@ const MyPaper = () => {
 
   const fetchData = async uid => {
     try {
-      const response = await axios.get(apiurl, {
+      const response = await axios.get(`${apiUrl}/my_paper`, {
         params: { uid: uid }
       })
       setPaperData(response.data)
@@ -71,7 +71,7 @@ const MyPaper = () => {
             <div key={index} className={classes.paperCard}>
               <div className={classes.imageContainer}>
                 <img
-                  src='https://website-assets.studocu.com/img/document_thumbnails/9ad5b0bdeb1654757d0d70e9d6bc07f8/thumb_300_424.png'
+                  src={data.file_url}
                   alt='paper'
                   className={classes.paperImage}
                 />

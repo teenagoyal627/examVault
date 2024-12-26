@@ -16,7 +16,7 @@ export const deleteHandler=(id,setModalContent,setShowModal,setPaperId)=>{
 }
 export const deletePaperHandler=async(id,setShowModal,modalContent,setPaperData)=>{
     if(modalContent.title==="Confirmation"){
-        const apiUrl = 'http://localhost:5000/papers'
+        const apiUrl = `${process.env.REACT_APP_APIURL}`
         try{
             await axios.put(`${apiUrl}/${id}/delete`)
             setShowModal(false)

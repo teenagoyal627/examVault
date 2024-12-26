@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import classes from '../MyPaper/MyPaper.module.css';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 
 const CommunityPaper = () => {
@@ -10,7 +9,9 @@ const CommunityPaper = () => {
   const[approvalStatus,setApprovalStatus]=useState("Pending")
   const[approvalTime,setApprovalTime]=useState("null")
   const[approvedBy,setApprovedBy]=useState(false)
-  const apiurl = "http://localhost:5000/papers/all_paper";
+
+  const apiUrl = `${process.env.REACT_APP_APIURL}`
+
 
   useEffect(() => {
    fetchData()
@@ -18,7 +19,7 @@ const CommunityPaper = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(apiurl);
+      const response = await axios.get(`${apiUrl}/all_paper`);
       setPaperData(response.data);
       if(response.data.approved_by){
         setApprovedBy(true)
