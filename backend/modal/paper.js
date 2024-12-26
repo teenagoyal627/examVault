@@ -18,7 +18,8 @@ const PaperSchema=new Schema({
     approved_by:{type:String},
     comment:{type:String},
     updated_at:{type:Date},
-    deleted:{type:String,default:false}
+    deleted:{type:String,default:false},
+    file_url:{type:String}
 
 
 })

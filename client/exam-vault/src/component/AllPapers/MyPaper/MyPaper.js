@@ -156,10 +156,10 @@ const MyPaper = () => {
                 </table>
                 <div>
                   <button onClick={viewHandler} className={classes.Button}>View</button>
-                  <button onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
+                  <button style={{background:"yellow"}} onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
                     Edit
                   </button>
-                  <button
+                  <button style={{background:"red"}}
                     onClick={()=>deleteHandler(data._id,setModalContent,setShowModal,setPaperId)}
                     className={classes.Button}
                   >

@@ -1,7 +1,5 @@
 const express=require("express")
-const adminAuth=require('./firebaseAdmin')
 const connectDB =require('./db')
-const {UserData,PaperData}=require('./modal/modal')
 const cors=require("cors")
 const app= express();
 app.use(express.json())

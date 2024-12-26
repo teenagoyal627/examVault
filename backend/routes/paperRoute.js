@@ -22,7 +22,7 @@ router.post("/upload_paper", verifyToken, async (req, res) => {
       approved_by = name;
     }
 
-    const { department, subject, year, semester, paper_type, exam_type } =
+    const { department, subject, year, semester, paper_type, exam_type, file_url } =
       req.body;
 
     const newPaper = new PaperData({
@@ -38,7 +38,8 @@ router.post("/upload_paper", verifyToken, async (req, res) => {
       approved_by,
       comment,
       updated_at,
-      deleted:false
+      deleted:false,
+      file_url,
     });
 
     await newPaper.save();
