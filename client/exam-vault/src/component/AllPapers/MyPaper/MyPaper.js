@@ -4,7 +4,7 @@ import classes from './MyPaper.module.css'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { deleteHandler, deletePaperHandler, editPaperHandler, viewHandler } from './MyPaperUtility'
 import MessageBox from '../../MessageBox'
-import {  useNavigate } from 'react-router'
+import { Outlet, useLocation, useNavigate } from 'react-router'
 
 const MyPaper = () => {
   const [paperData, setPaperData] = useState([])
@@ -17,6 +17,7 @@ const MyPaper = () => {
   })
   const[paperId,setPaperId]=useState(null)
  const navigate=useNavigate()
+ const location=useLocation()
 
 
  const apiUrl = `${process.env.REACT_APP_APIURL}`
@@ -42,7 +43,6 @@ const MyPaper = () => {
         params: { uid: uid }
       })
       setPaperData(response.data)
-      console.log(response.data)
       if (response.data.approved_by) {
         setApprovedBy(true)
       }
@@ -60,6 +60,9 @@ const MyPaper = () => {
       weekday: 'long'
     })
   }
+  if (location.pathname.includes('/view_paper')) {
+    return <Outlet />;
+  }
 
   return (
     <>
@@ -67,14 +70,24 @@ const MyPaper = () => {
       {!userId && <p>User is not login...</p>}
       {userId && (
         <div className={classes.paperContainer}>
+          {console.log(paperData)}
           {paperData.map((data, index) => (
             <div key={index} className={classes.paperCard}>
               <div className={classes.imageContainer}>
-                <img
-                  src={data.file_url}
-                  alt='paper'
-                  className={classes.paperImage}
-                />
+                {data.file_url.endsWith('.pdf') ? (
+                  <iframe
+                    src={data.file_url}
+                    title="PDF Preview"
+                    // className={classes.paperImage}
+                    // style={{ width: '100%', height: '200px', border: 'none' }}
+                  ></iframe>
+                ) : (
+                  <img
+                    src={data.file_url}
+                    alt="Paper"
+                    className={classes.paperImage}
+                  />
+                )}
               </div>
               <div className={classes.paperDetails}>
                 <table className={classes.paperTable}>
@@ -155,7 +168,7 @@ const MyPaper = () => {
                   </tbody>
                 </table>
                 <div>
-                  <button onClick={viewHandler} className={classes.Button}>View</button>
+                  <button onClick={()=>viewHandler(data._id,navigate)} className={classes.Button}>View</button>
                   <button style={{background:"yellow"}} onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
                     Edit
                   </button>

@@ -95,33 +95,49 @@ export const newPaperSubmitHandler = async (
       })
       return
     }
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("department", newPaper.department);
+    formData.append("subject", newPaper.subject);
+    formData.append("year", newPaper.year);
+    formData.append("semester", newPaper.semester);
+    formData.append("paper_type", newPaper.paper_type);
+    formData.append("exam_type", newPaper.exam_type);
 
-    const uploadPresent=`${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`
-    const folder=`${process.env.REACT_APP_CLOUDINARY_UPLOAD_FOLDER}`
+    // const uploadPresent=`${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`
+    // // const folder=`${process.env.REACT_APP_CLOUDINARY_UPLOAD_FOLDER}`
+    //   const folderName=
+    // const fileType = selectedFile.type;
+    // const isPDF = fileType === 'application/pdf';
+    // const cloudinaryEndpoint = isPDF
+    //   ? `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/raw/upload`
+    //   : `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
 
 
-    const imageData = new FormData()
-    imageData.append('file', selectedFile)
-    imageData.append('upload_preset', uploadPresent)
-    imageData.append('folder', folder)
 
-    const cloudinaryResponse = await axios.post(
-      `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
-      imageData
-    )
-    const cloudinaryUrl = cloudinaryResponse.data.secure_url
+    // const imagePDFData = new FormData()
+    // imagePDFData.append('file', selectedFile)
+    // imagePDFData.append('upload_preset', uploadPresent)
+    // imagePDFData.append('folder', folder)
 
+    // const cloudinaryResponse = await axios.post(
+    //   cloudinaryEndpoint,
+    //   imagePDFData
+    // )
+    // const cloudinaryUrl = cloudinaryResponse.data.secure_url
+    // console.log(cloudinaryUrl)
     const idToken = await getAuth().currentUser.getIdToken()
-    const paperDetails = {
-      title: newPaper.title,
-      department: newPaper.department,
-      subject: newPaper.subject,
-      year: newPaper.year,
-      semester: newPaper.semester,
-      paper_type: newPaper.paper_type,
-      exam_type: newPaper.exam_type,
-      file_url: cloudinaryUrl
-    }
+
+    // const paperDetails = {
+    //   title: newPaper.title,
+    //   department: newPaper.department,
+    //   subject: newPaper.subject,
+    //   year: newPaper.year,
+    //   semester: newPaper.semester,
+    //   paper_type: newPaper.paper_type,
+    //   exam_type: newPaper.exam_type,
+    //   file_url: cloudinaryUrl
+    // }
 
     const axiosMethod = id ? axios.put : axios.post
     const apiUrl = 'http://localhost:5000/papers'
@@ -129,9 +145,10 @@ export const newPaperSubmitHandler = async (
       ? `${apiUrl}/edit_paper/${id}`
       : `${apiUrl}/upload_paper`
     console.log(axiosUrl)
-    await axiosMethod(axiosUrl, paperDetails, {
+    await axiosMethod(axiosUrl, formData, {
       headers: {
-        Authorization: `Bearer ${idToken}`
+        Authorization: `Bearer ${idToken}`,
+        "Content-Type":"multipart/form-data"
       }
     })
     console.log('Paper is successfully submitted on mongodb..')
@@ -140,7 +157,7 @@ export const newPaperSubmitHandler = async (
       title: 'Confirmation',
       body: 'Paper is successfully uploaded.'
     })
-    navigate('/all_paper/my_paper')
+    navigate('/my_paper')
   } catch (error) {
     setShowModal(true)
     setModalContent({

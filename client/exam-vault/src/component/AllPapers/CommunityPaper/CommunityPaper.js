@@ -1,15 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import classes from '../MyPaper/MyPaper.module.css';
+import { viewHandler } from '../MyPaper/MyPaperUtility';
+import { useNavigate } from 'react-router';
 
 
 const CommunityPaper = () => {
   const [paperData, setPaperData] = useState([]);
-  const [userId, setUserId] = useState(null);
-  const[approvalStatus,setApprovalStatus]=useState("Pending")
-  const[approvalTime,setApprovalTime]=useState("null")
-  const[approvedBy,setApprovedBy]=useState(false)
-
+    const navigate=useNavigate()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 
@@ -21,10 +19,6 @@ const CommunityPaper = () => {
     try {
       const response = await axios.get(`${apiUrl}/all_paper`);
       setPaperData(response.data);
-      if(response.data.approved_by){
-        setApprovedBy(true)
-
-      }
     } catch (error) {
       console.error("Error fetching papers:", error);
     }
@@ -46,8 +40,19 @@ const CommunityPaper = () => {
       {paperData.map((data, index) => (
         <div key={index} className={classes.paperCard}>
       <div className={classes.imageContainer}>
-      <img src=""
-      alt='paper' className={classes.paperImage}/>
+      {data.file_url.endsWith('.pdf')? (
+        <iframe
+        src={data.file_url}
+        title="PDF Preview"
+        style={{ width: '100%', height: '200px', border: 'none' }}
+        ></iframe>
+      ):(
+        <img
+        src={data.file_url}
+        alt='Paper'
+        className={classes.paperImage}
+        />
+      )}
       </div>
       <div className={classes.paperDetails}>
        <table className={classes.paperTable}>
@@ -86,7 +91,7 @@ const CommunityPaper = () => {
       </tr>
     </tbody>
   </table>
-  <button style={{width:"100%"}} className={classes.Button}>View</button>
+  <button style={{width:"100%"}} onClick={()=>viewHandler(data._id,navigate)} className={classes.Button}>View</button>
 </div>
 
 

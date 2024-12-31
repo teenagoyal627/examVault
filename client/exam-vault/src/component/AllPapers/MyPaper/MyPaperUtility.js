@@ -1,4 +1,5 @@
 import axios from "axios"
+const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 export const editPaperHandler=(id,navigate)=>{
     console.log("edit button is clicked")
@@ -16,7 +17,6 @@ export const deleteHandler=(id,setModalContent,setShowModal,setPaperId)=>{
 }
 export const deletePaperHandler=async(id,setShowModal,modalContent,setPaperData)=>{
     if(modalContent.title==="Confirmation"){
-        const apiUrl = `${process.env.REACT_APP_APIURL}`
         try{
             await axios.put(`${apiUrl}/${id}/delete`)
             setShowModal(false)
@@ -31,6 +31,9 @@ export const deletePaperHandler=async(id,setShowModal,modalContent,setPaperData)
 
 }
 
-export const viewHandler=()=>{
+export const viewHandler=async(id,navigate)=>{
     console.log("view button is clicked..")
+     console.log(id)
+     navigate(`${id}/view_paper`)
+
 }

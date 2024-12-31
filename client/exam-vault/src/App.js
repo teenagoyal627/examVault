@@ -9,6 +9,7 @@ import AllPaper from './component/AllPapers/AllPaper'
 import UploadPapers from './component/AllPapers/UploadPaper/UploadPapers'
 import MyPaper from './component/AllPapers/MyPaper/MyPaper'
 import CommunityPaper from './component/AllPapers/CommunityPaper/CommunityPaper'
+import DownloadPaper from './component/AllPapers/MyPaper/DownloadPaper'
 
 const router=createBrowserRouter([
   {
@@ -28,12 +29,12 @@ const router=createBrowserRouter([
     element:<Login/>
   },
   {
-    path:'/all_paper',
+    path:'/',
     element:<AllPaper/>,
     children:[
 
       {
-        path:'home',
+        path:'all_paper',
         element:<CommunityPaper/>
       },
       {
@@ -41,12 +42,26 @@ const router=createBrowserRouter([
         element:<UploadPapers/>
       },
       {
+          path:'all_paper/:id/view_paper',
+          element:<DownloadPaper/>
+      },
+      {
         path:'my_paper',
-        element:<MyPaper/>
-      }
+        element:<MyPaper/>,
+        children:[
+          {
+            path:':id/view_paper',
+            element:<DownloadPaper/>
+          }
+        ]
+      },
     ]
   },
-
+  // {
+  //   path:"/view_paper",
+  //   element:<DownloadPaper/>
+  // }
+ 
 
 ])
 

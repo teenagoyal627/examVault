@@ -8,15 +8,15 @@ const AllPaperNavBar = () => {
     items: [
       {
         text: 'Home',
-        link: '/all_paper/home'
+        link: '/all_paper'
       },
       {
         text: 'Upload Papers',
-        link: '/all_paper/upload_paper'
+        link: '/upload_paper'
       },
       {
         text: 'My Papers',
-        link: '/all_paper/my_paper'
+        link: '/my_paper'
       },
       {
         text: 'Stats',
