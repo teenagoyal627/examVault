@@ -3,12 +3,35 @@ import React, { useEffect, useState } from 'react';
 import classes from '../MyPaper/MyPaper.module.css';
 import { viewHandler } from '../MyPaper/MyPaperUtility';
 import { useNavigate } from 'react-router';
+import "./Search.css"; 
 
 
 const CommunityPaper = () => {
   const [paperData, setPaperData] = useState([]);
+    const [query, setQuery] = useState(""); 
+  
     const navigate=useNavigate()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+
+    const handleSearch = async () => {
+      if (query.trim() === ""){
+        fetchData()
+        return;
+      } 
+      try {
+        const response = await axios.get(`http://localhost:5000/papers/search_papers?title=${query}`);
+        console.log("response", response.data)
+        setPaperData(response.data.data || []);
+        console.log(response.data.data)
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    };
 
 
   useEffect(() => {
@@ -18,7 +41,7 @@ const CommunityPaper = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`${apiUrl}/all_paper`);
-      setPaperData(response.data);
+      setPaperData(response.data || []);
     } catch (error) {
       console.error("Error fetching papers:", error);
     }
@@ -36,7 +59,23 @@ const CommunityPaper = () => {
 
 
   return (
-    <div className={classes.paperContainer} >
+    <>
+   
+   <div className="search-container">
+      <input
+        type="text"
+        placeholder="Search for papers..."
+        value={query}
+        onChange={handleInputChange}
+        className="search-input"
+      />
+      <button onClick={handleSearch} className="search-button">
+        Search
+      </button>
+    </div>
+
+    
+   <div className={classes.paperContainer} >
       {paperData.map((data, index) => (
         <div key={index} className={classes.paperCard}>
       <div className={classes.imageContainer}>
@@ -98,6 +137,8 @@ const CommunityPaper = () => {
         </div>
       ))}
     </div>
+    </>
+   
   );
 };
 

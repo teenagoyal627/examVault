@@ -3,7 +3,6 @@ const adminAuth=require('../firebaseAdmin')
 
 const verifyToken=async(req,res,next)=>{
     const idToken=req.headers.authorization.split(" ")[1]
-    console.log(idToken)
     if (!idToken) {
         return res.status(401).json({ error: "Unauthorized: Token not provided" });
       }

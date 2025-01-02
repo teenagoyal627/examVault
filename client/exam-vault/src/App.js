@@ -10,6 +10,7 @@ import UploadPapers from './component/AllPapers/UploadPaper/UploadPapers'
 import MyPaper from './component/AllPapers/MyPaper/MyPaper'
 import CommunityPaper from './component/AllPapers/CommunityPaper/CommunityPaper'
 import DownloadPaper from './component/AllPapers/MyPaper/DownloadPaper'
+import Stats from './component/Stats/Stats'
 
 const router=createBrowserRouter([
   {
@@ -44,6 +45,11 @@ const router=createBrowserRouter([
       {
           path:'all_paper/:id/view_paper',
           element:<DownloadPaper/>
+      },
+      {
+        path:'stats',
+        element:<Stats/>
+
       },
       {
         path:'my_paper',
