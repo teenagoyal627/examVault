@@ -19,7 +19,7 @@ router.post("/studentReg",verifyToken,async(req,res)=>{
             college,
             start_year,
             end_year,
-            approval_status:true
+            user_approval_status:true
         })
         await newUser.save()
         res.status(200).json({
@@ -47,7 +47,7 @@ router.post("/teacherReg",verifyToken,async(req,res)=>{
             semester,
             university,
             college,
-            approval_status:false
+            user_approval_status:false
         })
         await newUser.save()
         res.status(200).json({

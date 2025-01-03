@@ -17,6 +17,21 @@ const CommunityPaper = () => {
     setQuery(e.target.value);
   };
 
+/**
+ * The `handleSearch` function fetches paper data based on a search query and updates the state with
+ * the fetched data.
+ * @returns If the `query` is empty or only contains whitespace characters, the `fetchData()` function
+ * is called and nothing is explicitly returned from the `handleSearch` function.
+ */
+/**
+ * The `handleSearch` function fetches paper data based on a search query and updates the state with
+ * the retrieved data.
+ * @returns If the `query` is empty or only contains whitespace characters, the `handleSearch` function
+ * will call the `fetchData` function and return without making a request to the server. If the `query`
+ * is not empty, the function will make a GET request to
+ * `http://localhost:5000/papers/search_papers?title=` using axios. If the request is
+ * successful,
+ */
 
     const handleSearch = async () => {
       if (query.trim() === ""){
@@ -122,7 +137,7 @@ const CommunityPaper = () => {
       </tr>
       <tr>
         <td><strong>Approval Status</strong></td>
-        <td style={{color:"green"}}>{data.approval_status}</td>
+        <td style={{color:"green"}}>{data.paper_approval_status}</td>
       </tr>
       <tr>
         <td><strong>Approved By</strong></td>

@@ -104,7 +104,7 @@ const Search = () => {
               </tr>
               <tr>
                 <td><strong>Approval Status</strong></td>
-                <td style={{color:"green"}}>{data.approval_status}</td>
+                <td style={{color:"green"}}>{data.paper_approval_status}</td>
               </tr>
               <tr>
                 <td><strong>Approved By</strong></td>

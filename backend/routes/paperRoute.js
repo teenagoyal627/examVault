@@ -50,18 +50,20 @@ router.post("/upload_paper", verifyToken,upload.single("file"), async (req, res)
 
     const user = await UserData.findOne({ user_id: uid });
     const role = user.role;
+    console.log(role)
+    console.log(user)
     const name = user.name;
 
-    let approval_status = "Pending";
-    let approval_at = null;
-    let approved_by = null;
-    let comment = "no comment";
-    let updated_at = null;
+    let paper_approval_status = "Pending";
+    let paper_approval_at = null;
+    let paper_approved_by = null;
+    let paper_comment = "no comment";
+    let paper_updated_at = null;
 
     if (role === "teacher") {
-      approval_status = "Approved";
-      approval_at = Date.now();
-      approved_by = name;
+      paper_approval_status = "Approved";
+      paper_approval_at = Date.now();
+      paper_approved_by = name;
     }
 
     // const { department, subject, year, semester, paper_type, exam_type } =req.body;
@@ -74,7 +76,7 @@ router.post("/upload_paper", verifyToken,upload.single("file"), async (req, res)
       year:req.body.subject,
       semester:req.body.semester,
       department:req.body.department,
-      approval_status,
+      paper_approval_status,
       approval_at,
       approved_by,
       comment,
@@ -165,7 +167,7 @@ router.get("/my_paper", async (req, res) => {
 
 router.get("/all_paper", async (req, res) => {
   try {
-    const allPaper = await PaperData.find({ approval_status: "Approved" , deleted:false});
+    const allPaper = await PaperData.find({ paper_approval_status: "Approved" , deleted:false});
     res.json(allPaper);
     // console.log(allPaper)
   } catch (error) {
@@ -246,7 +248,7 @@ router.get("/stats",async(req,res)=>{
     {$match:{deleted:false}},
     {
       $group :{
-        _id:"$approval_status",
+        _id:"$paper_approval_status",
         count:{$sum:1}
       }}
    ])

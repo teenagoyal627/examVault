@@ -136,16 +136,16 @@ const MyPaper = () => {
                       </td>
                       <td
                         className={
-                          data.approval_status === 'Pending'
+                          data.paper_approval_status === 'Pending'
                             ? classes.statusPending
-                            : data.approval_status === 'Rejected'
+                            : data.paper_approval_status === 'Rejected'
                             ? classes.statusRejected
-                            : data.approval_status === 'Approved'
+                            : data.paper_approval_status === 'Approved'
                             ? classes.statusApproved
                             : ''
                         }
                       >
-                        {data.approval_status}
+                        {data.paper_approval_status}
                       </td>
                     </tr>
                     {!approvedBy && (
@@ -157,7 +157,7 @@ const MyPaper = () => {
                       </tr>
                     )}
 
-                    {approvedBy && data.approval_status === 'Approved' && (
+                    {approvedBy && data.paper_approval_status === 'Approved' && (
                       <tr>
                         <td>
                           <strong>Approved At</strong>

@@ -52,3 +52,14 @@
     background-color: green;
     color: white;
   }
+
+@media (max-width:600px){
+    .teacherForm{
+        grid-template-columns: 1fr ;
+        gap: .1rem;
+
+
+
+    }
+
+}

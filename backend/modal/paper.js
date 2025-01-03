@@ -13,7 +13,7 @@ const PaperSchema=new Schema({
     semester:{type:String},
     department:{type:String},
     created_at:{type:Date,default:Date.now},
-    approval_status:{type:String},
+    paper_approval_status:{type:String},
     approval_at:{type:Date},
     approved_by:{type:String},
     comment:{type:String},
