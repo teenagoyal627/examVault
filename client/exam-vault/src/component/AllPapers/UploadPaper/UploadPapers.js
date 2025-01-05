@@ -118,6 +118,7 @@ const UploadPapers = () => {
           value={newPaper.subject}
           onChange={e => newPaperChangeHandler(e, setNewPaper)}
           options={subjects}
+          style={{width:"1rem"}}
         />
         <FieldsInput
           label='Department'

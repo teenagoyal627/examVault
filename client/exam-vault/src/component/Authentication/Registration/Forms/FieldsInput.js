@@ -1,22 +1,51 @@
-import React from 'react'
-import classes from './Fields.module.css'
-const FieldsInput = ({label,type,name,value,options,onChange}) => {
+import React from "react";
+import classes from "./Fields.module.css";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+const FieldsInput = ({
+  label,
+  type,
+  name,
+  value,
+  options,
+  onChange,
+  showToggle,
+  toggleVisibility,
+}) => {
   return (
     <div className={classes.teacherForm}>
       <label>{label}</label>
-      {type==='select' ? (
-        <select name={name} value={value} onChange={onChange} >
-            <option>Select {label}</option>
-            {options.map((option,index)=>(
-                <option key={index} value={option}>{option}</option>
-            ))}
+      {type === "select" ? (
+        <select name={name} value={value} onChange={onChange}>
+          <option>Select {label}</option>
+          {options.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
         </select>
-      ):(
-         <input type={type} name={name} value={value} onChange={onChange} />
-      )
-      }
+      ) : (
+        <div
+          className={classes.inputWrapper}
+        >
+          <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={onChange}
+            style={{ flex: 1 }}
+          />
+          {showToggle && (
+            <span
+              className={classes.eyeIcon}
+              onClick={toggleVisibility}
+            >
+              {type === "password" ? <MdVisibility /> : <MdVisibilityOff />}
+            </span>
+          )}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default FieldsInput
+export default FieldsInput;

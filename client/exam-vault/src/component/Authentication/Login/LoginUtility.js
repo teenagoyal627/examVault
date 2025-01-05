@@ -4,27 +4,28 @@ import axios from "axios"
 
 
 export const loginSubmitHandler=async(e,loginData,setShowModal,setModalContent)=>{
-  console.log("login button is clicked")
-
-   e.preventDefault()
+  console.log("login button is clicked") 
+  e.preventDefault()
     try{
        const userLoginCredential= await signInWithEmailAndPassword(auth,loginData.email,loginData.password)
+       
+       
        const user=userLoginCredential.user;
-       console.log(user.uid)
+      //  console.log(user.uid)
       //  const token=user.accessToken;
       //  const payload=jwtDecode(token)
       //  console.log(payload)
-      const idToken=getAuth().currentUser.getIdToken()
-          console.log(idToken)
+      const idToken= await getAuth().currentUser.getIdToken()
+      console.log("idToken",idToken)
       const apiUrl = 'http://localhost:5000/login/get_role'
-   await axios.get(apiUrl,{
+  await axios.get(apiUrl,{
         headers:{
           Authorization:`Bearer ${idToken}`
         }
       })
       .then((response)=>{
         if(!response){
-          
+         
         }
         const role=response.data.role;
         setShowModal(true)
@@ -34,12 +35,13 @@ export const loginSubmitHandler=async(e,loginData,setShowModal,setModalContent)=
         })
       }).catch((error)=>{
         if(error.response){
+          console.log(error)
           console.log(error.response.data.error)
         }
         setShowModal(true)
         setModalContent({
           title:"Login Error",
-          body:`Error comes getting response${error}`
+          body:`Error comes getting response  ${error}`
         })
       })
       

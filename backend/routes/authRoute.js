@@ -8,6 +8,7 @@ router.get('/get_role',verifyToken,async(req,res)=>{
     try{
         // const userId=req.params.uid;
         const{uid}=req;
+        console.log(uid)
         if(!uid){
             res.status(403).json({error:`uid is not present ${error}`})
         }

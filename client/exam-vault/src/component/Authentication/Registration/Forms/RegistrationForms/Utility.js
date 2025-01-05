@@ -2,6 +2,12 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from "../../../../../Firebase";
 import axios from "axios";
 
+
+
+const validate=(password,confirmPassword)=>{
+  return password===confirmPassword;
+}
+
 export const studentRegSubmitHandler = async (
   e,
   regData,
@@ -9,36 +15,47 @@ export const studentRegSubmitHandler = async (
   setShowModal,
   setModalContent
 ) => {
+  e.preventDefault();
+  if(!validate(regData.password, regData.confirmPass)){
+    setShowModal(true)
+    setModalContent({
+      title:"Validation Error",
+      body:"Password and Confirm Password do not match"
+    })
+    return 
+   }
+
   try {
-    e.preventDefault();
     await createUserWithEmailAndPassword(
       auth,
       regData.email,
       regData.password
     )
-    const idToken= await getAuth().currentUser.getIdToken()
-    console.log(idToken)
-        const userDetails = {
-          name: regData.name,
-          email: regData.email,
-          role_id:regData.studentId,
-          department:regData.department,
-          semester:regData.semester,
-          university:regData.university,
-          college:regData.college,
-          start_year:regData.startYear,
-          end_year:regData.endYear,
 
-        };
-        const apiUrl = "http://localhost:5000/users/studentReg";
-        await axios.post(apiUrl, userDetails,{
-          headers:{
-            Authorization:`Bearer ${idToken}`,
-          }
-        }).then((res) => {
-          
-          navigate("/all_paper");
-        });
+
+  const idToken= await getAuth().currentUser.getIdToken()
+      const userDetails = {
+        name: regData.name,
+        email: regData.email,
+        role_id:regData.studentId,
+        department:regData.department,
+        semester:regData.semester,
+        university:regData.university,
+        college:regData.college,
+        start_year:regData.startYear,
+        end_year:regData.endYear,
+
+      };
+      const apiUrl = "http://localhost:5000/users/studentReg";
+      await axios.post(apiUrl, userDetails,{
+        headers:{
+          Authorization:`Bearer ${idToken}`,
+        }
+      }).then((res) => {
+        
+        navigate("/all_paper");
+      });
+       
       }
    catch (error) {
     switch (error.code) {
@@ -53,6 +70,7 @@ export const studentRegSubmitHandler = async (
         break;
     }
   }
+
 };
 
 export const teacherRegSubmitHandler = async (
@@ -62,14 +80,24 @@ export const teacherRegSubmitHandler = async (
   setShowModal,
   setModalContent
 ) => {
+  e.preventDefault();
+
+  if(!validate(regData.password, regData.confirmPass)){
+    setShowModal(true)
+    setModalContent({
+      title:"Validation Error",
+      body:"Password and Confirm Password do not match"
+    })
+    return;
+   }
   try {
-    e.preventDefault();
     await createUserWithEmailAndPassword(
       auth,
       regData.email,
       regData.password
     )
-    const idToken=await getAuth().currentUser.getIdToken()
+    
+      const idToken=await getAuth().currentUser.getIdToken()
         const userDetails = {
           name: regData.name,
           email: regData.email,
@@ -89,6 +117,10 @@ export const teacherRegSubmitHandler = async (
           title: "Registration Successful",
           body: "Your registration has been submitted. Once approved, you will be notified.",
         });
+    
+
+   
+       
   } catch (error) {
     switch (error.code) {
       case "auth/email-already-in-use":
@@ -102,6 +134,7 @@ export const teacherRegSubmitHandler = async (
         break;
     }
   }
+
 };
 
 

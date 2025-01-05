@@ -1,40 +1,34 @@
-.teacherForm{
-    display: flex;
-    flex-direction: column;
-    display:grid;
+.teacherForm {
+    display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 1rem;
-
-}
-
-.teacherForm label{
+  }
+  
+  .teacherForm label {
     font-size: 1.2rem;
-}
-
-.teacherForm input{
+  }
+  
+  .teacherForm input,
+  .teacherForm select {
     border-radius: 5px;
-    margin-top: .1rem ;
-    margin-bottom: 1rem;
+    margin-bottom: .8rem;
     height: 40px;
-
-}
-
-.teacherForm select{
+    padding-left: 0.5rem;
+  }
+  
+  .teacherForm select {
     height: 35px;
-    margin-bottom: 1rem;
-
-
-}
-
-.heading{
+    width:100%
+  }
+  
+  .heading {
     text-align: center;
     font-size: 1.3rem;
     font-weight: bold;
     margin-bottom: 1rem;
-}
-
-
-.button{
+  }
+  
+  .button {
     color: rgb(4, 4, 4);
     padding: 10px 20px;
     border: none;
@@ -47,19 +41,36 @@
     background-color: #dcdcda;
   }
   
-  
-  .button:hover{
+  .button:hover {
     background-color: green;
     color: white;
   }
-
-@media (max-width:600px){
-    .teacherForm{
-        grid-template-columns: 1fr ;
-        gap: .1rem;
-
-
-
+  
+  .inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .inputWrapper input {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
+  
+  .eyeIcon {
+    position: absolute;
+    right: 0.5rem;
+    top: 35%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #6c757d;
+  }
+  
+  @media (max-width: 600px) {
+    .teacherForm {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
     }
-
-}
+  }
+  

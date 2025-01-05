@@ -154,7 +154,7 @@ export const newPaperSubmitHandler = async (
     console.log('Paper is successfully submitted on mongodb..')
     setShowModal(true)
     setModalContent({
-      title: 'Confirmation',
+      title:'Confirmation',
       body: 'Paper is successfully uploaded.'
     })
     navigate('/my_paper')

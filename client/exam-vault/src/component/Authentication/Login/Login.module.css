@@ -24,7 +24,6 @@
     margin-top: .1rem ;
     margin-bottom: 1.2rem;
     height: 40px;
-
 }
 
 
@@ -37,13 +36,14 @@
 
 
 .button{
+    /* width: 15rem; */
+    /* margin-left: 4rem; */
     color: rgb(4, 4, 4);
     padding: 10px 20px;
     border: none;
     margin-top: 20px;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
     font-size: 1.2rem;
     transition: background-color 0.3s;
     background-color: #dcdcda;
@@ -53,4 +53,38 @@
   .button:hover{
     background-color: green;
     color: white;
+  }
+
+  .passwordContainer{
+    display: flex;
+    align-items: center;
+  }
+  .passwordContainer input{
+    width: 15rem;
+  }
+
+  .visibilityIcon{
+    margin-bottom: 1.6rem;
+    margin-left: -20px;
+    cursor: pointer;
+  }
+
+  input[type="password"],
+  input[type="text"]{
+    flex: 1;
+    padding-right: 40px;
+  }
+
+
+
+  @media (max-width:700px){
+    .modal{
+        width:19rem;
+    }
+
+.loginForm{
+    display: flex;
+    gap: .1rem;
+
+}
   }
