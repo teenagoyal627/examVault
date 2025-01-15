@@ -4,6 +4,7 @@
   
   .fileInputWrapper {
     display: flex;
+    margin-top: .6rem                                                                                                                                  ;
     align-items: center;
     border: 1px solid rgb(181, 177, 177);
     border-radius: 5px;
@@ -12,17 +13,17 @@
     width: 33rem;
     background-color: #f9f9f9;
     height: 6rem;
-
   }
   
   .customFileButton {
-    padding: 0.9rem 1rem;
+    padding: .9rem 1rem;
+    margin-left: 1rem;
     background-color: #b4d1f0;
     color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 20rem;
+    width: 30rem;
   }
   
   .customFileButton:hover {
@@ -66,4 +67,14 @@
   .button:hover{
     background-color: green;
     color: white;
+  }
+
+  @media  (max-width:568px){
+    .fileInputWrapper{
+      width: 18rem;
+    }
+
+  .customFileButton {
+    margin-left: .5rem;
+  }
   }

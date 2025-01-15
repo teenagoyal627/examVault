@@ -3,7 +3,7 @@ const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 export const editPaperHandler=(id,navigate)=>{
     console.log("edit button is clicked")
-    navigate(`/all_paper/upload_paper/${id}`)
+    navigate(`/upload_paper/${id}`)
 
 }
 

@@ -66,6 +66,15 @@
     font-size: 1.2rem;
     color: #6c757d;
   }
+
+  .student-card-container{
+    border: 2px solid blue;
+  }
+
+  .ant-card-body::before{
+    padding: 0px;
+    border: 2px solid red;
+  }
   
   @media (max-width: 600px) {
     .teacherForm {

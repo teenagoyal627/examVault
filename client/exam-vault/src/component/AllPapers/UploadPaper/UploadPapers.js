@@ -31,7 +31,8 @@ const UploadPapers = () => {
   const [showModal, setShowModal] = useState(false)
   const [modalContent, setModalContent] = useState({
     title: '',
-    body: ''
+    body: '',
+    confirmHandler:null
   })
   const { id } = useParams()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
@@ -100,6 +101,7 @@ const UploadPapers = () => {
                 selectedFileType,
                 setShowModal,
                 setModalContent,
+                navigate
               )
             }
           />
@@ -169,7 +171,7 @@ const UploadPapers = () => {
           title={modalContent.title}
           body={modalContent.body}
           handleConfirm={() =>
-            fileUploadConfirmHandler(
+            modalContent.confirmHandler(
               setShowModal,
             )
           }

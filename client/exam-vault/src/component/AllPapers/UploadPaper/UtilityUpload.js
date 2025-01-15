@@ -10,10 +10,10 @@ export const newPaperChangeHandler = (e, setNewPaper) => {
   }))
 }
 
-export const fileUploadConfirmHandler = (setShowModal) => {
-  setShowModal(false)
-  document.getElementById('fileInput').click()
-}
+// export const fileUploadConfirmHandler = (setShowModal) => {
+//   setShowModal(false)
+//   document.getElementById('fileInput').click()
+// }
 
 export const modalOpenHandler = (
   setShowModal,
@@ -36,7 +36,12 @@ export const modalOpenHandler = (
           <option value='pdf'>PDF</option>
         </select>
       </div>
-    )
+    ),
+    confirmHandler:()=>{
+      setShowModal(false)
+      document.getElementById('fileInput').click()
+
+    }
   })
 }
 
@@ -45,7 +50,8 @@ export const fileChangeHandler = (
   setSelectedFile,
   selectedFileType,
   setShowModal,
-  setModalContent
+  setModalContent,
+  navigate
 ) => {
   const file = e.target.files[0]
   setSelectedFile(file)
@@ -59,7 +65,11 @@ export const fileChangeHandler = (
     setShowModal(true)
     setModalContent({
       title: 'Invalid File Type',
-      body: `You selected ${selectedFileType.toUpperCase()} but uploaded a ${fileType.toUpperCase()} file. Please select the correct file type.`
+      body: `You selected ${selectedFileType.toUpperCase()} but uploaded a ${fileType.toUpperCase()} file. Please select the correct file type.`,
+       confirmHandler:()=>{
+        setShowModal(false)
+        navigate('/upload_paper')
+      }
     })
     return
   }
@@ -68,7 +78,11 @@ export const fileChangeHandler = (
     setShowModal(true)
     setModalContent({
       title: 'File too Large',
-      body: 'PDF file size must be 50 MB or below.'
+      body: 'PDF file size must be 50 MB or below.',
+      confirmHandler:()=>{
+        setShowModal(false)
+        navigate('/upload_paper')
+      }
     })
     return
   }
@@ -91,10 +105,24 @@ export const newPaperSubmitHandler = async (
       setShowModal(true)
       setModalContent({
         title: 'Error',
-        body: 'No file selected. Please upload a file before submission.'
+        body: 'No file selected. Please upload a file before submission.',
+        confirmHandler:()=>{
+          setShowModal(false)
+          navigate('/upload_paper')
+        }
       })
       return
     }
+
+    
+    const idToken = await getAuth().currentUser.getIdToken()
+    const axiosMethod = id ? axios.put : axios.post
+    const apiUrl = 'http://localhost:5000/papers'
+    const axiosUrl = id
+      ? `${apiUrl}/edit_paper/${id}`
+      : `${apiUrl}/upload_paper`
+
+
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("department", newPaper.department);
@@ -104,65 +132,72 @@ export const newPaperSubmitHandler = async (
     formData.append("paper_type", newPaper.paper_type);
     formData.append("exam_type", newPaper.exam_type);
 
-    // const uploadPresent=`${process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET}`
-    // // const folder=`${process.env.REACT_APP_CLOUDINARY_UPLOAD_FOLDER}`
-    //   const folderName=
-    // const fileType = selectedFile.type;
-    // const isPDF = fileType === 'application/pdf';
-    // const cloudinaryEndpoint = isPDF
-    //   ? `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/raw/upload`
-    //   : `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
 
-
-
-    // const imagePDFData = new FormData()
-    // imagePDFData.append('file', selectedFile)
-    // imagePDFData.append('upload_preset', uploadPresent)
-    // imagePDFData.append('folder', folder)
-
-    // const cloudinaryResponse = await axios.post(
-    //   cloudinaryEndpoint,
-    //   imagePDFData
-    // )
-    // const cloudinaryUrl = cloudinaryResponse.data.secure_url
-    // console.log(cloudinaryUrl)
-    const idToken = await getAuth().currentUser.getIdToken()
-
-    // const paperDetails = {
-    //   title: newPaper.title,
-    //   department: newPaper.department,
-    //   subject: newPaper.subject,
-    //   year: newPaper.year,
-    //   semester: newPaper.semester,
-    //   paper_type: newPaper.paper_type,
-    //   exam_type: newPaper.exam_type,
-    //   file_url: cloudinaryUrl
-    // }
-
-    const axiosMethod = id ? axios.put : axios.post
-    const apiUrl = 'http://localhost:5000/papers'
-    const axiosUrl = id
-      ? `${apiUrl}/edit_paper/${id}`
-      : `${apiUrl}/upload_paper`
-    console.log(axiosUrl)
-    await axiosMethod(axiosUrl, formData, {
+    const response=  await axiosMethod(axiosUrl, formData, {
       headers: {
         Authorization: `Bearer ${idToken}`,
         "Content-Type":"multipart/form-data"
       }
-    })
-    console.log('Paper is successfully submitted on mongodb..')
-    setShowModal(true)
-    setModalContent({
-      title:'Confirmation',
-      body: 'Paper is successfully uploaded.'
-    })
-    navigate('/my_paper')
+    });
+
+    if(response.data.error){
+      setShowModal(true)
+      setModalContent({
+        title:'Upload Paper Error',
+        body: `You are not approved user. ${response.data.error}`,
+        confirmHandler:()=>{
+          setShowModal(false)
+          navigate('/teacher_form')
+        }
+      })
+    }else{
+      console.log('Paper is successfully submitted on mongodb..')
+      setShowModal(true)
+      setModalContent({
+        title:'Confirmation',
+        body: 'Paper is successfully uploaded.',
+        confirmHandler:()=>{
+          setShowModal(false)
+          navigate('/my_paper')
+        }
+      })
+    }
+    
+    // .then((response)=>{
+    //   console.log(response.data)
+
+    //   console.log('Paper is successfully submitted on mongodb..')
+    //   setShowModal(true)
+    //   setModalContent({
+    //     title:'Confirmation',
+    //     body: 'Paper is successfully uploaded.',
+    //     confirmHandler:()=>{
+    //       setShowModal(false)
+    //       navigate('/my_paper')
+    //     }
+    //   })
+    //   // navigate('/my_paper')
+    // }).catch((error)=>{
+    //   setShowModal(true)
+    //   setModalContent({
+    //     title:'Upload Paper Error',
+    //     body: `You are not approved user. ${error}`,
+    //     confirmHandler:()=>{
+    //       setShowModal(false)
+    //       navigate('/teacher_form')
+    //     }
+    //   })
+    // })
+   
   } catch (error) {
     setShowModal(true)
     setModalContent({
       title: 'Error',
-      body: `Error while uploding the paper  ${error}`
+      body: `Error while uploding the paper  ${error}`,
+      confirmHandler:()=>{
+        setShowModal(false)
+        navigate('/teacher_form')
+      }
     })
   }
 }

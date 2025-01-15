@@ -13,7 +13,7 @@ const UserSchema=new mongoose.Schema({
     college:{type:String },
     start_year:{type:Date},
     end_year:{type:Date},
-    user_approval_status:{type:Boolean},
+    user_approval_status:{type:String},
     approved_time:{type:Date,default:null},
     created_at:{type:Date,default:Date.now},
     updated_at:{type:Date,default:Date.now},

@@ -19,7 +19,7 @@ connectDB()
 
 const paperRoutes=require("./routes/paperRoute")
 const userRoutes=require("./routes/userRoutes")
-const loginRoutes=require("./routes/authRoute")
+const loginRoutes=require("./routes/loginRoute")
 
 app.use("/papers",paperRoutes)
 app.use("/users",userRoutes)
