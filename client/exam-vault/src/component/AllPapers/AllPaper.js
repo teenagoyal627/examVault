@@ -7,9 +7,8 @@ const AllPaper = () => {
     <div>
     <AllPaperNavBar/>
     <Outlet/>
-    
-      
-    </div>
+  
+    </div>            
   )
 }
 
