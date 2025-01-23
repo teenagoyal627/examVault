@@ -6,6 +6,7 @@ const Schema=mongoose.Schema;
 
 const PaperSchema=new Schema({
     user_id:{type:String},
+    title:{type:String},
     subject:{type:String,enum:subjects},
     paper_type:{type:String},
     exam_type:{type:String},

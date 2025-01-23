@@ -125,6 +125,7 @@ export const newPaperSubmitHandler = async (
 
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("title", newPaper.title);
     formData.append("department", newPaper.department);
     formData.append("subject", newPaper.subject);
     formData.append("year", newPaper.year);
@@ -151,7 +152,6 @@ export const newPaperSubmitHandler = async (
         }
       })
     }else{
-      console.log('Paper is successfully submitted on mongodb..')
       setShowModal(true)
       setModalContent({
         title:'Confirmation',
@@ -163,37 +163,11 @@ export const newPaperSubmitHandler = async (
       })
     }
     
-    // .then((response)=>{
-    //   console.log(response.data)
-
-    //   console.log('Paper is successfully submitted on mongodb..')
-    //   setShowModal(true)
-    //   setModalContent({
-    //     title:'Confirmation',
-    //     body: 'Paper is successfully uploaded.',
-    //     confirmHandler:()=>{
-    //       setShowModal(false)
-    //       navigate('/my_paper')
-    //     }
-    //   })
-    //   // navigate('/my_paper')
-    // }).catch((error)=>{
-    //   setShowModal(true)
-    //   setModalContent({
-    //     title:'Upload Paper Error',
-    //     body: `You are not approved user. ${error}`,
-    //     confirmHandler:()=>{
-    //       setShowModal(false)
-    //       navigate('/teacher_form')
-    //     }
-    //   })
-    // })
-   
   } catch (error) {
     setShowModal(true)
     setModalContent({
       title: 'Error',
-      body: `Error while uploding the paper  ${error}`,
+      body: `Error while uploading the paper  ${error}`,
       confirmHandler:()=>{
         setShowModal(false)
         navigate('/teacher_form')

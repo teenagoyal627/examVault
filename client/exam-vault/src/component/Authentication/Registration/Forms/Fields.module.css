@@ -75,6 +75,11 @@
     padding: 0px;
     border: 2px solid red;
   }
+  .required{
+    color:red;
+    font-size:1rem;
+    margin-left: .2rem;
+  }
   
   @media (max-width: 600px) {
     .teacherForm {

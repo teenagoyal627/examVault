@@ -102,7 +102,7 @@ const StudentRegistration = () => {
           />
           <FieldsInput
             label="Confirm Password"
-            type="password"
+            type={showPassword ? "text" :"password"}
             name="confirmPass"
             value={studentData.confirmPass}
             onChange={handleStudentChange}

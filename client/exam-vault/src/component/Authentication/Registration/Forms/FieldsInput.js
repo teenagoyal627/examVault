@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Fields.module.css";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+
 const FieldsInput = ({
   label,
   type,
@@ -10,10 +11,11 @@ const FieldsInput = ({
   onChange,
   showToggle,
   toggleVisibility,
+  required,
 }) => {
   return (
     <div className={classes.teacherForm}>
-      <label>{label}</label>
+      <label>{label}{required && <span className={classes.required}>*</span>}</label>
       {type === "select" ? (
         <select name={name} value={value} onChange={onChange}>
           <option>Select {label}</option>

@@ -39,7 +39,7 @@ const DownloadPaper = () => {
                 style={{ width: '100%', height: '80vh' }}></iframe>
             )
         }else{
-            return <img src={fileUrl} alt="paper" style={{width:'100%'}}/>
+            return <img src={fileUrl} alt="paper" style={{width:'50%',height:'20%'}}/>
         }
     }
   return (

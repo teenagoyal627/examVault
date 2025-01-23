@@ -5,6 +5,9 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { deleteHandler, deletePaperHandler, editPaperHandler, viewHandler } from './MyPaperUtility'
 import MessageBox from '../../MessageBox'
 import { Outlet, useLocation, useNavigate } from 'react-router'
+import PaperTabular from '../PaperTabular'
+import ImageUpload from '../ImageUpload'
+import { Pagination } from 'react-bootstrap'
 
 const MyPaper = () => {
   const [paperData, setPaperData] = useState([])
@@ -43,7 +46,8 @@ const MyPaper = () => {
         params: { uid: uid }
       })
       setPaperData(response.data)
-      if (response.data.approved_by) {
+      console.log(response.data.approved_by)
+      if (response.data.approved_by!=='undefined') {
         setApprovedBy(true)
       }
     } catch (error) {
@@ -51,15 +55,6 @@ const MyPaper = () => {
     }
   }
 
-  const CreatedAtDate = inputDate => {
-    const date = new Date(inputDate)
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'long'
-    })
-  }
   if (location.pathname.includes('/view_paper')) {
     return <Outlet />;
   }
@@ -70,109 +65,17 @@ const MyPaper = () => {
       {!userId && <p>User is not login...</p>}
       {userId && (
         <div className={classes.paperContainer}>
-          {console.log(paperData)}
           {paperData.map((data, index) => (
             <div key={index} className={classes.paperCard}>
-              <div className={classes.imageContainer}>
-                {data.file_url.endsWith('.pdf') ? (
-                  <iframe
-                    src={data.file_url}
-                    title="PDF Preview"
-                    // className={classes.paperImage}
-                    // style={{ width: '100%', height: '200px', border: 'none' }}
-                  ></iframe>
-                ) : (
-                  <img
-                    src={data.file_url}
-                    alt="Paper"
-                    className={classes.paperImage}
-                  />
-                )}
-              </div>
+              <ImageUpload data={data}/>
               <div className={classes.paperDetails}>
-                <table className={classes.paperTable}>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <strong>Exam Type</strong>
-                      </td>
-                      <td>{data.exam_type}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Paper Type</strong>
-                      </td>
-                      <td>{data.paper_type}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Subject</strong>
-                      </td>
-                      <td>{data.subject}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Department</strong>
-                      </td>
-                      <td>{data.department}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Year/Semester</strong>
-                      </td>
-                      <td>
-                        {data.year} Year {data.semester} Semester
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Uploaded At</strong>
-                      </td>
-                      <td>{CreatedAtDate(data.created_at)}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Approval Status</strong>
-                      </td>
-                      <td
-                        className={
-                          data.paper_approval_status === 'Pending'
-                            ? classes.statusPending
-                            : data.paper_approval_status === 'Rejected'
-                            ? classes.statusRejected
-                            : data.paper_approval_status === 'Approved'
-                            ? classes.statusApproved
-                            : ''
-                        }
-                      >
-                        {data.paper_approval_status}
-                      </td>
-                    </tr>
-                    {!approvedBy && (
-                      <tr>
-                        <td>
-                          <strong>Approved By</strong>
-                        </td>
-                        <td>{data.approved_by}</td>
-                      </tr>
-                    )}
-
-                    {approvedBy && data.paper_approval_status === 'Approved' && (
-                      <tr>
-                        <td>
-                          <strong>Approved At</strong>
-                        </td>
-                        <td>{CreatedAtDate(data.approval_at)}</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+                <PaperTabular data={data} approvedBy={approvedBy}/>
                 <div>
                   <button onClick={()=>viewHandler(data._id,navigate)} className={classes.Button}>View</button>
-                  <button style={{background:"yellow"}} onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
+                  <button style={{background:"rgb(255, 165, 0)"}} onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
                     Edit
                   </button>
-                  <button style={{background:"red"}}
+                  <button style={{background:"rgb(220, 53, 69)"}}
                     onClick={()=>deleteHandler(data._id,setModalContent,setShowModal,setPaperId)}
                     className={classes.Button}
                   >
@@ -196,3 +99,6 @@ const MyPaper = () => {
 }
 
 export default MyPaper
+
+
+

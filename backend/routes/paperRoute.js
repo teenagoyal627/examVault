@@ -15,11 +15,7 @@ cloudinary.config({
 
 const upload = multer({ storage: multer.memoryStorage() })
 
-router.post(
-  '/upload_paper',
-  verifyToken,
-  upload.single('file'),
-  async (req, res) => {
+router.post('/upload_paper',verifyToken,upload.single('file'),async (req, res) => {
     const { uid } = req
     try {
       if (!req.file) {
@@ -69,10 +65,11 @@ router.post(
 
       const newPaper = new PaperData({
         user_id: uid,
+        title:req.body.title,
         subject: req.body.subject,
         paper_type: req.body.paper_type,
         exam_type: req.body.exam_type,
-        year: req.body.subject,
+        year: req.body.year,
         semester: req.body.semester,
         department: req.body.department,
         paper_approval_status,
@@ -99,7 +96,7 @@ router.get('/my_paper', async (req, res) => {
     if (!uid) {
       return res.status(400).json({ error: 'User ID is required' })
     }
-    const papers = await PaperData.find({ user_id: uid, deleted: false })
+    const papers = await PaperData.find({ user_id: uid, deleted: false }).sort({created_at: -1})
     res.json(papers)
     // console.log(papers)
   } catch (error) {
@@ -112,11 +109,23 @@ router.get('/all_paper', async (req, res) => {
     const allPaper = await PaperData.find({
       paper_approval_status: 'Approved',
       deleted: false
-    })
+    }).sort({created_at: -1})
     res.json(allPaper)
     // console.log(allPaper)
   } catch (error) {
     res.status(500).json({ error: 'error fetching data...' })
+  }
+})
+
+router.get('/new_papers',async(req,res)=>{
+  try{
+    const newPapers=await PaperData.find({
+      paper_approval_status:'Pending',
+
+    })
+    res.json(newPapers)
+  }catch(error){
+    res.status(500).json({message:"Error while fetching the new paper data."})
   }
 })
 
@@ -222,24 +231,20 @@ const verifyTeacher = (req, res, next) => {
   next()
 }
 
-router.put('/update_paper_status', verifyTeacher, async (req, res) => {
+router.put('/update_paper_status',async (req, res) => {
   try {
-    const { paperId, status } = req.body
-
+    const { paperId, status,approved_by,comment} = req.body
+    console.log(customElements)
     if (!paperId || !status) {
-      return res
-        .status(400)
-        .json({ message: 'Paper ID and status are required' })
+      return res.status(400).json({ message: 'Paper ID and status are required' })
     }
     const paper = await PaperData.findById(paperId)
-    if (!paper) {
-      return res.status(404).json({ message: 'Paper not found' })
-    }
-    paper.status = status
+    paper.paper_approval_status= status
+    paper.approved_by=approved_by 
+    paper.comment=comment
     await paper.save()
     res.status(200).json({ message: 'Paper status updated successfully' })
   } catch (error) {
-    console.error(error)
     res.status(500).json({ message: 'Error updating paper status' })
   }
 })

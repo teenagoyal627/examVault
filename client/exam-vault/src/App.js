@@ -11,6 +11,8 @@ import MyPaper from './component/AllPapers/MyPaper/MyPaper'
 import CommunityPaper from './component/AllPapers/CommunityPaper/CommunityPaper'
 import DownloadPaper from './component/AllPapers/MyPaper/DownloadPaper'
 import Stats from './component/Stats/Stats'
+import NewPaper from './component/AllPapers/NewPapers/NewPaper'
+import OpenPaper from './component/AllPapers/NewPapers/OpenPaper'
 
 const router=createBrowserRouter([
   {
@@ -39,6 +41,15 @@ const router=createBrowserRouter([
         element:<CommunityPaper/>
       },
       {
+        path:'new_papers',
+        element:<NewPaper/>
+
+      },
+      {
+        path:'new_papers/:id/view_paper',
+        element:<OpenPaper/>
+    },
+      {
         path:'upload_paper/:id?',
         element:<UploadPapers/>
       },
@@ -61,6 +72,7 @@ const router=createBrowserRouter([
           }
         ]
       },
+     
     ]
   },
   // {

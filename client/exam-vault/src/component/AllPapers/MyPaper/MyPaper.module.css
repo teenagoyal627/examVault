@@ -54,10 +54,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+/*   
   .Button:hover {
-    background-color: #45a049;
-  }
+    color:black;
+  } */
   .paperTable {
     width: 100%;
     border-collapse: collapse;
@@ -77,10 +77,10 @@
   }
 
   .statusPending{
-    color:Yellow
+    color:rgb(255, 165, 0)
   }
   .statusRejected{
-    color:red;
+    color:rgb(220, 53, 69)red;
   }
 
   .statusApproved{

@@ -9,7 +9,7 @@ import classes from "./Login.module.css";
 import MessageBox from "../../MessageBox";
 import { useNavigate } from "react-router";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-
+import { ToastContainer } from "react-toastify";
 const Login = () => {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
@@ -22,7 +22,6 @@ const Login = () => {
     body: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-
   const handleClose = () => {
     setShowModal(false);
   };
@@ -38,7 +37,7 @@ const Login = () => {
         <hr />
         <form
           onSubmit={(e) =>
-            loginSubmitHandler(e, loginData, setShowModal, setModalContent)
+            loginSubmitHandler(e, loginData, setShowModal, setModalContent,navigate)
           }
           className={classes.loginForm}
         >
@@ -83,6 +82,7 @@ const Login = () => {
           handleConfirm(setShowModal, navigate, modalContent)
         }
       />
+      <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
     </div>
   );
 };
