@@ -1,18 +1,19 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-
 import classes from '../MyPaper/MyPaper.module.css';
 import {viewHandler } from '../MyPaper/MyPaperUtility';
 import PaperTabular from '../PaperTabular';
 import SearchContainer from '../SearchContainer';
 import ImageUpload from '../ImageUpload';
+import Pagination from '../Pagination/Pagination';
 
 
 const NewPaper = () => {
   const [paperData, setPaperData] = useState([]);
   const [query, setQuery] = useState(""); 
-  
+  const[loading,setLoading]=useState(true)
+  const[currentPage,setCurrentPage]=useState(1)
   const navigate=useNavigate()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
@@ -42,17 +43,35 @@ const NewPaper = () => {
     try {
       const response = await axios.get(`${apiUrl}/new_papers`);
       setPaperData(response.data || []);
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching papers:", error);
+      setLoading(false)
     }
   };
+
+
+  const recordsPerPage=12;
+  const lastIndex=currentPage*recordsPerPage
+  const firstIndex=lastIndex - recordsPerPage;
+  const records=paperData.slice(firstIndex,lastIndex)
+  const numberOfPages=Math.ceil(paperData.length/recordsPerPage)
+  const numbers=[...Array(numberOfPages).keys()].map((n)=>n+1)
 
 
   return (
     <>
   <SearchContainer query={query} handleInputChange={handleInputChange} handleSearch={handleSearch}/>
+  {loading && (
+    <div className="loading-backdrop">
+      <div className="loading-box">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Please wait, data is loading...</div>
+      </div>
+    </div>
+   )}
    <div className={classes.paperContainer} >
-      {paperData.map((data, index) => (
+      {records.map((data, index) => (
         <div key={index} className={classes.paperCard}>
         <ImageUpload data={data}/>
       <div className={classes.paperDetails}>
@@ -65,6 +84,13 @@ const NewPaper = () => {
   </div>
   ))}
     </div>
+
+    <Pagination
+ currentPage={currentPage}
+ setCurrentPage={setCurrentPage}
+ numberOfPages={numberOfPages}
+ numbers={numbers}
+ />
     </>
    
   );

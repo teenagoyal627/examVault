@@ -22,17 +22,18 @@ export const modalOpenHandler = (
 ) => {
   setShowModal(true)
   setModalContent({
-    title: 'Choose File type',
+    title: 'Select File type',
     body: (
       <div>
-        <p>Points to be remember....</p>
-        <p>1. Only one JPEG file can be upload.</p>
-        <p>2. PDF file size must be 50mb or below.</p>
+        <p>Please note the following guidelines before uploading a file:</p>
+        <p>1. You can upload only JPEG, PNG, or PDF files.</p>
+        <p>2. The PDF file size must not exceed 50MB.</p>
         <select
           className={classes.fileTypeSelect}
           onChange={e => setSelectedFileType(e.target.value)}
         >
           <option value='jpeg'>JPEG</option>
+          <option value='png'>PNG</option>
           <option value='pdf'>PDF</option>
         </select>
       </div>
@@ -58,6 +59,7 @@ export const fileChangeHandler = (
   if (!file) {
     return
   }
+  console.log(setSelectedFile)
   const fileType = file.type.split('/')[1]
   const fileSizeMB = file.size / (1024 * 1024)
 
@@ -69,6 +71,7 @@ export const fileChangeHandler = (
        confirmHandler:()=>{
         setShowModal(false)
         navigate('/upload_paper')
+        setSelectedFile(null)
       }
     })
     return
@@ -82,6 +85,7 @@ export const fileChangeHandler = (
       confirmHandler:()=>{
         setShowModal(false)
         navigate('/upload_paper')
+        setSelectedFile(null)
       }
     })
     return
@@ -96,12 +100,25 @@ export const newPaperSubmitHandler = async (
   setShowModal,
   setModalContent,
   navigate,
-  selectedFile
+  selectedFile,
+  setLoading
 ) => {
   try {
     e.preventDefault()
+    const idToken = await getAuth().currentUser.getIdToken()
+    const axiosMethod = id ? axios.put : axios.post
+    const apiUrl = 'http://localhost:5000/papers'
 
-    if (!selectedFile) {
+    setLoading(false)
+
+    const axiosUrl = id
+      ? `${apiUrl}/edit_paper/${id}`
+      : `${apiUrl}/upload_paper`
+      
+     const formData = new FormData();
+
+  
+     if (!selectedFile && formData===null) {
       setShowModal(true)
       setModalContent({
         title: 'Error',
@@ -113,17 +130,9 @@ export const newPaperSubmitHandler = async (
       })
       return
     }
-
-    
-    const idToken = await getAuth().currentUser.getIdToken()
-    const axiosMethod = id ? axios.put : axios.post
-    const apiUrl = 'http://localhost:5000/papers'
-    const axiosUrl = id
-      ? `${apiUrl}/edit_paper/${id}`
-      : `${apiUrl}/upload_paper`
+    setLoading(true)
 
 
-    const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("title", newPaper.title);
     formData.append("department", newPaper.department);
@@ -140,6 +149,7 @@ export const newPaperSubmitHandler = async (
         "Content-Type":"multipart/form-data"
       }
     });
+    setLoading(false)
 
     if(response.data.error){
       setShowModal(true)
@@ -154,8 +164,8 @@ export const newPaperSubmitHandler = async (
     }else{
       setShowModal(true)
       setModalContent({
-        title:'Confirmation',
-        body: 'Paper is successfully uploaded.',
+        title:'Upload Successful',
+        body: 'The paper was uploaded successfully. You can now view it in My Papers',
         confirmHandler:()=>{
           setShowModal(false)
           navigate('/my_paper')
@@ -164,13 +174,14 @@ export const newPaperSubmitHandler = async (
     }
     
   } catch (error) {
+    setLoading(false)
     setShowModal(true)
     setModalContent({
       title: 'Error',
-      body: `Error while uploading the paper  ${error}`,
+      body:'Please fill all fields of the paper. All fields are required...',
       confirmHandler:()=>{
         setShowModal(false)
-        navigate('/teacher_form')
+        navigate('/upload_paper')
       }
     })
   }

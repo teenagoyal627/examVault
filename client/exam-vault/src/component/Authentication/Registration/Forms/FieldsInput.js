@@ -18,7 +18,7 @@ const FieldsInput = ({
       <label>{label}{required && <span className={classes.required}>*</span>}</label>
       {type === "select" ? (
         <select name={name} value={value} onChange={onChange}>
-          <option>Select {label}</option>
+          <option value="">Select {label}</option>
           {options.map((option, index) => (
             <option key={index} value={option}>
               {option}

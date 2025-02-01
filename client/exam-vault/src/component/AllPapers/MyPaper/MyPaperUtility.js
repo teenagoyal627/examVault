@@ -2,7 +2,6 @@ import axios from "axios"
 const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 export const editPaperHandler=(id,navigate)=>{
-    console.log("edit button is clicked")
     navigate(`/upload_paper/${id}`)
 
 }
@@ -32,8 +31,6 @@ export const deletePaperHandler=async(id,setShowModal,modalContent,setPaperData)
 }
 
 export const viewHandler=async(id,navigate)=>{
-    console.log("view button is clicked..")
-     console.log(id)
      navigate(`${id}/view_paper`)
 
 }

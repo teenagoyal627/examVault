@@ -33,15 +33,22 @@ const UploadPapers = () => {
     body: '',
     confirmHandler: null
   })
+  const[loading,setLoading]=useState(false)
   const { id } = useParams()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
   useEffect(() => {
+   const token= localStorage.getItem("authToken")
+   if(!token){
+    navigate('/login_form')
+   }
     if (id) {
+      setLoading(true)
       axios.get(`${apiUrl}/get_paper/${id}`)
         .then((response) => {
           const fileUrl=response.data.file_url
           const fileName=fileUrl.split('/').pop()
+          const fileType=fileUrl.split('.').pop()
           setNewPaper({
             title:response.data.title ,
             subject: response.data.subject,
@@ -51,7 +58,9 @@ const UploadPapers = () => {
             paper_type: response.data.paper_type,
             exam_type: response.data.exam_type
           })
-          setSelectedFile({name:fileName})
+          setSelectedFile({name:fileName, type: `application/${fileType}`})
+          setSelectedFileType()
+          setLoading(false)
         })
         .catch(error => {
           setShowModal(true)
@@ -59,11 +68,21 @@ const UploadPapers = () => {
             title: "Error",
             body: `Error while getting the paper, ${error}`
           })
+          setLoading(false)
         })
     }
   }, [id, apiUrl])
 
   return (
+    <>
+    {loading &&(
+    <div className="loading-backdrop">
+      <div className="loading-box">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Your paper is being submitted, this might take a moment...</div>
+      </div>
+    </div>
+   )}
     <form
       onSubmit={e =>
         newPaperSubmitHandler(
@@ -73,7 +92,8 @@ const UploadPapers = () => {
           setShowModal,
           setModalContent,
           navigate,
-          selectedFile
+          selectedFile,
+          setLoading
         )
       }
     >
@@ -96,7 +116,7 @@ const UploadPapers = () => {
           >
             Select Paper File
           </button>
-          {selectedFile && (
+          {selectedFile && selectedFile.type.split('/')[1] ===selectedFileType && (
             <p className={classes.fileName}>{selectedFile.name}</p>
           )}
           <input
@@ -195,6 +215,7 @@ const UploadPapers = () => {
         />
       )}
     </form>
+    </>
   )
 }
 

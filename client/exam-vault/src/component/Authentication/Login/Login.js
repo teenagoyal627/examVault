@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   handleLoginChange,
   loginSubmitHandler,
@@ -22,6 +22,14 @@ const Login = () => {
     body: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+
+useEffect(()=>{
+  const token=localStorage.getItem("authToken")
+  if(token){
+  navigate('/upload_paper')
+  }
+},[])
+
   const handleClose = () => {
     setShowModal(false);
   };

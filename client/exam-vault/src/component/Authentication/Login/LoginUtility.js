@@ -25,13 +25,13 @@ export const loginSubmitHandler = async (
       })
       .then(response => {
         const { role, status, name } = response.data
-        console.log(response.data)
         if (role === 'teacher') {
           if (status === 'Approved') {
             toast.success(`${name} successfully logged in!`)
+            localStorage.setItem("authToken",idToken)
             setTimeout(() => {
               navigate('/upload_paper');
-            }, 5000);
+            }, 3000);
           } else {
             setShowModal(true)
             setModalContent({
@@ -42,9 +42,10 @@ export const loginSubmitHandler = async (
         }
         else if (role === 'student') {
           toast.success(`${name} successfully logged in!`)
+          localStorage.setItem("authToken",idToken)
           setTimeout(() => {
             navigate('/upload_paper');
-          }, 5000);
+          }, 3000);
 
         }
       })

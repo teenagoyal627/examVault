@@ -1,17 +1,17 @@
 import axios from "axios"
 
-export const approvedPaperHandler=(setShowModal,setModalContent) => {
+export const approvePaperHandler=(setShowModal,setModalContent) => {
     setShowModal(true)
     setModalContent({
-        title: "Confirmation modal box",
-        body: "Do you really approve the paper"
+        title: "Approve Paper Confirmation",
+        body: "Are you sure you want to approve this paper? Once approved, it will be available to the student and others."
     })
 }
 
 export const rejectPaperHandler =(setShowModal, setModalContent,setComment,comment) => {
     setShowModal(true)
     setModalContent({
-        title: "Rejection modal box",
+        title: "Provide Rejection Feedback",
         body:(
             <div>
                 <p>Please Provide a reason for rejection:</p>
@@ -24,21 +24,17 @@ export const rejectPaperHandler =(setShowModal, setModalContent,setComment,comme
             </div>
         )
     })
-    console.log(comment)
 }
 
 export const approvedOrRejectPaper = async (paperId, modalContent, navigate,data,comment) => {
-    console.log(comment)
-    if (modalContent.title === "Confirmation modal box") {
+    if (modalContent.title === "Approve Paper Confirmation") {
         try {
             const apiUrl = 'http://localhost:5000/papers/update_paper_status'
-            const response = await axios.put(apiUrl,
+            await axios.put(apiUrl,
                 { paperId, status: "Approved",approved_by:data.name}
             );
-            console.log(response.data)
             navigate('/new_papers')
         } catch (error) {
-            console.log(error)
         }
     } else {
         try {
@@ -46,7 +42,6 @@ export const approvedOrRejectPaper = async (paperId, modalContent, navigate,data
             const response = await axios.put(apiUrl,
                 { paperId, status: "Rejected", approved_by:data.name, comment:comment }
             );
-            console.log(response.data)
             navigate('/new_papers')
         } catch (error) {
             console.log("Error has occurred....",error)

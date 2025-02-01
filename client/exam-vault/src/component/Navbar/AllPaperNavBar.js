@@ -1,21 +1,26 @@
 import axios from 'axios'
-import { browserLocalPersistence, getAuth, onAuthStateChanged, setPersistence } from 'firebase/auth'
+import {  getAuth, onAuthStateChanged } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 
 import { Navbar } from 'responsive-navbar-react'
 import 'responsive-navbar-react/dist/index.css'
+import Logout from '../Authentication/Logout/Logout'
 
 const AllPaperNavBar = () => {
 const[userRole,setUserRole]=useState('')
+  const[showModal,setShowModal]=useState(false)
+
+  useEffect(() => {
+    console.log("Modal state changed:", showModal);
+  }, [showModal])
+  
 useEffect(()=>{
   const auth=getAuth()
  
   const unsubscribe=onAuthStateChanged(auth,(user)=>{
     if(user){
-      console.log(user)
       fetchUserRole(user)
     }else{
-      console.log("User is signed out....")
       setUserRole('')
     }
   })
@@ -24,11 +29,9 @@ useEffect(()=>{
 },[])
 
 const fetchUserRole=async(user)=>{
-  console.log(user)
   
   try{
     const idToken=await user.getIdToken();
-    console.log(idToken)
     const apiUrl = 'http://localhost:5000/login'
   
     const response=await axios.get(`${apiUrl}/get_role`,{
@@ -37,7 +40,6 @@ const fetchUserRole=async(user)=>{
       }
     })
       setUserRole(response.data.role)
-      console.log(response.data.role)
 
   }catch(error){
     console.log("Failed to fetch user role  ",error)
@@ -66,12 +68,20 @@ const items= [
     [{ text:'New Papers',
       link:'/new_papers'
     }] :[]
-  )
-
+  ),
+  {
+    text: "Logout",
+    link: "#",
+    onClick: (e) => {
+      e.preventDefault(); 
+      setShowModal(true); 
+    }
+  }
 ]
 
 
-
+console.log(showModal)
+console.log(setShowModal)
   const props = {
     items,
     logo: {
@@ -89,7 +99,14 @@ const items= [
       }
     }
   }
-  return <Navbar {...props} />
+  return(
+    <>
+  <Navbar {...props} />
+  <Logout showModal={showModal} setShowModal={setShowModal}/>
+
+    </>
+  )
+  
 }
 
 export default AllPaperNavBar

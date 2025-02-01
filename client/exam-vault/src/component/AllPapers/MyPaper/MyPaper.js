@@ -7,23 +7,25 @@ import MessageBox from '../../MessageBox'
 import { Outlet, useLocation, useNavigate } from 'react-router'
 import PaperTabular from '../PaperTabular'
 import ImageUpload from '../ImageUpload'
-import { Pagination } from 'react-bootstrap'
+import Pagination from '../Pagination/Pagination'
 
 const MyPaper = () => {
   const [paperData, setPaperData] = useState([])
   const [userId, setUserId] = useState(null)
   const [approvedBy, setApprovedBy] = useState(false)
-  const[showModal,setShowModal]=useState(false)
-  const[modalContent,setModalContent]=useState({
-    title:'',
-    body:''
+  const [showModal, setShowModal] = useState(false)
+
+  const [paperId, setPaperId] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [modalContent, setModalContent] = useState({
+    title: '',
+    body: ''
   })
-  const[paperId,setPaperId]=useState(null)
- const navigate=useNavigate()
- const location=useLocation()
 
-
- const apiUrl = `${process.env.REACT_APP_APIURL}`
+  const apiUrl = `${process.env.REACT_APP_APIURL}`
 
   useEffect(() => {
     const auth = getAuth()
@@ -46,8 +48,8 @@ const MyPaper = () => {
         params: { uid: uid }
       })
       setPaperData(response.data)
-      console.log(response.data.approved_by)
-      if (response.data.approved_by!=='undefined') {
+      setLoading(false)
+      if (response.data.approved_by !== 'undefined') {
         setApprovedBy(true)
       }
     } catch (error) {
@@ -59,24 +61,47 @@ const MyPaper = () => {
     return <Outlet />;
   }
 
+  const recordsPerPage = 12;
+  const lastIndex = currentPage * recordsPerPage
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = paperData.slice(firstIndex, lastIndex)
+  const numberOfPages = Math.ceil(paperData.length / recordsPerPage)
+  const numbers = [...Array(numberOfPages).keys()].map((n) => n + 1)
+
   return (
     <>
-      {/* shoe loading indicator */}
-      {!userId && <p>User is not login...</p>}
-      {userId && (
+      {!userId && loading && (
+        <div className="loading-backdrop">
+          <div className="loading-box">
+            <div className="loading-spinner"></div>
+            <div className="loading-text">Loading your papers, please hold on....</div>
+          </div>
+        </div>
+      )}
+       {userId && paperData.length === 0 && !loading && (
+      <div className={classes.noPaperMessage}>
+        <p>You have not uploaded any papers yet. Please upload a paper first.</p>
+        <button onClick={() => navigate('/upload_paper')} className={classes.uploadButton}>
+          Upload Paper
+        </button>
+      </div>
+    )}
+
+      {userId  && paperData.length>0 && (
         <div className={classes.paperContainer}>
-          {paperData.map((data, index) => (
+          {records.map((data, index) => (
             <div key={index} className={classes.paperCard}>
-              <ImageUpload data={data}/>
+              <ImageUpload data={data} />
               <div className={classes.paperDetails}>
-                <PaperTabular data={data} approvedBy={approvedBy}/>
+                <PaperTabular data={data} approvedBy={approvedBy} />
+                {console.log(data)}
                 <div>
-                  <button onClick={()=>viewHandler(data._id,navigate)} className={classes.Button}>View</button>
-                  <button style={{background:"rgb(255, 165, 0)"}} onClick={()=>editPaperHandler(data._id,navigate)} className={classes.Button}>
+                  <button onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
+                  <button style={{ background: "rgb(255, 165, 0)" }} onClick={() => editPaperHandler(data._id, navigate)} className={classes.Button}>
                     Edit
                   </button>
-                  <button style={{background:"rgb(220, 53, 69)"}}
-                    onClick={()=>deleteHandler(data._id,setModalContent,setShowModal,setPaperId)}
+                  <button style={{ background: "rgb(220, 53, 69)" }}
+                    onClick={() => deleteHandler(data._id, setModalContent, setShowModal, setPaperId)}
                     className={classes.Button}
                   >
                     Delete
@@ -88,12 +113,21 @@ const MyPaper = () => {
         </div>
       )}
       <MessageBox
-  showModal={showModal}
-  handleClose={()=>setShowModal(false)}
-  title={modalContent.title}
-  body={modalContent.body}
-  handleConfirm={()=>deletePaperHandler(paperId,setShowModal,modalContent,setPaperData)}
- />
+        showModal={showModal}
+        handleClose={() => setShowModal(false)}
+        title={modalContent.title}
+        body={modalContent.body}
+        handleConfirm={() => deletePaperHandler(paperId, setShowModal, modalContent, setPaperData)}
+      />
+      {!loading && paperData.length!==0 && (
+
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          numberOfPages={numberOfPages}
+          numbers={numbers}
+        />
+      )}
     </>
   )
 }

@@ -1,0 +1,47 @@
+.pagination1 {
+    display: flex;
+    justify-content: center;
+    margin: 2rem ;
+    margin-top: 6rem;
+  }
+  
+  .pagination {
+    list-style: none;
+    
+    display: flex;
+    gap: .1rem;
+    background-color:rgb(66, 67, 64);
+    border-radius: 5px;
+  }
+  
+  .page-item {
+    margin: .8rem;
+  }
+
+  .page-item .page-link {
+    display: block;
+    padding: 1rem 1rem;
+    width: 7rem;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  
+  .page-item .page-link.active {
+    background-color: rgb(174, 176, 174);
+    color: white;
+    border-color: white;
+  }
+  
+  .page-item .page-link:hover {
+    background-color: rgb(174, 176, 174);
+    color:white;
+  }
+/*   
+  .page-item.disabled .page-link {
+    color: #ccc;
+    pointer-events: none;
+  }
+   */

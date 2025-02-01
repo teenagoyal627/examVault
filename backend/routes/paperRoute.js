@@ -24,6 +24,7 @@ router.post('/upload_paper',verifyToken,upload.single('file'),async (req, res) =
 
       const user = await UserData.findOne({ user_id: uid })
       const { role, name, user_approval_status } = user
+      const userName=name
       if (user_approval_status !== 'Approved') {
         return res.status(403).json({
             message: 'You are not approved by admin. Please contact to admin...'
@@ -65,6 +66,7 @@ router.post('/upload_paper',verifyToken,upload.single('file'),async (req, res) =
 
       const newPaper = new PaperData({
         user_id: uid,
+        uploaded_by:userName,
         title:req.body.title,
         subject: req.body.subject,
         paper_type: req.body.paper_type,
@@ -98,7 +100,6 @@ router.get('/my_paper', async (req, res) => {
     }
     const papers = await PaperData.find({ user_id: uid, deleted: false }).sort({created_at: -1})
     res.json(papers)
-    // console.log(papers)
   } catch (error) {
     res.status(500).json({ error: 'internal server error' })
   }
@@ -106,12 +107,31 @@ router.get('/my_paper', async (req, res) => {
 
 router.get('/all_paper', async (req, res) => {
   try {
-    const allPaper = await PaperData.find({
-      paper_approval_status: 'Approved',
-      deleted: false
-    }).sort({created_at: -1})
+    const allPaper=await PaperData.aggregate([
+      {
+        $match: {
+          deleted: false, 
+          paper_approval_status: "Approved"
+        }
+      },
+      {
+        $addFields: {
+          download_count: {
+            $size: { $ifNull: ["$download_user_ids", []] } 
+          }
+        }
+      },
+      {
+        $sort: { created_at: -1 }
+      }
+      // {
+      //   $project: {
+      //     download_user_ids: 0
+      //   }
+      // }
+    ]);
+    
     res.json(allPaper)
-    // console.log(allPaper)
   } catch (error) {
     res.status(500).json({ error: 'error fetching data...' })
   }
@@ -120,9 +140,8 @@ router.get('/all_paper', async (req, res) => {
 router.get('/new_papers',async(req,res)=>{
   try{
     const newPapers=await PaperData.find({
-      paper_approval_status:'Pending',
-
-    })
+      paper_approval_status:'Pending'
+    }).sort({created_at: -1})
     res.json(newPapers)
   }catch(error){
     res.status(500).json({message:"Error while fetching the new paper data."})
@@ -183,7 +202,6 @@ router.put('/:id/delete', async (req, res) => {
 router.get('/:id/view_paper', async (req, res) => {
   try {
     const { id } = req.params
-    // console.log(id)
     await PaperData.findOne({ _id: id })
       .then(papers => res.status(200).json(papers))
       .catch(error =>
@@ -191,6 +209,24 @@ router.get('/:id/view_paper', async (req, res) => {
       )
   } catch (error) {
     res.status(404).json({ message: error })
+  }
+})
+
+router.post('/download_papers',verifyToken,async(req,res)=>{
+  try{
+    const {uid}=req;
+    const{paper_id}=req.body;
+    console.log(paper_id)
+   await PaperData.findByIdAndUpdate(
+    paper_id,
+    {$addToSet:{download_user_ids:uid}},
+    {new:true}
+  )
+
+res.status(200).json({message:"Paper successfullly downloaded"})
+
+  }catch(error){
+    res.status(403).json({message:"User is not Authorized"})
   }
 })
 
@@ -212,7 +248,6 @@ router.get('/stats', async (req, res) => {
       rejected: stats.find(stat => stat._id === 'Rejected')?.count || 0
     }
     res.status(200).json(response)
-    console.log(response)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Error fetching stats' })
@@ -233,15 +268,14 @@ const verifyTeacher = (req, res, next) => {
 
 router.put('/update_paper_status',async (req, res) => {
   try {
-    const { paperId, status,approved_by,comment} = req.body
-    console.log(customElements)
+    const { paperId, status,approved_by} = req.body
     if (!paperId || !status) {
       return res.status(400).json({ message: 'Paper ID and status are required' })
     }
     const paper = await PaperData.findById(paperId)
     paper.paper_approval_status= status
     paper.approved_by=approved_by 
-    paper.comment=comment
+    // paper.comment=comment
     await paper.save()
     res.status(200).json({ message: 'Paper status updated successfully' })
   } catch (error) {
@@ -252,7 +286,6 @@ router.put('/update_paper_status',async (req, res) => {
 router.get('/search_papers', async (req, res) => {
   try {
     const { title } = req.query
-    console.log(title)
 
     if (!title) {
       return res.status(400).json({
@@ -263,7 +296,6 @@ router.get('/search_papers', async (req, res) => {
     const papers = await PaperData.find({
       exam_type: { $regex: title, $options: 'i' }
     })
-    console.log(papers)
 
     res.status(200).json({
       message: 'Searched papers fetched successfully.',

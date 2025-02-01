@@ -1,19 +1,19 @@
 .paperContainer{
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(25rem,1fr));
-    gap: 5rem;
-    padding: 5rem 12rem 12rem 12rem;
+    gap: 2rem;
+    row-gap: 5rem;
+    padding: 5rem 0 0 5rem;
 }
 
 .paperCard{
     background-color:#f7f7f7;
-    padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width:25rem;
 }
 
 
@@ -38,7 +38,7 @@
   .paperDetails strong{
     flex-shrink: 0;
     width: 30%;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   
@@ -54,10 +54,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-/*   
-  .Button:hover {
-    color:black;
-  } */
+
   .paperTable {
     width: 100%;
     border-collapse: collapse;
@@ -80,21 +77,38 @@
     color:rgb(255, 165, 0)
   }
   .statusRejected{
-    color:rgb(220, 53, 69)red;
+    color:rgb(220, 53, 69);
   }
 
   .statusApproved{
     color:green
   }
   
-  /* .paperTable tr:nth-child(even) {
-    background-color: #f9f9f9; 
+
+  .noPaperMessage {
+    text-align: center;
+    background: #f7f7f7;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 50px auto;
+    max-width: 500px;
+    border: 1px ;
+    box-shadow: 2px 2px 10px black;
   }
-   */
   
-/*   
-  @media (max-width: 768px) {
-    .paperContainer {
-      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    }
-  } */
+  .uploadButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .uploadButton:hover {
+    background-color: #46bf62;
+   
+  }
+  

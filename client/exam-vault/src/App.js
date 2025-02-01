@@ -13,6 +13,7 @@ import DownloadPaper from './component/AllPapers/MyPaper/DownloadPaper'
 import Stats from './component/Stats/Stats'
 import NewPaper from './component/AllPapers/NewPapers/NewPaper'
 import OpenPaper from './component/AllPapers/NewPapers/OpenPaper'
+import Logout from './component/Authentication/Logout/Logout'
 
 const router=createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router=createBrowserRouter([
           }
         ]
       },
+      {
+        path:'logout',
+        element:<Logout/>
+      }
      
     ]
   },

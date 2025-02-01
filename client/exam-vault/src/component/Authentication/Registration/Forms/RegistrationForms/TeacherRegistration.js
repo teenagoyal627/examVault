@@ -71,6 +71,7 @@ const TeacherRegistration = () => {
             name="name"
             value={teacherData.name}
             onChange={handleTeacherChange}
+            required={true}
           />
           <FieldsInput
             label="Email"
@@ -78,6 +79,7 @@ const TeacherRegistration = () => {
             name="email"
             value={teacherData.email}
             onChange={handleTeacherChange}
+            required={true}
           />
           <FieldsInput
             label="Password"
@@ -85,6 +87,7 @@ const TeacherRegistration = () => {
             name="password"
             value={teacherData.password}
             onChange={handleTeacherChange}
+            required={true}
             showToggle
             toggleVisibility={togglePasswordVisibility}
           />
@@ -94,6 +97,7 @@ const TeacherRegistration = () => {
             name="confirmPass"
             value={teacherData.confirmPass}
             onChange={handleTeacherChange}
+            required={true}
             showToggle
             toggleVisibility={togglePasswordVisibility}
           />
@@ -103,6 +107,7 @@ const TeacherRegistration = () => {
             name="teacherId"
             value={teacherData.teacherId}
             onChange={handleTeacherChange}
+            required={true}
           />
           <FieldsInput
             label="Department"
@@ -111,6 +116,7 @@ const TeacherRegistration = () => {
             value={teacherData.department}
             options={["CSE", "ME", "Civil", "EE", "Other"]}
             onChange={handleTeacherChange}
+            required={true}
           />
           <FieldsInput
             label="University"
@@ -119,6 +125,7 @@ const TeacherRegistration = () => {
             value={teacherData.university}
             options={["BTU", "Amity", "CU", "Other"]}
             onChange={handleTeacherChange}
+            required={true}
           />
           <FieldsInput
             label="College"
@@ -127,6 +134,7 @@ const TeacherRegistration = () => {
             value={teacherData.college}
             options={["LIET", "MITRC", "NIET", "Other"]}
             onChange={handleTeacherChange}
+            required={true}
           />
 
           <button className={classes.button}>Submit</button>

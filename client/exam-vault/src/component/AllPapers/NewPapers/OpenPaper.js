@@ -1,11 +1,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import classes from '../MyPaper/MyPaper.module.css';
-import { approvedOrRejectPaper, approvedPaperHandler, rejectPaperHandler } from './NewPaperUtility';
+import { approvedOrRejectPaper, approvePaperHandler, rejectPaperHandler } from './NewPaperUtility';
 import { editPaperHandler } from '../MyPaper/MyPaperUtility';
 import MessageBox from '../../MessageBox';
 import { getAuth } from 'firebase/auth';
+import classes from './OpenPaper.module.css'
 
 const OpenPaper = () => {
     const apiUrl = `${process.env.REACT_APP_APIURL}`
@@ -29,10 +29,8 @@ const OpenPaper = () => {
                         Authorization: `Bearer ${idToken}`
                       }
                 })
-
                 .then((response)=>{
                       setData(response.data)
-                      console.log(response.data)
                 }).catch((error)=>{
                     console.log(error)
                 })
@@ -40,6 +38,7 @@ const OpenPaper = () => {
                 console.log(error)
             }
         }
+
         const fetchFileUrl=async()=>{
             try{
                 axios.get(`${apiUrl}/${id}/view_paper`,{
@@ -67,18 +66,29 @@ const OpenPaper = () => {
                 <iframe
                 src={fileUrl}
                 title="PDF Viewer"
-                style={{ width: '50%', height: '40vh' }}></iframe>
+                className={`${classes["paper-container"]} ${classes["paper-pdf"]}`}
+                ></iframe>
             )
         }else{
-            return <img src={fileUrl} alt="paper" style={{marginTop:"3rem",width:"70%"}} />
+            return (
+                <img
+                    src={fileUrl}
+                    alt="paper"
+                    className={`${classes["paper-container"]} ${classes["paper-image"]}`}
+                />
+            )
         }
     }
+
+
   return (
-    <>
-     <div >
-     <button onClick={()=>approvedPaperHandler(setShowModal,setModalContent)} className={classes.Button}>Approve</button>
-     <button onClick={()=>rejectPaperHandler(setShowModal,setModalContent,setComment,comment)} className={classes.Button} style={{background:"red"}}>Reject</button>
+<>
+     <div className={classes.card}>
+    <div className={classes.buttons}>
+     <button onClick={()=>approvePaperHandler(setShowModal,setModalContent)} className={classes.Button}>Approve</button>
+     <button onClick={()=>rejectPaperHandler(setShowModal,setModalContent,setComment,comment)} className={classes.Button} style={{background:"rgb(220, 53, 69)"}}>Reject</button>
      <button onClick={()=>editPaperHandler(id,navigate)} className={classes.Button} style={{background:"rgb(255, 165, 0)"}}>Edit</button>
+       </div>
      {renderFile()}
     </div>
 
@@ -89,9 +99,8 @@ const OpenPaper = () => {
     body={modalContent.body}
     handleConfirm={()=>approvedOrRejectPaper(id,modalContent,navigate,data,comment)}
    />
-    </>
-   
-    
+
+</>
   )
 }
 
