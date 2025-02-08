@@ -28,6 +28,10 @@ const MyPaper = () => {
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
   useEffect(() => {
+    const token=sessionStorage.getItem("authToken")
+    if(!token){
+      navigate('/login_form')
+    }
     const auth = getAuth()
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
@@ -94,7 +98,6 @@ const MyPaper = () => {
               <ImageUpload data={data} />
               <div className={classes.paperDetails}>
                 <PaperTabular data={data} approvedBy={approvedBy} />
-                {console.log(data)}
                 <div>
                   <button onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
                   <button style={{ background: "rgb(255, 165, 0)" }} onClick={() => editPaperHandler(data._id, navigate)} className={classes.Button}>

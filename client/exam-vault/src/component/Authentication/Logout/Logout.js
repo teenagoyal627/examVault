@@ -9,7 +9,7 @@ const Logout = ({showModal,setShowModal}) => {
 
     const handleLogout=()=>{
         setShowModal(false)
-        localStorage.removeItem("authToken")
+        sessionStorage.removeItem("authToken")
          navigate('/login_form')
     }
 

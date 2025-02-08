@@ -24,7 +24,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
 useEffect(()=>{
-  const token=localStorage.getItem("authToken")
+  const token=sessionStorage.getItem("authToken")
   if(token){
   navigate('/upload_paper')
   }

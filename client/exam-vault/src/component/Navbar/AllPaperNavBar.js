@@ -5,10 +5,13 @@ import React, { useEffect, useState } from 'react'
 import { Navbar } from 'responsive-navbar-react'
 import 'responsive-navbar-react/dist/index.css'
 import Logout from '../Authentication/Logout/Logout'
+import MessageBox from '../MessageBox'
+import { useNavigate } from 'react-router'
 
 const AllPaperNavBar = () => {
 const[userRole,setUserRole]=useState('')
   const[showModal,setShowModal]=useState(false)
+  const navigate=useNavigate()
 
   useEffect(() => {
     console.log("Modal state changed:", showModal);
@@ -29,7 +32,6 @@ useEffect(()=>{
 },[])
 
 const fetchUserRole=async(user)=>{
-  
   try{
     const idToken=await user.getIdToken();
     const apiUrl = 'http://localhost:5000/login'
@@ -40,7 +42,6 @@ const fetchUserRole=async(user)=>{
       }
     })
       setUserRole(response.data.role)
-
   }catch(error){
     console.log("Failed to fetch user role  ",error)
   }
@@ -74,14 +75,11 @@ const items= [
     link: "#",
     onClick: (e) => {
       e.preventDefault(); 
-      setShowModal(true); 
+      setShowModal((prev)=>!prev);
+      console.log(showModal) 
     }
   }
 ]
-
-
-console.log(showModal)
-console.log(setShowModal)
   const props = {
     items,
     logo: {
@@ -99,10 +97,22 @@ console.log(setShowModal)
       }
     }
   }
+  const handleLogout=()=>{
+    setShowModal(false)
+    sessionStorage.removeItem("authToken")
+     navigate('/login_form')
+}
+
   return(
     <>
   <Navbar {...props} />
-  <Logout showModal={showModal} setShowModal={setShowModal}/>
+  <MessageBox
+          showModal={showModal}
+          handleClose={() => setShowModal(false)}
+          title="Are you sure?"
+          body="Do you really want to logout?"
+          handleConfirm={handleLogout}
+        />
 
     </>
   )

@@ -46,8 +46,8 @@
 }
 
 .paper-image, .paper-pdf{
-    max-width: 100%;
-    max-height: 400px;
+    max-width: 500%;
+    max-height: 900px;
     object-fit: contain;
     border: 1px solid #ddd;
     border-radius: 8px;

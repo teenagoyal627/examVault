@@ -28,9 +28,9 @@ export const loginSubmitHandler = async (
         if (role === 'teacher') {
           if (status === 'Approved') {
             toast.success(`${name} successfully logged in!`)
-            localStorage.setItem("authToken",idToken)
+            sessionStorage.setItem("authToken",idToken)
             setTimeout(() => {
-              navigate('/upload_paper');
+              navigate('/all_paper');
             }, 3000);
           } else {
             setShowModal(true)
@@ -42,7 +42,7 @@ export const loginSubmitHandler = async (
         }
         else if (role === 'student') {
           toast.success(`${name} successfully logged in!`)
-          localStorage.setItem("authToken",idToken)
+          sessionStorage.setItem("authToken",idToken)
           setTimeout(() => {
             navigate('/upload_paper');
           }, 3000);

@@ -7,15 +7,16 @@ const verifyToken = require('../middleWare/jwtToken')
 const multer = require('multer')
 const { Readable } = require('stream')
 
+
 cloudinary.config({
   cloud_name: 'dpw3l4137',
   api_key: '686692581973185',
   api_secret: 'gBy0iYWL1NXWzvdO0xYbV2c4LkM'
 })
 
-const upload = multer({ storage: multer.memoryStorage() })
+const uploadPaperUrl = multer({ storage: multer.memoryStorage() })
 
-router.post('/upload_paper',verifyToken,upload.single('file'),async (req, res) => {
+router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req, res) => {
     const { uid } = req
     try {
       if (!req.file) {
@@ -122,13 +123,13 @@ router.get('/all_paper', async (req, res) => {
         }
       },
       {
-        $sort: { created_at: -1 }
+        $sort:{approval_at: -1}
+      },
+      {
+        $project: {
+          download_user_ids: 0
+        }
       }
-      // {
-      //   $project: {
-      //     download_user_ids: 0
-      //   }
-      // }
     ]);
     
     res.json(allPaper)
@@ -157,27 +158,38 @@ router.get('/get_paper/:id', async (req, res) => {
     )
 })
 
-router.put('/edit_paper/:id', async (req, res) => {
+
+const uploadEditPaper=multer()
+router.put('/edit_paper/:id',uploadEditPaper.none(),async (req, res) => {
   const { id } = req.params
-  const { title, department, subject, year, semester, paper_type, exam_type } =
-    req.body
+  const { title, department, subject, year, semester, paper_type, exam_type,role, approved_by} =req.body
+     console.log(role)
   try {
+
+    const updateFields={
+      title,
+      department,
+      subject,
+      year,
+      semester,
+      paper_type,
+      exam_type,
+      updated_at: Date.now(),
+      deleted: false,
+    }
+
+    if(role==='teacher'){
+      updateFields.paper_approval_status="Approved";
+      updateFields.approved_by=approved_by
+      updateFields.approval_at=Date.now()
+    }
+
     const updatedPaper = await PaperData.findByIdAndUpdate(
       id,
-      {
-        title,
-        department,
-        subject,
-        year,
-        semester,
-        paper_type,
-        exam_type,
-        updated_at: Date.now(),
-        deleted: false
-      },
-      { new: true }
+      updateFields,
+      {new:true}
     )
-
+      console.log("updatedPaper",updatedPaper)
     if (!updatedPaper) {
       return res.status(404).json({ message: 'Paper not found' })
     }
@@ -230,7 +242,7 @@ res.status(200).json({message:"Paper successfullly downloaded"})
   }
 })
 
-router.get('/stats', async (req, res) => {
+router.get('/paper_stats', async (req, res) => {
   try {
     const stats = await PaperData.aggregate([
       { $match: { deleted: false } },
@@ -254,6 +266,82 @@ router.get('/stats', async (req, res) => {
   }
 })
 
+router.get('/department_stats', async (req, res) => {
+  try {
+    const stats = await PaperData.aggregate([
+      { $match: { deleted: false, paper_approval_status:'Approved' } },
+      {
+        $group: {
+          _id: '$department',
+          count: { $sum: 1 }
+        }
+      }
+    ])
+
+    const response = {
+      CSE: stats.find(stat => stat._id === 'CSE')?.count || 0,
+      ME: stats.find(stat => stat._id === 'ME')?.count || 0,
+      EE: stats.find(stat => stat._id === 'EE')?.count || 0,
+      CIVIL: stats.find(stat => stat._id === 'CIVIL')?.count || 0,
+      Other: stats.find(stat => stat._id === 'Other')?.count || 0
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error fetching stats' })
+  }
+})
+
+router.get('/exam_type_stats', async (req, res) => {
+  try {
+    const stats = await PaperData.aggregate([
+      { $match: { deleted: false, paper_approval_status:'Approved'  } },
+      {
+        $group: {
+          _id: '$exam_type',
+          count: { $sum: 1 }
+        }
+      }
+    ])
+
+    const response = {
+      University: stats.find(stat => stat._id === 'University')?.count || 0,
+      Midterm: stats.find(stat => stat._id === 'Midterm')?.count || 0,
+      Improvement: stats.find(stat => stat._id === 'Improvement')?.count || 0,
+      Other: stats.find(stat => stat._id === 'Other')?.count || 0
+
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error fetching stats' })
+  }
+})
+
+router.get('/paper_type_stats', async (req, res) => {
+  try {
+    const stats = await PaperData.aggregate([
+      { $match: { deleted: false,paper_approval_status:'Approved'  } },
+      {
+        $group: {
+          _id: '$paper_type',
+          count: { $sum: 1 }
+        }
+      }
+    ])
+
+    const response = {
+      Main: stats.find(stat => stat._id === 'Main')?.count || 0,
+      Back: stats.find(stat => stat._id === 'Back')?.count || 0,
+      Other: stats.find(stat => stat._id === 'Other')?.count || 0
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error fetching stats' })
+  }
+})
+
 const verifyTeacher = (req, res, next) => {
   const userRole = req.user.role
   if (userRole !== 'teacher') {
@@ -266,16 +354,34 @@ const verifyTeacher = (req, res, next) => {
   next()
 }
 
-router.put('/update_paper_status',async (req, res) => {
+router.put('/approve_paper',async (req, res) => {
   try {
-    const { paperId, status,approved_by} = req.body
+    const { paperId, status,approved_by,approval_at} = req.body
+    console.log(approval_at)
     if (!paperId || !status) {
       return res.status(400).json({ message: 'Paper ID and status are required' })
     }
     const paper = await PaperData.findById(paperId)
     paper.paper_approval_status= status
     paper.approved_by=approved_by 
-    // paper.comment=comment
+    paper.approval_at=approval_at
+    await paper.save()
+    res.status(200).json({ message: 'Paper status updated successfully' })
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating paper status' })
+  }
+})
+
+router.put('/reject_paper',async (req, res) => {
+  try {
+    const { paperId, status,approved_by,comment} = req.body
+    if (!paperId || !status) {
+      return res.status(400).json({ message: 'Paper ID and status are required' })
+    }
+    const paper = await PaperData.findById(paperId)
+    paper.paper_approval_status= status
+    paper.approved_by=approved_by 
+    paper.comment=comment
     await paper.save()
     res.status(200).json({ message: 'Paper status updated successfully' })
   } catch (error) {

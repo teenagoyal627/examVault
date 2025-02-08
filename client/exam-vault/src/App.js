@@ -55,6 +55,10 @@ const router=createBrowserRouter([
         element:<UploadPapers/>
       },
       {
+        path:'edit_paper/:id?',
+        element:<UploadPapers/>
+      },
+      {
           path:'all_paper/:id/view_paper',
           element:<DownloadPaper/>
       },
@@ -73,10 +77,7 @@ const router=createBrowserRouter([
           }
         ]
       },
-      {
-        path:'logout',
-        element:<Logout/>
-      }
+    
      
     ]
   },

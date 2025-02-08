@@ -23,7 +23,14 @@ export const studentRegSubmitHandler = async (
       body:"Password and Confirm Password do not match"
     })
     return 
-   }
+   }else if(!regData.department || !regData.university || !regData.college){
+    setShowModal(true)
+    setModalContent({
+      title:"Missing Required Fields",
+      body:"Please fill out all required fields before submitting the form."
+    })
+    return;
+ }
 
   try {
     await createUserWithEmailAndPassword(
@@ -52,7 +59,7 @@ export const studentRegSubmitHandler = async (
           Authorization:`Bearer ${idToken}`,
         }
       }).then((res) => {
-        
+        sessionStorage.setItem("authToken",idToken)
         navigate("/all_paper");
       });
        
@@ -73,6 +80,7 @@ export const studentRegSubmitHandler = async (
 
 };
 
+
 export const teacherRegSubmitHandler = async (
   e,
   regData,
@@ -80,8 +88,8 @@ export const teacherRegSubmitHandler = async (
   setShowModal,
   setModalContent
 ) => {
+  console.log(regData)
   e.preventDefault();
-
   if(!validate(regData.password, regData.confirmPass)){
     setShowModal(true)
     setModalContent({
@@ -89,6 +97,13 @@ export const teacherRegSubmitHandler = async (
       body:"Password and Confirm Password do not match"
     })
     return;
+   }else if(!regData.department || !regData.university || !regData.college){
+      setShowModal(true)
+      setModalContent({
+        title:"Missing Required Fields",
+        body:"Please fill out all required fields before submitting the form."
+      })
+      return;
    }
   try {
     await createUserWithEmailAndPassword(
@@ -96,8 +111,7 @@ export const teacherRegSubmitHandler = async (
       regData.email,
       regData.password
     )
-    
-      const idToken=await getAuth().currentUser.getIdToken()
+        const idToken=await getAuth().currentUser.getIdToken()
         const userDetails = {
           name: regData.name,
           email: regData.email,
@@ -117,10 +131,6 @@ export const teacherRegSubmitHandler = async (
           title: "Registration Successful",
           body: "Your registration has been submitted. Once approved, you will be notified.",
         });
-    
-
-   
-       
   } catch (error) {
     switch (error.code) {
       case "auth/email-already-in-use":

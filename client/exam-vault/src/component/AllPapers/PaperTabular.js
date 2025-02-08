@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./MyPaper/MyPaper.module.css";
+import axios from "axios";
+import { getAuth } from "firebase/auth";
+
 const PaperTabular = ({ data, approvedBy }) => {
   const CreatedAtDate = (inputDate) => {
     const date = new Date(inputDate);
@@ -26,7 +29,7 @@ const PaperTabular = ({ data, approvedBy }) => {
               <strong>Year/Sem</strong>
             </td>
             <td>
-              {data.year} Year {data.semester} Semester
+              {data.year} Year/{data.semester} Semester
             </td>
           </tr>
 

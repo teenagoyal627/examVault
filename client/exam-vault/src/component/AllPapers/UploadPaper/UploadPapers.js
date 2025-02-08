@@ -13,6 +13,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
+
 const UploadPapers = () => {
   const [newPaper, setNewPaper] = useState({
     title: '',
@@ -37,8 +38,10 @@ const UploadPapers = () => {
   const { id } = useParams()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
+   
+
   useEffect(() => {
-   const token= localStorage.getItem("authToken")
+   const token= sessionStorage.getItem("authToken")
    if(!token){
     navigate('/login_form')
    }
@@ -48,7 +51,6 @@ const UploadPapers = () => {
         .then((response) => {
           const fileUrl=response.data.file_url
           const fileName=fileUrl.split('/').pop()
-          const fileType=fileUrl.split('.').pop()
           setNewPaper({
             title:response.data.title ,
             subject: response.data.subject,
@@ -58,8 +60,7 @@ const UploadPapers = () => {
             paper_type: response.data.paper_type,
             exam_type: response.data.exam_type
           })
-          setSelectedFile({name:fileName, type: `application/${fileType}`})
-          setSelectedFileType()
+          setSelectedFile({name:fileName})
           setLoading(false)
         })
         .catch(error => {
@@ -79,6 +80,7 @@ const UploadPapers = () => {
     <div className="loading-backdrop">
       <div className="loading-box">
         <div className="loading-spinner"></div>
+        
         <div className="loading-text">Your paper is being submitted, this might take a moment...</div>
       </div>
     </div>
@@ -93,7 +95,8 @@ const UploadPapers = () => {
           setModalContent,
           navigate,
           selectedFile,
-          setLoading
+          setLoading,
+          loading
         )
       }
     >
@@ -116,14 +119,14 @@ const UploadPapers = () => {
           >
             Select Paper File
           </button>
-          {selectedFile && selectedFile.type.split('/')[1] ===selectedFileType && (
+          {selectedFile
+           && (
             <p className={classes.fileName}>{selectedFile.name}</p>
           )}
           <input
             id='fileInput'
             type='file'
             className={classes.hiddenFileInput}
-             
             onChange={e =>
               fileChangeHandler(
                 e,
@@ -161,7 +164,7 @@ const UploadPapers = () => {
           value={newPaper.department}
           onChange={e => newPaperChangeHandler(e, setNewPaper)}
           required={true}
-          options={['CSE', 'Civil', 'ME', 'EE', 'Other']}
+          options={['CSE', 'CIVIL', 'ME', 'EE', 'Other']}
         />
         <FieldsInput
           label='Year'

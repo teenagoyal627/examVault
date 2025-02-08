@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FrontPageNavbar from "../../../../Navbar/FrontPageNavbar";
 import Card from "../../../../UI/Card";
 import classes from "../Fields.module.css";
 import FieldsInput from "../FieldsInput";
 import { studentRegSubmitHandler } from "./Utility";
 import { useNavigate } from "react-router";
+import { ToastContainer } from "react-toastify";
 import MessageBox from "../../../../MessageBox";
 const StudentRegistration = () => {
   const navigate = useNavigate();
@@ -30,6 +31,13 @@ const StudentRegistration = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(()=>{
+   const token=sessionStorage.getItem("authToken")
+   if(token){
+    navigate('/all_paper')
+   }
+  },[])
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

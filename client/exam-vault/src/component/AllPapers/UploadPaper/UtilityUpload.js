@@ -46,6 +46,7 @@ export const modalOpenHandler = (
   })
 }
 
+
 export const fileChangeHandler = (
   e,
   setSelectedFile,
@@ -54,6 +55,7 @@ export const fileChangeHandler = (
   setModalContent,
   navigate
 ) => {
+
   const file = e.target.files[0]
   setSelectedFile(file)
   if (!file) {
@@ -93,6 +95,7 @@ export const fileChangeHandler = (
   setSelectedFile(file)
 }
 
+
 export const newPaperSubmitHandler = async (
   e,
   id,
@@ -101,24 +104,25 @@ export const newPaperSubmitHandler = async (
   setModalContent,
   navigate,
   selectedFile,
-  setLoading
+  setLoading,
+  loading
+
 ) => {
   try {
     e.preventDefault()
-    const idToken = await getAuth().currentUser.getIdToken()
-    const axiosMethod = id ? axios.put : axios.post
-    const apiUrl = 'http://localhost:5000/papers'
+    if(!newPaper.department || !newPaper.subject || !newPaper.year || !newPaper.semester || !newPaper.paper_type || !newPaper.exam_type){
+      setShowModal(true)
+      setModalContent({
+        title:"Missing Required Fields",
+        body:"Please complete all required fields before submitting the form.",
+        confirmHandler:()=>{
+          setShowModal(false)
+        }
+      })
+      return;
+    }
 
-    setLoading(false)
-
-    const axiosUrl = id
-      ? `${apiUrl}/edit_paper/${id}`
-      : `${apiUrl}/upload_paper`
-      
-     const formData = new FormData();
-
-  
-     if (!selectedFile && formData===null) {
+    if (!selectedFile) {
       setShowModal(true)
       setModalContent({
         title: 'Error',
@@ -130,8 +134,20 @@ export const newPaperSubmitHandler = async (
       })
       return
     }
-    setLoading(true)
 
+    const idToken = await getAuth().currentUser.getIdToken()
+    const roleApiUrl = 'http://localhost:5000/login'
+      
+        const getRoleResponse=await axios.get(`${roleApiUrl}/get_role`,{
+          headers:{
+            Authorization:`Bearer ${idToken}`
+          }
+        })
+        const role=getRoleResponse.data.role;
+        const teacherName=getRoleResponse.data.name;
+        console.log("edit paper user role",role)
+
+     const formData = new FormData();
 
     formData.append("file", selectedFile);
     formData.append("title", newPaper.title);
@@ -141,14 +157,27 @@ export const newPaperSubmitHandler = async (
     formData.append("semester", newPaper.semester);
     formData.append("paper_type", newPaper.paper_type);
     formData.append("exam_type", newPaper.exam_type);
+    formData.append("role",role);
+    formData.append("approved_by",teacherName);
 
+    setLoading(true)
 
+   console.log(formData)
+
+      
+    const axiosMethod = id ? axios.put : axios.post
+    const apiUrl = 'http://localhost:5000/papers'
+    const axiosUrl = id
+      ? `${apiUrl}/edit_paper/${id}`
+      : `${apiUrl}/upload_paper`
+      
     const response=  await axiosMethod(axiosUrl, formData, {
       headers: {
         Authorization: `Bearer ${idToken}`,
         "Content-Type":"multipart/form-data"
       }
     });
+
     setLoading(false)
 
     if(response.data.error){
@@ -174,14 +203,14 @@ export const newPaperSubmitHandler = async (
     }
     
   } catch (error) {
+    console.log(error)
     setLoading(false)
     setShowModal(true)
     setModalContent({
       title: 'Error',
-      body:'Please fill all fields of the paper. All fields are required...',
+      body:`Something went wrong. Please try again later. ${error}`,
       confirmHandler:()=>{
         setShowModal(false)
-        navigate('/upload_paper')
       }
     })
   }

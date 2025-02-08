@@ -35,6 +35,7 @@ const FieldsInput = ({
             value={value}
             onChange={onChange}
             style={{ flex: 1 }}
+            required
           />
           {showToggle && (
             <span

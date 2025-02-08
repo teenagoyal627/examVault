@@ -66,7 +66,7 @@ const CommunityPaper = () => {
     <>
      {paperData.length === 0 && !loading && (
           <div className={classes.noPaperMessage}>
-            <p>You have not uploaded any papers yet. Please upload a paper first.</p>
+            <p>No papers found. Please upload a paper to continue.</p>
             <button onClick={() => navigate('/upload_paper')} className={classes.uploadButton}>
               Upload Paper
             </button>
