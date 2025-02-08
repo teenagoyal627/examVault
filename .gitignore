@@ -9,7 +9,7 @@ yarn-error.log*
 
 # React build folder
 /client/exam-vault/build/
-
+/backend/firebase-service-account.json
 # Environment files
 .env
 
