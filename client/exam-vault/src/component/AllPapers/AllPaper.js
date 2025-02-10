@@ -5,7 +5,7 @@ import { Outlet } from 'react-router'
 const AllPaper = () => {
   return (
     <div>
-    <AllPaperNavBar/>
+    <AllPaperNavBar />
     <Outlet/>
   
     </div>            

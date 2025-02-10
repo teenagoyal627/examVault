@@ -6,16 +6,16 @@ import { Navbar } from 'responsive-navbar-react'
 import 'responsive-navbar-react/dist/index.css'
 import Logout from '../Authentication/Logout/Logout'
 import MessageBox from '../MessageBox'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
-const AllPaperNavBar = () => {
+const AllPaperNavBar = ({setShowModal}) => {
 const[userRole,setUserRole]=useState('')
-  const[showModal,setShowModal]=useState(false)
+  // const[showModal,setShowModal]=useState(false)
   const navigate=useNavigate()
 
-  useEffect(() => {
-    console.log("Modal state changed:", showModal);
-  }, [showModal])
+  // useEffect(() => {
+  //   console.log("Modal state changed:", showModal);
+  // }, [showModal])
   
 useEffect(()=>{
   const auth=getAuth()
@@ -47,6 +47,10 @@ const fetchUserRole=async(user)=>{
   }
 }
 
+const handleLogoutClick=(e)=>{
+  e.preventDefault()
+  setShowModal(true)
+}
 const items= [
   {
     text: 'Home',
@@ -73,11 +77,10 @@ const items= [
   {
     text: "Logout",
     link: "#",
-    onClick: (e) => {
-      e.preventDefault(); 
-      setShowModal((prev)=>!prev);
-      console.log(showModal) 
-    }
+    onClick:(e) => {
+      e.preventDefault();
+      setShowModal(true); 
+    },
   }
 ]
   const props = {
@@ -97,6 +100,7 @@ const items= [
       }
     }
   }
+  
   const handleLogout=()=>{
     setShowModal(false)
     sessionStorage.removeItem("authToken")
@@ -106,14 +110,6 @@ const items= [
   return(
     <>
   <Navbar {...props} />
-  <MessageBox
-          showModal={showModal}
-          handleClose={() => setShowModal(false)}
-          title="Are you sure?"
-          body="Do you really want to logout?"
-          handleConfirm={handleLogout}
-        />
-
     </>
   )
   
