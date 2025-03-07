@@ -23,7 +23,7 @@ const FrontPageCard = () => {
   return (
     
       <div className={classes.cardWidth}>
-        <h5 className={classes.heading}>Registration Modal</h5>
+        <h5 className={classes.heading}>Welcome to Exam Vault! Register now to submit and manage your papers seamlessly.</h5>
         <button className={classes.button} onClick={teacherHandlerButton}>
           <AccountCircleIcon
             className={classes.icon}

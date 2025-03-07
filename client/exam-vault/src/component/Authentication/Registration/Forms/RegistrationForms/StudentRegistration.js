@@ -5,13 +5,12 @@ import classes from "../Fields.module.css";
 import FieldsInput from "../FieldsInput";
 import { studentRegSubmitHandler } from "./Utility";
 import { useNavigate } from "react-router";
-import { ToastContainer } from "react-toastify";
 import MessageBox from "../../../../MessageBox";
 const StudentRegistration = () => {
   const navigate = useNavigate();
   const [studentData, setStudentData] = useState({
     name: "",
-    rollNo: "",
+    // rollNo: "",
     email: "",
     password: "",
     confirmPass: "",
@@ -60,6 +59,8 @@ const StudentRegistration = () => {
     navigate("/student_form");
   };
 
+  const isFireFox=navigator.userAgent.toLowerCase().includes('firefox')
+    console.log(isFireFox)
   return (
     <div>
       <FrontPageNavbar />
@@ -85,14 +86,14 @@ const StudentRegistration = () => {
             onChange={handleStudentChange}
             required={true}
           />
-          <FieldsInput
+          {/* <FieldsInput
             label="Roll No"
             type="text"
             name="rollNo"
             value={studentData.rollNo}
             onChange={handleStudentChange}
             required={true}
-          />
+          /> */}
           <FieldsInput
             label="Email"
             type="email"
@@ -151,15 +152,16 @@ const StudentRegistration = () => {
           />
           <FieldsInput
             label="Start Year"
-            type="date"
+            type={isFireFox ? "date" : "month"}
             name="startYear"
             value={studentData.startYear}
             onChange={handleStudentChange}
             required={true}
+           
           />
           <FieldsInput
             label="End Year"
-            type="date"
+            type={isFireFox ? "date" : "month"}
             name="endYear"
             value={studentData.endYear}
             onChange={handleStudentChange}

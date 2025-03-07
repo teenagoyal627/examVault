@@ -76,19 +76,15 @@ useEffect(()=>{
           </span>
           </div>
           <button className={classes.button}>Login</button>
-
         </form>
-
-
       </div>
+
       <MessageBox
         showModal={showModal}
         handleClose={handleClose}
         title={modalContent.title}
         body={modalContent.body}
-        handleConfirm={() =>
-          handleConfirm(setShowModal, navigate, modalContent)
-        }
+        handleConfirm={() =>handleConfirm(setShowModal, navigate, modalContent)}
       />
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
     </div>

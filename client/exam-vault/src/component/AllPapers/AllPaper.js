@@ -1,11 +1,11 @@
 import React from 'react'
-import AllPaperNavBar from '../Navbar/AllPaperNavBar'
 import { Outlet } from 'react-router'
+import AllPaperNavBar1 from '../Navbar/AllPaperNavBar1'
 
 const AllPaper = () => {
   return (
     <div>
-    <AllPaperNavBar />
+    <AllPaperNavBar1/>
     <Outlet/>
   
     </div>            

@@ -1,118 +1,64 @@
-import axios from 'axios'
-import {  getAuth, onAuthStateChanged } from 'firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import  './Navbar.css'
+import MessageBox from '../MessageBox';
+import { useLocation, useNavigate } from 'react-router';
+import { Link } from '@mui/material';
 
-import { Navbar } from 'responsive-navbar-react'
-import 'responsive-navbar-react/dist/index.css'
-import Logout from '../Authentication/Logout/Logout'
-import MessageBox from '../MessageBox'
-import { Link, useNavigate } from 'react-router'
-
-const AllPaperNavBar = ({setShowModal}) => {
-const[userRole,setUserRole]=useState('')
-  // const[showModal,setShowModal]=useState(false)
-  const navigate=useNavigate()
-
-  // useEffect(() => {
-  //   console.log("Modal state changed:", showModal);
-  // }, [showModal])
-  
-useEffect(()=>{
-  const auth=getAuth()
- 
-  const unsubscribe=onAuthStateChanged(auth,(user)=>{
-    if(user){
-      fetchUserRole(user)
-    }else{
-      setUserRole('')
-    }
-  })
-  return ()=>unsubscribe()
-
-},[])
-
-const fetchUserRole=async(user)=>{
-  try{
-    const idToken=await user.getIdToken();
-    const apiUrl = 'http://localhost:5000/login'
-  
-    const response=await axios.get(`${apiUrl}/get_role`,{
-      headers:{
-        Authorization:`Bearer ${idToken}`
-      }
+const AllPaperNavBar = () => {
+    const[showModal,setShowModal]=useState(false)
+    const [modalContent,setModalContent]=useState({
+        title:"",
+        body:""
     })
-      setUserRole(response.data.role)
-  }catch(error){
-    console.log("Failed to fetch user role  ",error)
-  }
-}
+    const navigate=useNavigate()
+  const location=useLocation()
 
-const handleLogoutClick=(e)=>{
-  e.preventDefault()
-  setShowModal(true)
-}
-const items= [
-  {
-    text: 'Home',
-    link: '/all_paper'
-  },
-  {
-    text: 'Upload Papers',
-    link: '/upload_paper'
-  },
-  {
-    text: 'My Papers',
-    link: '/my_paper'
-  },
-  {
-    text: 'Stats',
-    link: '/stats'
-  },
 
-  ...(userRole==='teacher' ? 
-    [{ text:'New Papers',
-      link:'/new_papers'
-    }] :[]
-  ),
-  {
-    text: "Logout",
-    link: "#",
-    onClick:(e) => {
-      e.preventDefault();
-      setShowModal(true); 
-    },
-  }
-]
-  const props = {
-    items,
-    logo: {
-      text: 'Exam Vault',
-      link:'/'
-    },
 
-    style: {
-      barStyles: {
-        background: 'rgb(66, 67, 64)'
-      },
-      sidebarStyles: {
-        background: '#222',
-        buttonColor: 'white'
-      }
-    }
+const handleClick=()=>{
+    setModalContent({
+      title:"Logout",
+      body:"Do you really want to logout form dashboard."
+    })
+    setShowModal(true)
+    // history.replace('/login')
   }
   
-  const handleLogout=()=>{
+const handleConfirm=()=>{
+    localStorage.clear()
+    sessionStorage.clear()
+    localStorage.setItem("isAuthenticated", "false");
+    navigate('/login_form')
     setShowModal(false)
-    sessionStorage.removeItem("authToken")
-     navigate('/login_form')
+   
+  }
+  return (
+    <header className='header'>
+      <div className='logo-container'>
+        <Link to='/ngoPage' className='logo-link'>
+          <h3 className='ngo-name short-name'>Exam Vault </h3>
+        </Link> 
+      </div>
+     
+      <nav>
+        <ul>
+          <li><Link to='/form' className={`link ${location.pathname === '/form' ? 'active':''}`}>Home</Link></li>
+          <li><Link to='/patientdata' className={`link ${location.pathname === '/patientdata' ? 'active':''}`}>Upload Paper</Link></li>
+          <li><Link to='/stats' className={`link ${location.pathname === '/stats' ? 'active':''}`}>My Paper</Link></li>
+          <li><Link to='/stats' className={`link ${location.pathname === '/stats' ? 'active':''}`}>Stats</Link></li>
+          <li><Link to='/stats' className={`link ${location.pathname === '/stats' ? 'active':''}`}>New Paper</Link></li>
+         <li className='logout' onClick={handleClick}>Logout</li>
+        </ul>
+      </nav>
+      
+      <MessageBox
+        showModal={showModal}
+        handleClose={() => setShowModal(false)}
+        handleConfirm={()=>handleConfirm()}
+        title={modalContent.title}
+        body={modalContent.body}
+      />
+    </header>
+  );
 }
-
-  return(
-    <>
-  <Navbar {...props} />
-    </>
-  )
-  
-}
-
 export default AllPaperNavBar

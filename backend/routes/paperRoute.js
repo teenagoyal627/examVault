@@ -87,7 +87,7 @@ router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req
       await newPaper.save()
       return res.status(200).json({ success: true, message: 'Paper successfully uploaded...' })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       res.status(500).json({ error: 'server error', error })
     }
   }
@@ -163,7 +163,7 @@ const uploadEditPaper=multer()
 router.put('/edit_paper/:id',uploadEditPaper.none(),async (req, res) => {
   const { id } = req.params
   const { title, department, subject, year, semester, paper_type, exam_type,role, approved_by} =req.body
-     console.log(role)
+    //  console.log(role)
   try {
 
     const updateFields={
@@ -189,7 +189,7 @@ router.put('/edit_paper/:id',uploadEditPaper.none(),async (req, res) => {
       updateFields,
       {new:true}
     )
-      console.log("updatedPaper",updatedPaper)
+      // console.log("updatedPaper",updatedPaper)
     if (!updatedPaper) {
       return res.status(404).json({ message: 'Paper not found' })
     }
@@ -228,7 +228,7 @@ router.post('/download_papers',verifyToken,async(req,res)=>{
   try{
     const {uid}=req;
     const{paper_id}=req.body;
-    console.log(paper_id)
+    // console.log(paper_id)
    await PaperData.findByIdAndUpdate(
     paper_id,
     {$addToSet:{download_user_ids:uid}},
@@ -261,7 +261,7 @@ router.get('/paper_stats', async (req, res) => {
     }
     res.status(200).json(response)
   } catch (error) {
-    console.error(error)
+    // console.error(error)
     res.status(500).json({ message: 'Error fetching stats' })
   }
 })
@@ -287,7 +287,7 @@ router.get('/department_stats', async (req, res) => {
     }
     res.status(200).json(response)
   } catch (error) {
-    console.error(error)
+    // console.error(error)
     res.status(500).json({ message: 'Error fetching stats' })
   }
 })
@@ -313,7 +313,7 @@ router.get('/exam_type_stats', async (req, res) => {
     }
     res.status(200).json(response)
   } catch (error) {
-    console.error(error)
+    // console.error(error)
     res.status(500).json({ message: 'Error fetching stats' })
   }
 })
@@ -337,7 +337,7 @@ router.get('/paper_type_stats', async (req, res) => {
     }
     res.status(200).json(response)
   } catch (error) {
-    console.error(error)
+    // console.error(error)
     res.status(500).json({ message: 'Error fetching stats' })
   }
 })
@@ -357,7 +357,7 @@ const verifyTeacher = (req, res, next) => {
 router.put('/approve_paper',async (req, res) => {
   try {
     const { paperId, status,approved_by,approval_at} = req.body
-    console.log(approval_at)
+    // console.log(approval_at)
     if (!paperId || !status) {
       return res.status(400).json({ message: 'Paper ID and status are required' })
     }
@@ -391,24 +391,42 @@ router.put('/reject_paper',async (req, res) => {
 
 router.get('/search_papers', async (req, res) => {
   try {
-    const { title } = req.query
+    let { title, subject, year, semester, department, exam_type, paper_type } = req.query;   
+    console.log(title)
+    let query={}
 
     if (!title) {
       return res.status(400).json({
         message: 'Title query parameter is required for searching.'
       })
     }
+    if(title){
+      query.$text={$search:title}
+    }
+    if (subject) query.subject = subject;
+    if (year) query.year = year;
+    if (semester) query.semester = semester;
+    if (department) query.department = department;
+    if (exam_type) query.exam_type = exam_type;
+    if (paper_type) query.paper_type = paper_type;
 
-    const papers = await PaperData.find({
-      exam_type: { $regex: title, $options: 'i' }
-    })
+    const papers = await PaperData.find(query).sort({ score: { $meta: "textScore" } })
+    console.log(papers)
 
-    res.status(200).json({
-      message: 'Searched papers fetched successfully.',
-      data: papers
-    })
+    if (!papers.length) {
+      return res.status(404).json({
+        message: 'No search results found.',
+        data: []
+      });
+    }
+    else{
+      res.status(200).json({
+        message: 'Searched papers fetched successfully.',
+        data: papers
+      })
+    }
+
   } catch (error) {
-    console.error(error)
     res.status(500).json({
       message: 'An error occurred while searching papers.',
       error: error.message

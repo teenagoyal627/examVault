@@ -4,37 +4,20 @@ import { useNavigate } from 'react-router';
 import classes from '../MyPaper/MyPaper.module.css';
 import { viewHandler } from '../MyPaper/MyPaperUtility';
 import PaperTabular from '../PaperTabular';
-import SearchContainer from '../SearchContainer';
 import ImageUpload from '../ImageUpload';
 import Pagination from '../Pagination/Pagination';
+import Search from '../Search/Search';
 
 
 const NewPaper = () => {
   const [paperData, setPaperData] = useState([]);
-  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const navigate = useNavigate()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const handleSearch = async () => {
-    if (query.trim() === "") {
-      fetchData()
-      return;
-    }
-    try {
-      const response = await axios.get(`http://localhost:5000/papers/search_papers?title=${query}`);
-      setPaperData(response.data.data || []);
-    } catch (error) {
-      console.error("Error fetching search results:", error);
-    }
-  };
-
-
+ 
+  
   useEffect(() => {
     fetchData()
   }, []);
@@ -69,9 +52,7 @@ const NewPaper = () => {
           </button>
         </div>
       )}
-      {paperData.length > 0 && (
-        <SearchContainer query={query} handleInputChange={handleInputChange} handleSearch={handleSearch} />
-      )}
+      
       {loading && (
         <div className="loading-backdrop">
           <div className="loading-box">
@@ -80,6 +61,9 @@ const NewPaper = () => {
           </div>
         </div>
       )}
+      {paperData.length > 0 && (
+        <>
+        <Search/>
       <div className={classes.paperContainer} >
         {records.map((data, index) => (
           <div key={index} className={classes.paperCard}>
@@ -94,6 +78,8 @@ const NewPaper = () => {
           </div>
         ))}
       </div>
+      </>
+      )}
       {paperData.length > 0 && (
         <Pagination
           currentPage={currentPage}

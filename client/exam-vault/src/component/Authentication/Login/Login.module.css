@@ -21,6 +21,7 @@
 
 .loginForm input{
     border-radius: 5px;
+    margin-left: 1rem;
     margin-top: .1rem ;
     margin-bottom: 1.2rem;
     height: 40px;
@@ -36,12 +37,10 @@
 
 
 .button{
-    /* width: 15rem; */
-    /* margin-left: 4rem; */
-    color: rgb(4, 4, 4);
+  grid-column: span 2;
     padding: 10px 20px;
     border: none;
-    margin-top: 20px;
+    margin-top: 18px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.2rem;

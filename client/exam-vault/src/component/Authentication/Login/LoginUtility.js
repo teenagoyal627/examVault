@@ -27,7 +27,7 @@ export const loginSubmitHandler = async (
         const { role, status, name } = response.data
         if (role === 'teacher') {
           if (status === 'Approved') {
-            toast.success(`${name} successfully logged in!`)
+            toast.success(`Hello ${name}! Welcome to Exam Vault. Glad to have you here!`)     
             sessionStorage.setItem("authToken",idToken)
             setTimeout(() => {
               navigate('/all_paper');
