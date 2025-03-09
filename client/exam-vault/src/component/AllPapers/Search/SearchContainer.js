@@ -19,10 +19,15 @@ const SearchContainer = ({
       onChange={handleInputChange}
       className="search-input"
     />
+    
     <button onClick={handleSearch} className="search-button">
       Search
     </button>
-    <FilterButton setFilters={setFilters} handleFilter={handleSearch}/>
+
+    <FilterButton
+     setFilters={setFilters} 
+     handleFilter={handleSearch}
+    />
   </div>
 
   )

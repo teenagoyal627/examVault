@@ -391,26 +391,33 @@ router.put('/reject_paper',async (req, res) => {
 
 router.get('/search_papers', async (req, res) => {
   try {
-    let { title, subject, year, semester, department, exam_type, paper_type } = req.query;   
-    console.log(title)
+    let { title, subject, department, year, semester, paper_type, exam_type, } = req.query;   
     let query={}
 
-    if (!title) {
-      return res.status(400).json({
-        message: 'Title query parameter is required for searching.'
-      })
-    }
-    if(title){
+    console.log(subject)
+
+    if(title && title.trim()!==""){
       query.$text={$search:title}
     }
+
     if (subject) query.subject = subject;
+    if (department) query.department = department;
     if (year) query.year = year;
     if (semester) query.semester = semester;
-    if (department) query.department = department;
-    if (exam_type) query.exam_type = exam_type;
     if (paper_type) query.paper_type = paper_type;
+    if (exam_type) query.exam_type = exam_type;
 
-    const papers = await PaperData.find(query).sort({ score: { $meta: "textScore" } })
+ console.log(query)
+
+    let aggregationPipeline=[{$match:query}]
+
+    if(title){
+      aggregationPipeline.push({$addFields:{score:{$meta:"textScore"}}})
+      aggregationPipeline.push({$sort:{score:-1}})
+
+    }
+
+    const papers = await PaperData.aggregate(aggregationPipeline)
     console.log(papers)
 
     if (!papers.length) {

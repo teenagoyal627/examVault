@@ -9,15 +9,16 @@ const ModalFilter = ({
   modalRef,
   handleClose,
   setFilters,
-  handleFilters
+  handleFilter
 }) => {
+
   const [filters, updateFilters] = useState({
     subject: "",
+    department: "",
     year: "",
     semester: "",
-    department: "",
-    exam_type: "",
     paper_type: "",
+    exam_type: "",
   });
 
 
@@ -28,9 +29,10 @@ const ModalFilter = ({
       [name]: value,
     }));
   };
+
+ 
   const applyFilters = () => {
-    setFilters(filters);
-    handleFilters(); 
+    setFilters(prev => ({ ...prev, ...filters }));
     handleClose(); 
   };
 
@@ -75,7 +77,7 @@ const ModalFilter = ({
                   name='subject'
                   value={filters.subject}
                   onChange={handleFilterChange}
-                  required={true}
+                  required={false}
                   options={subjects}
                   style={{ width: "1rem" }}
                 />
@@ -84,7 +86,8 @@ const ModalFilter = ({
                   type='select'
                   name='department'
                   value={filters.department}
-                  onChange={handleFilterChange} required={true}
+                  onChange={handleFilterChange} 
+                  required={false}
                   options={['CSE', 'CIVIL', 'ME', 'EE', 'Other']}
                 />
                 <FieldsInput
@@ -92,7 +95,8 @@ const ModalFilter = ({
                   type='select'
                   name='year'
                   value={filters.year}
-                  onChange={handleFilterChange} required={true}
+                  onChange={handleFilterChange} 
+                  required={false}
                   options={['1st', '2nd', '3rd', '4th']}
                 />
                 <FieldsInput
@@ -100,7 +104,8 @@ const ModalFilter = ({
                   type='select'
                   name='semester'
                   value={filters.semester}
-                  onChange={handleFilterChange} required={true}
+                  onChange={handleFilterChange} 
+                  required={false}
                   options={['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']}
                 />
                 <FieldsInput
@@ -108,7 +113,8 @@ const ModalFilter = ({
                   type='select'
                   name='paper_type'
                   value={filters.paper_type}
-                  onChange={handleFilterChange} required={true}
+                  onChange={handleFilterChange} 
+                  required={false}
                   options={['Main', 'Back', 'Other']}
                 />
                 <FieldsInput
@@ -116,7 +122,8 @@ const ModalFilter = ({
                   type='select'
                   name='exam_type'
                   value={filters.exam_type}
-                  onChange={handleFilterChange} required={true}
+                  onChange={handleFilterChange} 
+                  required={false}
                   options={['University', 'Midterm', 'Improvement', 'Other']}
                 />
               </div>
