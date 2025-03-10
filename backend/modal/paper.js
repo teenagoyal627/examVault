@@ -23,7 +23,6 @@ const PaperSchema=new Schema({
     updated_at:{type:Date},
     deleted:{type:Boolean,default:false},
     file_url:{type:String},
-    file_type:{type:String,enum:file_type},
     download_user_ids:{type:[String],default:[]},
 
 

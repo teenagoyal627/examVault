@@ -3,7 +3,6 @@ const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 export const editPaperHandler=(id,navigate)=>{
     navigate(`/upload_paper/${id}`)
-
 }
 
 export const deleteHandler=(id,setModalContent,setShowModal,setPaperId)=>{

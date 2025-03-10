@@ -10,7 +10,7 @@ import PaperTabular from "../PaperTabular";
 import FilterButton from "../FilterBox/FilterButton";
 
 
-const Search = ({ paperData, setSearchResults }) => {
+const Search = ({ paperData, setSearchResults, setIsModalOpen }) => {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({
     subject: "",
@@ -20,7 +20,6 @@ const Search = ({ paperData, setSearchResults }) => {
     paper_type: "",
     exam_type: "",
   })
-  // const [paperData, setPaperData] = useState([]);
   const navigate = useNavigate()
 
   const handleInputChange = (e) => {
@@ -49,19 +48,25 @@ const Search = ({ paperData, setSearchResults }) => {
       const apiUrl = "http://localhost:5000/papers"
       const url = `${apiUrl}/search_papers?${params.toString()}`
       const response = await axios.get(url);
+
       if (response.data.data.length > 0) {
         setSearchResults(response.data.data);
       } else {
+        console.log(response.data.message)
         setSearchResults([]);
+        setIsModalOpen(true)
       }
     } catch (error) {
+      console.log(error)
       setSearchResults([]);
+      setIsModalOpen(true)
 
     }
   };
 
   return (
     <>
+     
       <SearchContainer
         query={query}
         handleInputChange={handleInputChange}
