@@ -23,7 +23,7 @@ router.get('/get_role',verifyToken,async(req,res)=>{
         const{role,user_approval_status,name}=user;
 
 
-        res.setHeader("Access-Control-Allow-Origin", "*");  // ✅ Ensure CORS is set
+        res.setHeader("Access-Control-Allow-Origin", "*");  
         res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
@@ -54,7 +54,7 @@ router.get('/get_teacher_data',verifyToken,async(req,res)=>{
             res.status(403).json({error:`uid is not present ${error}`})
         }
      const user= await UserData.findOne({user_id:uid})
-     res.setHeader("Access-Control-Allow-Origin", "*");  // ✅ Ensure CORS is set
+     res.setHeader("Access-Control-Allow-Origin", "*"); 
      res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
      res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
