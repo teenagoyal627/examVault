@@ -7,8 +7,8 @@ app.use(express.json())
 
 app.use(
     cors({
-        // origin:["http://localhost:3000"],
-        origin:["https://examvault-smoky.vercel.app"],
+        origin:["http://localhost:3000","https://exam-vault-three.vercel.app/"],
+        // origin:["https://examvault-smoky.vercel.app"],
         methods:['GET','POST','PUT','DELETE'],
         credentials:true,
         allowedHeaders:['Content-Type',"Authorization"]
@@ -34,6 +34,5 @@ app.use("/login",loginRoutes)
 
 const PORT=5001;
 app.listen(PORT,()=>{
-    console.log(`${PORT}`)
     console.log(`${PORT}`)
 })
