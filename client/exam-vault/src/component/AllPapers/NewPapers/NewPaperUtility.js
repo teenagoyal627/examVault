@@ -1,4 +1,5 @@
 import axios from "axios"
+const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 export const approvePaperHandler=(setShowModal,setModalContent) => {
     setShowModal(true)
@@ -25,13 +26,11 @@ export const rejectPaperHandler =(setShowModal, setModalContent,setComment,comme
         )
     })
 }
-
 export const approvedOrRejectPaper = async (paperId, modalContent, navigate,data,comment) => {
     if (modalContent.title === "Approve Paper Confirmation") {
         const update_paper=Date.now()
         try {
-            const apiUrl = 'http://localhost:5000/papers/approve_paper'
-            await axios.put(apiUrl,
+            await axios.put(`${apiUrl}/papers/approve_paper`,
                 { paperId, status: "Approved",approved_by:data.name,approval_at:update_paper}
             );
             navigate('/new_papers')
@@ -39,8 +38,7 @@ export const approvedOrRejectPaper = async (paperId, modalContent, navigate,data
         }
     } else {
         try {
-            const apiUrl = 'http://localhost:5000/papers/reject_paper'
-            await axios.put(apiUrl,
+            await axios.put(`${apiUrl}/papers/reject_paper`,
                 { paperId, status: "Rejected", approved_by:data.name, comment:comment }
             );
             navigate('/new_papers')

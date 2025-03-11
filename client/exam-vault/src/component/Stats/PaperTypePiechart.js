@@ -13,7 +13,7 @@ const PaperTypePieChart = () => {
   const apiUrl = `${process.env.REACT_APP_APIURL}`;
 
   const fetchData = async () => {
-    await axios.get(`${apiUrl}/paper_type_stats`)
+    await axios.get(`${apiUrl}/papers/paper_type_stats`)
       .then((response) => {
         setPaperTypeData(response.data);
       })

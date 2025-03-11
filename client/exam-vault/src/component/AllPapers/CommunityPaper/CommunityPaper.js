@@ -32,7 +32,7 @@ const CommunityPaper = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/all_paper`);
+      const response = await axios.get(`${apiUrl}/papers/all_paper`);
       setPaperData(response.data || []);
       setLoading(false)
     } catch (error) {
@@ -45,7 +45,7 @@ const CommunityPaper = () => {
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           const idToken = await user.getIdToken();
-          const roleApiUrl = 'http://localhost:5000/login';
+          const roleApiUrl = `${apiUrl}/login`;
   
           const getRoleResponse = await axios.get(`${roleApiUrl}/get_role`, {
             headers: {

@@ -14,7 +14,7 @@ const DepartmentPieChart = () => {
   const apiUrl = `${process.env.REACT_APP_APIURL}`;
 
   const fetchData = async () => {
-    await axios.get(`${apiUrl}/department_stats`)
+    await axios.get(`${apiUrl}/papers/department_stats`)
       .then((response) => {
         setDepartmentData(response.data);
         setLoading(false)

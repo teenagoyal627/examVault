@@ -45,8 +45,8 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen }) => {
         }
       })
 
-      const apiUrl = "http://localhost:5000/papers"
-      const url = `${apiUrl}/search_papers?${params.toString()}`
+      const apiUrl = `${process.env.REACT_APP_APIURL}`
+      const url = `${apiUrl}/papers/search_papers?${params.toString()}`
       const response = await axios.get(url);
 
       if (response.data.data.length > 0) {

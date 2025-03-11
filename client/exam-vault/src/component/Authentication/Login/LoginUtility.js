@@ -16,9 +16,9 @@ export const loginSubmitHandler = async (
   try {
     await signInWithEmailAndPassword(auth, loginData.email, loginData.password)
     const idToken = await getAuth().currentUser.getIdToken()
-    const apiUrl = 'http://localhost:5000/login/get_role'
+    const apiUrl = `${process.env.REACT_APP_APIURL}`
     await axios
-      .get(apiUrl, {
+      .get(`${apiUrl}/login/get_role`, {
         headers: {
           Authorization: `Bearer ${idToken}`
         }

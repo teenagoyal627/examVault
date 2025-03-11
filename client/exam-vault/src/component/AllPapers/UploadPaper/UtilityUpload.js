@@ -136,9 +136,9 @@ export const newPaperSubmitHandler = async (
     }
 
     const idToken = await getAuth().currentUser.getIdToken()
-    const roleApiUrl = 'http://localhost:5000/login'
+    const roleApiUrl = `${process.env.REACT_APP_APIURL}`
       
-        const getRoleResponse=await axios.get(`${roleApiUrl}/get_role`,{
+        const getRoleResponse=await axios.get(`${roleApiUrl}/login/get_role`,{
           headers:{
             Authorization:`Bearer ${idToken}`
           }
@@ -166,10 +166,10 @@ export const newPaperSubmitHandler = async (
 
       
     const axiosMethod = id ? axios.put : axios.post
-    const apiUrl = 'http://localhost:5000/papers'
+    const apiUrl = `${process.env.REACT_APP_APIURL}`
     const axiosUrl = id
-      ? `${apiUrl}/edit_paper/${id}`
-      : `${apiUrl}/upload_paper`
+      ? `${apiUrl}/papers/edit_paper/${id}`
+      : `${apiUrl}/papers/upload_paper`
       
     const response=  await axiosMethod(axiosUrl, formData, {
       headers: {

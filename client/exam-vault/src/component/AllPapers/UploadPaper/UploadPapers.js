@@ -47,7 +47,7 @@ const UploadPapers = () => {
    }
     if (id) {
       setLoading(true)
-      axios.get(`${apiUrl}/get_paper/${id}`)
+      axios.get(`${apiUrl}/papers/get_paper/${id}`)
         .then((response) => {
           const fileUrl=response.data.file_url
           const fileName=fileUrl.split('/').pop()

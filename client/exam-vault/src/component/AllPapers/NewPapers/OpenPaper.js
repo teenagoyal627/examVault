@@ -24,7 +24,8 @@ const OpenPaper = () => {
         const fetchTeacherData=async()=>{
             try{
                 const idToken = await getAuth().currentUser.getIdToken()
-                axios.get('http://localhost:5000/login/get_teacher_data',{
+                const apiUrl=`${process.env.REACT_APP_APIURL}`
+                axios.get(`${apiUrl}/login/get_teacher_data`,{
                     headers: {
                         Authorization: `Bearer ${idToken}`
                       }
@@ -41,7 +42,7 @@ const OpenPaper = () => {
 
         const fetchFileUrl=async()=>{
             try{
-                axios.get(`${apiUrl}/${id}/view_paper`,{
+                axios.get(`${apiUrl}/papers/${id}/view_paper`,{
                     params:{id}
                  }).then((response)=>{
                     setFileUrl(response.data.file_url)

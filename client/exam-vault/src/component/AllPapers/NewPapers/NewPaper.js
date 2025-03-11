@@ -26,7 +26,7 @@ const NewPaper = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/new_papers`);
+      const response = await axios.get(`${apiUrl}/papers/new_papers`);
       setPaperData(response.data || []);
       console.log(response.data)
       console.log(paperData)

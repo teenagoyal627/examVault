@@ -17,7 +17,7 @@ const DownloadPaper = () => {
       const fetchFileUrl = async () => {
         try {
           axios
-            .get(`${apiUrl}/${id}/view_paper`, {
+            .get(`${apiUrl}/papers/${id}/view_paper`, {
               params: { id }
             })
             .then(response => {
@@ -57,7 +57,7 @@ const downloadHandler = async() => {
   const paperType=data.paper_type
 
   const idToken=await user.getIdToken()
- axios.post(`${apiUrl}/download_papers`,{
+ axios.post(`${apiUrl}/papers/download_papers`,{
         paper_id:data._id
   },{
       headers:{

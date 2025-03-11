@@ -23,9 +23,9 @@ export const AuthProvider=({children})=>{
         try {
           const idToken = await user.getIdToken();
           console.log(idToken)
-          const apiUrl = 'http://localhost:5000/login';
+          const apiUrl = `${process.env.REACT_APP_APIURL}`
     
-          const response = await axios.get(`${apiUrl}/get_role`, {
+          const response = await axios.get(`${apiUrl}/login/get_role`, {
             headers: {
               Authorization: `Bearer ${idToken}`
             }

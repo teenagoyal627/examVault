@@ -48,7 +48,7 @@ const MyPaper = () => {
 
   const fetchData = async uid => {
     try {
-      const response = await axios.get(`${apiUrl}/my_paper`, {
+      const response = await axios.get(`${apiUrl}/papers/my_paper`, {
         params: { uid: uid }
       })
       setPaperData(response.data)

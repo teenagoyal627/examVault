@@ -7,7 +7,8 @@ app.use(express.json())
 
 app.use(
     cors({
-        origin:["http://localhost:3000"],
+        // origin:["http://localhost:3000"],
+        origin:["https://examvault-smoky.vercel.app"],
         methods:['GET','POST','PUT','DELETE'],
         credentials:true,
         allowedHeaders:['Content-Type',"Authorization"]
@@ -25,10 +26,14 @@ app.use("/papers",paperRoutes)
 app.use("/users",userRoutes)
 app.use("/login",loginRoutes)
 
+//here i change the port number for ccheck that it is wrok or nt
+// here i do this for add server.js file in the github
+// beacuse i am trying to deploy this on the rbder
 
 
 
-const PORT=5000;
+const PORT=5001;
 app.listen(PORT,()=>{
+    console.log(`${PORT}`)
     console.log(`${PORT}`)
 })

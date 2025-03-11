@@ -13,7 +13,7 @@ const ExamTypePieChart = () => {
   const apiUrl = `${process.env.REACT_APP_APIURL}`;
 
   const fetchData = async () => {
-    await axios.get(`${apiUrl}/exam_type_stats`)
+    await axios.get(`${apiUrl}/papers/exam_type_stats`)
       .then((response) => {
         setExamTypeData(response.data);
       })

@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { auth } from "../../../../../Firebase";
 import axios from "axios";
+const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 
 
@@ -53,8 +54,7 @@ export const studentRegSubmitHandler = async (
         end_year:regData.endYear,
 
       };
-      const apiUrl = "http://localhost:5000/users/studentReg";
-      await axios.post(apiUrl, userDetails,{
+      await axios.post(`${apiUrl}/users/studentReg`, userDetails,{
         headers:{
           Authorization:`Bearer ${idToken}`,
         }
@@ -120,8 +120,7 @@ export const teacherRegSubmitHandler = async (
           university:regData.university,
           college:regData.college,
         };
-        const apiUrl = "http://localhost:5000/users/teacherReg";
-        await axios.post(apiUrl,userDetails,{
+        await axios.post(`${apiUrl}/users/teacherReg`,userDetails,{
           headers:{
             Authorization:`Bearer ${idToken}`,
           }
