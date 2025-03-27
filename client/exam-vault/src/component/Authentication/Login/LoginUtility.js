@@ -14,54 +14,41 @@ export const loginSubmitHandler = async (
 ) => {
   e.preventDefault()
   try {
-    await signInWithEmailAndPassword(auth, loginData.email, loginData.password)
-    const idToken = await getAuth().currentUser.getIdToken()
-    const apiUrl = `${process.env.REACT_APP_APIURL}`
-    await axios
-      .get(`${apiUrl}/login/get_role`, {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
-      })
-      .then(response => {
-        const { role, status, name } = response.data
-        if (role === 'teacher') {
-          if (status === 'Approved') {
-            toast.success(`Hello ${name}! Welcome to Exam Vault. Glad to have you here!`)     
-            sessionStorage.setItem("authToken",idToken)
-            setTimeout(() => {
-              navigate('/all_paper');
-            }, 3000);
-          } else {
-            setShowModal(true)
-            setModalContent({
-              title: 'Approval Pending',
-              body: 'Your approval is still pending. Please wait.'
-            })
-          }
-        }
-        else if (role === 'student') {
-          toast.success(`${name} successfully logged in!`)
-          sessionStorage.setItem("authToken",idToken)
-          setTimeout(() => {
-            navigate('/upload_paper');
-          }, 3000);
+    await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
+    const idToken = await getAuth().currentUser.getIdToken();
+    const apiUrl = `${process.env.REACT_APP_APIURL}`;
+    const response = await axios.get(`${apiUrl}/login/get_role`, {
+      headers: { Authorization: `Bearer ${idToken}` },
+    });
+    const { role, status, name } = response.data;
+    console.log("Role:", role, "Status:", status, "Name:", name);
 
-        }
-      })
-      .catch(error => {
-        setShowModal(true)
-        setModalContent({
-          title: 'Login Error',
-          body: `Error comes getting response.`
-        })
-      })
+    if (role === 'teacher') {
+      if (status === 'Approved') {
+        toast.success(`Hello ${name}! Welcome to Exam Vault. Glad to have you here!`);
+        sessionStorage.setItem("authToken", idToken);
+        setTimeout(() => 
+          navigate('/all_paper'),
+        3000);
+      } else {
+        setShowModal(true);
+        setModalContent({ title: 'Approval Pending', body: 'Your approval is still pending. Please wait.' });
+      }
+    }
+
+    else if (role === 'student') {
+      toast.success(`${name} successfully logged in!`);
+      sessionStorage.setItem("authToken", idToken);
+      setTimeout(() => navigate('/upload_paper'), 3000);
+    }
+
   } catch (error) {
-    setShowModal(true)
+    console.log(error)
+    setShowModal(true);
     setModalContent({
       title: 'Login Error',
-      body: `Invalid Login Credentials.`
-    })
+      body: error?.response?.data?.message || 'Invalid Login Credentials, Please Check their email or password.',
+    });
   }
 }
 

@@ -35,6 +35,7 @@ const UploadPapers = () => {
     confirmHandler: null
   })
   const[loading,setLoading]=useState(false)
+  const[isSubmitting,setIsSubmitting]=useState(false)
   const { id } = useParams()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
@@ -72,7 +73,7 @@ const UploadPapers = () => {
           setLoading(false)
         })
     }
-  }, [id, apiUrl])
+  }, [id, apiUrl, navigate])
 
   return (
     <>
@@ -81,12 +82,19 @@ const UploadPapers = () => {
       <div className="loading-box">
         <div className="loading-spinner"></div>
         
-        <div className="loading-text">Your paper is being submitted, this might take a moment...</div>
+        <div className="loading-text"> 
+        {isSubmitting 
+          ? (id 
+              ? 'Please wait, the paper is being updated...' 
+              : 'Your paper is being submitted, this might take a moment...') 
+          : 'Wait a minute, data is being loaded...'
+        }          </div>
       </div>
     </div>
    )}
     <form
-      onSubmit={e =>
+      onSubmit={e =>{
+          setIsSubmitting(true)
         newPaperSubmitHandler(
           e,
           id,
@@ -98,6 +106,7 @@ const UploadPapers = () => {
           setLoading,
           loading
         )
+      }
       }
     >
       <Card>

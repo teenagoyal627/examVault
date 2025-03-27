@@ -1,8 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { useNavigate } from 'react-router'
 import ModalFilter from './ModalFilter'
 
-const FilterButton = ({setFilters,handleFilter}) => {
+const FilterButton = ({setFilters,handleFilter,filters}) => {
   
   const[showFilterModal,setShowFilterModal]=useState(false)
   const modalRef=useRef(null)
@@ -16,6 +15,7 @@ const FilterButton = ({setFilters,handleFilter}) => {
         handleClose={()=>setShowFilterModal(false)}
         setFilters={setFilters}
         handleFilter={handleFilter}
+        currentFilters={filters}
         />
         
       )}

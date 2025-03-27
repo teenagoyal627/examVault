@@ -6,12 +6,14 @@ import { editPaperHandler } from '../MyPaper/MyPaperUtility';
 import MessageBox from '../../MessageBox';
 import { getAuth } from 'firebase/auth';
 import classes from './OpenPaper.module.css'
+import PaperTabular from '../PaperTabular';
 
 const OpenPaper = () => {
     const apiUrl = `${process.env.REACT_APP_APIURL}`
     const {id}=useParams()
     const[fileUrl,setFileUrl]=useState(null)
     const[data,setData]=useState([])
+    const[paperData,setPaperData]=useState([])
     const[showModal,setShowModal]=useState(false)
     const[modalContent,setModalContent]=useState({
         title:"",
@@ -38,6 +40,12 @@ const OpenPaper = () => {
             }catch(error){
                 console.log(error)
             }
+             try {
+                  const response = await axios.get(`${apiUrl}/papers/new_papers`);
+                  setPaperData(response.data || []);
+                } catch (error) {
+                  console.error("Error fetching papers:", error);
+                }
         }
 
         const fetchFileUrl=async()=>{
@@ -90,6 +98,8 @@ const OpenPaper = () => {
      <button onClick={()=>rejectPaperHandler(setShowModal,setModalContent,setComment,comment)} className={classes.Button} style={{background:"rgb(220, 53, 69)"}}>Reject</button>
      <button onClick={()=>editPaperHandler(id,navigate)} className={classes.Button} style={{background:"rgb(255, 165, 0)"}}>Edit</button>
        </div>
+       {console.log(paperData.title)}
+       <PaperTabular  data={paperData} approvedBy={false}  />
      {renderFile()}
     </div>
 

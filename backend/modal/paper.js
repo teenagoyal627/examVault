@@ -24,10 +24,25 @@ const PaperSchema=new Schema({
     deleted:{type:Boolean,default:false},
     file_url:{type:String},
     download_user_ids:{type:[String],default:[]},
-
-
+    ngrams:[String]
 })
 
 
+function generateNGrams(text,n=3){
+    text=text.toLowerCase();
+    const ngrams=[]
+    for(let i=0;i<text.length-n+1;i++){
+        ngrams.push(text.substring(i,i+n))
+    }
+    return ngrams;
+}
+
+PaperSchema.pre("save",function(next){
+    console.log("Generating N-grams for:", this.title);
+    this.ngrams = generateNGrams(this.title, 2);
+    console.log("Generated N-grams:", this.ngrams);
+    next()
+})
+
 const PaperData=mongoose.model("papers",PaperSchema)
-module.exports=PaperData;
+module.exports={PaperData,generateNGrams};

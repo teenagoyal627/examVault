@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classes from '../MyPaper/MyPaper.module.css';
 import { editPaperHandler, viewHandler } from '../MyPaper/MyPaperUtility';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import PaperTabular from '../PaperTabular';
 import ImageUpload from '../ImageUpload';
 import axios from 'axios';
@@ -20,7 +20,6 @@ const CommunityPaper = () => {
   const [role, setRole] = useState(null);
 
 
-  const {id}=useParams()
   const navigate = useNavigate()
 
   const apiUrl = `${process.env.REACT_APP_APIURL}`
@@ -91,7 +90,12 @@ const CommunityPaper = () => {
         </div>
       ) : (
         <>
-          <Search paperData={paperData} setSearchResults={setSearchResults} setIsModalOpen={setIsModalOpen} />
+          <Search
+           paperData={paperData}
+            setSearchResults={setSearchResults}
+             setIsModalOpen={setIsModalOpen}
+             setCurrentPage={setCurrentPage}
+              />
 
           <div className={classes.paperContainer} >
             {records.map((data, index) => (
@@ -99,9 +103,9 @@ const CommunityPaper = () => {
                 <ImageUpload data={data} />
                 <div className={classes.paperDetails}>
                   <PaperTabular data={data} approvedBy={true} />
-                  <button style={{ width: "100%" }} onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
+                  <button onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
                   {role === "teacher" && (
-                    <button style={{ width: "100%" }} className={classes.Button} onClick={()=>editPaperHandler(id,navigate)}>Edit</button>
+                    <button className={classes.Button} onClick={()=>editPaperHandler(data._id,navigate)}>Edit</button>
                   )}
                 </div>
               </div>

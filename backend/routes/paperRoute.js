@@ -1,5 +1,5 @@
 const express = require('express')
-const { PaperData, UserData } = require('../modal/modal')
+const { PaperData,generateNGrams, UserData } = require('../modal/modal')
 const router = express.Router()
 const { v4: uuidv4 } = require('uuid')
 const cloudinary = require('cloudinary').v2
@@ -18,18 +18,22 @@ cloudinary.config({
 const uploadPaperUrl = multer({ storage: multer.memoryStorage() })
 
 router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req, res) => {
+  console.log("paper is uploading ")
+
     const { uid } = req
     try {
       if (!req.file) {
+        console.log("❗ No file received");
         return res.status(400).json({ message: 'No File Uploaded.' })
       }
-
+      console.log("🟢 File received:", req.file.originalname);
       const ext=path.extname(req.file.originalname).toLowerCase().replace('.','')
       if(!file_type.includes(ext)){
         return res.status(400).json({message:`Invalid file type. Allowed: ${file_type.join(', ')}`})
       }
 
       const user = await UserData.findOne({ user_id: uid })
+      console.log(user)
       const { role, name, user_approval_status } = user
       const userName=name
 
@@ -45,13 +49,16 @@ router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req
         return new Promise((resolve, reject) => {
           const stream = cloudinary.uploader.upload_stream(
             {
-              resource_type: 'auto',
+              resource_type: 'raw',
               folder: `${uid}`,
-              public_id: uniqueFileName
+              public_id: uniqueFileName,
+              // format: 'pdf'
             },
             (error, result) => {
               if (error) reject(error)
               else resolve(result)
+            {console.log("error",error)}
+            {console.log(result, errror)}
             }
           )
           Readable.from(buffer).pipe(stream)
@@ -59,7 +66,10 @@ router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req
       }
 
       const uploadResponse = await uploadToCloudinary(req.file.buffer)
+      console.log(uploadResponse)
       const file_url = uploadResponse.secure_url
+      console.log('Uploading PDF URL:', file_url);
+
 
       let paper_approval_status = 'Pending'
       let paper_approval_at = null
@@ -103,6 +113,7 @@ router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req
 )
 
 router.get('/my_paper', async (req, res) => {
+  console.log("mypapaer")
   try {
     const { uid } = req.query
     if (!uid) {
@@ -110,6 +121,7 @@ router.get('/my_paper', async (req, res) => {
     }
     const papers = await PaperData.find({ user_id: uid, deleted: false }).sort({created_at: -1})
     res.json(papers)
+    console.log(papers.file_url)
   } catch (error) {
     res.status(500).json({ error: 'internal server error' })
   }
@@ -125,6 +137,7 @@ router.get('/all_paper', async (req, res) => {
         }
       },
       
+      
       {
         $addFields: {
           download_count: {
@@ -139,12 +152,15 @@ router.get('/all_paper', async (req, res) => {
         }
       },
       {
-        $sort:{approval_at: -1}
+        $sort:{created_at: -1}
       },
-    ]);
+      {
+        $limit:12
+      }
+    ])
     
     res.json(allPaper)
-    console.log(allPaper)
+    console.log(allPaper.length)
   } catch (error) {
     res.status(500).json({ error: 'error fetching data...' })
   }
@@ -406,10 +422,11 @@ router.get('/search_papers', async (req, res) => {
     let { title, subject, department, year, semester, paper_type, exam_type, } = req.query;   
     let query={}
 
-    console.log(subject)
-
-    if(title && title.trim()!==""){
-      query.$text={$search:title}
+    if (title && title.trim() !== "") {
+      query.$or = [
+        { $text: { $search: title } }, 
+        { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } } 
+      ];
     }
 
     if (subject) query.subject = subject;
@@ -421,13 +438,7 @@ router.get('/search_papers', async (req, res) => {
 
  console.log(query)
 
-    let aggregationPipeline=[
-      {$match:query},
-      {$match: {
-        deleted: false, 
-        paper_approval_status: "Approved"
-      }}
-    ]
+    
        
     if(title){
       aggregationPipeline.push({$addFields:{score:{$meta:"textScore"}}})
@@ -450,7 +461,6 @@ router.get('/search_papers', async (req, res) => {
         data: papers
       })
     }
-
   } catch (error) {
     res.status(500).json({
       message: 'An error occurred while searching papers.',

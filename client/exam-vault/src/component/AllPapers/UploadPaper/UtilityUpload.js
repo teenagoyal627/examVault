@@ -105,7 +105,7 @@ export const newPaperSubmitHandler = async (
   navigate,
   selectedFile,
   setLoading,
-  loading
+  loading,
 
 ) => {
   try {
@@ -191,15 +191,28 @@ export const newPaperSubmitHandler = async (
         }
       })
     }else{
-      setShowModal(true)
-      setModalContent({
-        title:'Upload Successful',
-        body: 'The paper was uploaded successfully. You can now view it in My Papers',
-        confirmHandler:()=>{
-          setShowModal(false)
-          navigate('/my_paper')
-        }
-      })
+      if(id){
+             setShowModal(true)
+             setModalContent({
+              title:"Edit Successful",
+              body:"The paper was updated successfully. You can now view it in All Papers.",
+              confirmHandler:()=>{
+                setShowModal(false)
+                navigate('/all_paper')
+              }
+
+             })
+      }else{
+        setShowModal(true)
+        setModalContent({
+          title:'Upload Successful',
+          body: 'The paper was uploaded successfully. You can now view it in My Papers',
+          confirmHandler:()=>{
+            setShowModal(false)
+            navigate('/my_paper')
+          }
+        })
+      }
     }
     
   } catch (error) {

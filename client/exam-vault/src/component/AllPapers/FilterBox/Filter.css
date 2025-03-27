@@ -54,7 +54,39 @@
     height: 2.5rem;
   }
   
-  @media screen and (max-width:412px) {
+  .filter-badge {
+    display: inline-flex;
+    background-color: #286eb9;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    cursor: pointer;
+
+  }
+  .applied-filter-badge{
+    display: inline-flex;
+    background-color: #030303;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+  }
+  
+  .remove-btn {
+    background: none;
+    border: none;
+    color: white;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: -.1rem;
+  }
+  
+  
+  @media screen and (max-width:400px) {
   
     .filter_button {
       color:black;

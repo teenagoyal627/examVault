@@ -1,0 +1,9 @@
+
+@media (max-width:600px) {
+    .modal-content{
+        max-width: 330px;
+        background:blue;
+        margin-top: 12px;
+    }
+    
+}

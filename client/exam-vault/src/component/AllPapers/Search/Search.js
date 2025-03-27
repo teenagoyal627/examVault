@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Search.css";
-import classes from '../MyPaper/MyPaper.module.css';
-import { viewHandler } from "../MyPaper/MyPaperUtility";
 import { useNavigate } from "react-router";
 import SearchContainer from "./SearchContainer";
-import ImageUpload from "../ImageUpload";
-import PaperTabular from "../PaperTabular";
-import FilterButton from "../FilterBox/FilterButton";
 
 
-const Search = ({ paperData, setSearchResults, setIsModalOpen }) => {
+const Search = ({ paperData, setSearchResults, setIsModalOpen,setCurrentPage }) => {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({
     subject: "",
@@ -20,12 +15,12 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen }) => {
     paper_type: "",
     exam_type: "",
   })
-  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
     if (e.target.value === "") {
       setSearchResults(paperData)
+      setCurrentPage(1)
     }
   };
 
@@ -51,15 +46,18 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen }) => {
 
       if (response.data.data.length > 0) {
         setSearchResults(response.data.data);
+        setCurrentPage(1)
       } else {
         console.log(response.data.message)
         setSearchResults([]);
         setIsModalOpen(true)
+        setCurrentPage(1)
       }
     } catch (error) {
       console.log(error)
       setSearchResults([]);
       setIsModalOpen(true)
+      setCurrentPage(1)
 
     }
   };
@@ -72,6 +70,7 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen }) => {
         handleInputChange={handleInputChange}
         handleSearch={handleSearch}
         setFilters={setFilters}
+        filters={filters}
       />
     </>
   );

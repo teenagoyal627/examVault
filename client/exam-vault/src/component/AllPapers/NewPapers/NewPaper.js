@@ -28,8 +28,6 @@ const NewPaper = () => {
     try {
       const response = await axios.get(`${apiUrl}/papers/new_papers`);
       setPaperData(response.data || []);
-      console.log(response.data)
-      console.log(paperData)
       setLoading(false)
     } catch (error) {
       console.error("Error fetching papers:", error);

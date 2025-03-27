@@ -1,9 +1,10 @@
 
 import {Modal,Button} from 'react-bootstrap'
+import './MessageBox.css'
 const MessageBox =({showModal,handleClose,title,body,handleConfirm})=>{
 
     return (
-        <Modal  show={showModal} onHide={handleClose} >
+        <Modal show={showModal} onHide={handleClose}  >
         <Modal.Header>
         <Modal.Title>{title}</Modal.Title>
         </Modal.Header>

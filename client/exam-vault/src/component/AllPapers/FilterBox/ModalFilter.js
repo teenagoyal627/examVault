@@ -9,17 +9,11 @@ const ModalFilter = ({
   modalRef,
   handleClose,
   setFilters,
-  handleFilter
+  handleFilter,
+  currentFilters
 }) => {
 
-  const [filters, updateFilters] = useState({
-    subject: "",
-    department: "",
-    year: "",
-    semester: "",
-    paper_type: "",
-    exam_type: "",
-  });
+  const [filters, updateFilters] = useState({...currentFilters});
 
 
   const handleFilterChange = (e) => {
@@ -33,6 +27,7 @@ const ModalFilter = ({
  
   const applyFilters = () => {
     setFilters(prev => ({ ...prev, ...filters }));
+    console.log(filters)
     handleClose(); 
   };
 
