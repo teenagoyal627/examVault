@@ -419,7 +419,7 @@ router.put('/reject_paper',async (req, res) => {
 
 router.get('/search_papers', async (req, res) => {
   try {
-    let { title, subject, department, year, semester, paper_type, exam_type, } = req.query;   
+    let { title, subject, department, year, semester, paper_type, exam_type } = req.query;   
     let query={}
 
     if (title && title.trim() !== "") {

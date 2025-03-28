@@ -61,5 +61,14 @@ router.post("/teacherReg",verifyToken,async(req,res)=>{
     }
 })
 
+router.get('/get_teacher_data/:id',async(req,res)=>{
+    const{id}=req.params
+    await userData.findBy(id)
+    .then(user=>res.status(200).json(user))
+    .catch(error=>
+        res.status(500).json({message:"Error while updating the profile..."})
+    )
+})
+
 
 module.exports=router

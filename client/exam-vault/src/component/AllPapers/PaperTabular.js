@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import classes from "./MyPaper/MyPaper.module.css";
-import axios from "axios";
-import { getAuth } from "firebase/auth";
 
 const PaperTabular = ({ data, approvedBy }) => {
+  
   const CreatedAtDate = (inputDate) => {
     const date = new Date(inputDate);
     return date.toLocaleDateString("en-US", {
@@ -15,7 +14,7 @@ const PaperTabular = ({ data, approvedBy }) => {
   };
 
   return (
-    <div>
+    <div >
       <table className={classes.paperTable}>
         <tbody>
           <tr>

@@ -5,7 +5,9 @@ import { useNavigate } from "react-router";
 import SearchContainer from "./SearchContainer";
 
 
-const Search = ({ paperData, setSearchResults, setIsModalOpen,setCurrentPage }) => {
+const Search = ({ paperData, setSearchResults, setIsModalOpen,setCurrentPage,searchResults,pendingPapers }) => {
+  console.log(paperData)
+  console.log(searchResults)
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState({
     subject: "",
@@ -19,7 +21,8 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen,setCurrentPage }) 
   const handleInputChange = (e) => {
     setQuery(e.target.value);
     if (e.target.value === "") {
-      setSearchResults(paperData)
+      setSearchResults(paperData===pendingPapers?pendingPapers:paperData)
+      console.log(searchResults)
       setCurrentPage(1)
     }
   };
@@ -64,7 +67,6 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen,setCurrentPage }) 
 
   return (
     <>
-     
       <SearchContainer
         query={query}
         handleInputChange={handleInputChange}

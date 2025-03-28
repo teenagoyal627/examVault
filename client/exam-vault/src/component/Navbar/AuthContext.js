@@ -30,6 +30,7 @@ export const AuthProvider=({children})=>{
               Authorization: `Bearer ${idToken}`
             }
           });
+          {console.log(response.data)}
           setUserRole(response.data.role);
           isRoleFetched.current=true
         } catch (error) {

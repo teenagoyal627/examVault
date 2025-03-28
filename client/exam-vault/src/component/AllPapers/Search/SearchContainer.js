@@ -17,7 +17,7 @@ const SearchContainer = ({
       <div className="search-top-row">
     <input
       type="text"
-      placeholder="Search for papers"
+      placeholder="Search on title"
       value={query}
       onChange={handleInputChange}
       className="search-input"

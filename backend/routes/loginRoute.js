@@ -11,10 +11,11 @@ router.get('/get_role', verifyToken, async (req, res) => {
             res.status(403).json({ error: `uid is not present ${error}` })
         }
         const user = await UserData.findOne({ user_id: uid })
+        console.log(user)
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        const { role, user_approval_status, name } = user;
+        const { role, user_approval_status, name, } = user;
         return res.json({ role: role, status: user_approval_status, name: name })
     } catch (error) {
         res.status(500).json({ error: ` Error getting role ${error}` })

@@ -1,0 +1,54 @@
+
+  .profile-card {
+    background-color: white;
+    justify-content: center;
+    margin-top: 5rem;
+    margin-left: 45rem;
+    padding: 30px;
+    width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+    width: 40%;
+  }
+  
+  .value {
+    color: #000;
+    text-align: left;
+  }
+  
+  .edit-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+ 
+  

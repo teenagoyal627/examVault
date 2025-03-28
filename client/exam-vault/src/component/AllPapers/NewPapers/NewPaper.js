@@ -13,11 +13,13 @@ const NewPaper = () => {
   const [paperData, setPaperData] = useState([]);
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
-  const [searchResults, setSearchResults] = useState(null)
+  const [searchResults, setSearchResults] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const navigate = useNavigate()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
+
+  console.log(searchResults)
 
 
   useEffect(() => {
@@ -27,7 +29,10 @@ const NewPaper = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`${apiUrl}/papers/new_papers`);
-      setPaperData(response.data || []);
+      console.log(response.data)
+      setPaperData(response.data||[]);
+      setSearchResults([])
+      console.log(searchResults)
       setLoading(false)
     } catch (error) {
       console.error("Error fetching papers:", error);
@@ -39,7 +44,8 @@ const NewPaper = () => {
   const recordsPerPage = 12;
   const lastIndex = currentPage * recordsPerPage
   const firstIndex = lastIndex - recordsPerPage;
-  // const activeData = searchResults && searchResults.length > 0 ? searchResults : paperData
+  const activeData =searchResults.length>0 ? searchResults : paperData
+  console.log(activeData)
   const records = paperData.slice(firstIndex, lastIndex)
   const numberOfPages = Math.ceil((paperData.length || 1) / recordsPerPage)
   const numbers = [...Array(numberOfPages).keys()].map((n) => n + 1)
@@ -71,7 +77,15 @@ const NewPaper = () => {
         </div>
       ) : paperData.length >0 && (
         <>
-          <Search paperData={paperData} setSearchResults={setSearchResults} setIsModalOpen={setIsModalOpen} />
+        {console.log(paperData)}
+        <Search
+           paperData={paperData} 
+           setSearchResults={setSearchResults} 
+           setIsModalOpen={setIsModalOpen}
+           setCurrentPage={setCurrentPage} 
+           searchResults={searchResults}
+           pendingPapers={paperData}
+           />
 
           <div className={classes.paperContainer} >
             {records.map((data, index) => (

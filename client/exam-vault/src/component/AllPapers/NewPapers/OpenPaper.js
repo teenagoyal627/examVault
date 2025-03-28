@@ -33,6 +33,7 @@ const OpenPaper = () => {
                       }
                 })
                 .then((response)=>{
+                    console.log(response.data)
                       setData(response.data)
                 }).catch((error)=>{
                     console.log(error)
@@ -40,12 +41,12 @@ const OpenPaper = () => {
             }catch(error){
                 console.log(error)
             }
-             try {
-                  const response = await axios.get(`${apiUrl}/papers/new_papers`);
-                  setPaperData(response.data || []);
-                } catch (error) {
-                  console.error("Error fetching papers:", error);
-                }
+            //  try {
+            //       const response = await axios.get(`${apiUrl}/papers/new_papers`);
+            //       setPaperData(response.data || []);
+            //     } catch (error) {
+            //       console.error("Error fetching papers:", error);
+            //     }
         }
 
         const fetchFileUrl=async()=>{
@@ -53,6 +54,7 @@ const OpenPaper = () => {
                 axios.get(`${apiUrl}/papers/${id}/view_paper`,{
                     params:{id}
                  }).then((response)=>{
+                    setPaperData(response.data)
                     setFileUrl(response.data.file_url)
                  }).catch((error)=>{
                     console.log(error)
@@ -99,8 +101,10 @@ const OpenPaper = () => {
      <button onClick={()=>editPaperHandler(id,navigate)} className={classes.Button} style={{background:"rgb(255, 165, 0)"}}>Edit</button>
        </div>
        {console.log(paperData.title)}
-       <PaperTabular  data={paperData} approvedBy={false}  />
-     {renderFile()}
+       <div className={classes.openPaperTableWrapper}>
+  <PaperTabular data={paperData} approvedBy={false} />
+</div>  
+   {renderFile()}
     </div>
 
     <MessageBox

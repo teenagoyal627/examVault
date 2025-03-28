@@ -48,6 +48,8 @@ const AllPaperNavBar = () => {
           {userRole === 'teacher' && (
             <li><a href='/new_papers' className={`link ${location.pathname === '/new_papers' ? 'active' : ''}`}>New Papers</a></li>
           )}
+          <li><a href='/my_profile' className={`link ${location.pathname === '/my_profile' ? 'active' : ''}`}>My Profile</a></li>
+
           <li className='logout' onClick={handleLogoutClick}>Logout</li>
         </ul>
       </nav>
