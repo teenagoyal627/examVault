@@ -15,10 +15,15 @@ import NewPaper from './component/AllPapers/NewPapers/NewPaper'
 import OpenPaper from './component/AllPapers/NewPapers/OpenPaper'
 import Logout from './component/Authentication/Logout/Logout'
 import MyProfile from './component/MyProfile/MyProfile'
+import HomePage from './HomePage/HomePage'
 
 const router=createBrowserRouter([
   {
-   path:'/',
+    path:'/',
+    element:<HomePage/>
+  },
+  {
+   path:'/registration',
    element:<FrontPage/>
   },
   {

@@ -34,7 +34,7 @@ app.use("/users",userRoutes)
 app.use("/login",loginRoutes)
 
 
-const PORT=5001;
+const PORT=5000;
 app.listen(PORT,()=>{
     console.log(`${PORT}`)
 })

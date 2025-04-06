@@ -1,0 +1,318 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 10;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: 20px;
+    color: "white";
+  }
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+  
+  header {
+    padding: 40px 20px;
+  }
+  
+  .header-section {
+    justify-content: space-between;
+    padding: 40px 20px;
+  }
+  
+  .header-left h1 {
+    margin-top: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: "white";
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+  
+  .header-left {
+    max-width: 500px;
+  }
+  
+  .header-left p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  .header-right img {
+    width: 450px;
+  }
+  
+  .GetStartButton {
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 15rem;
+    transition: background-color 0.3s;
+    background-color: #dcdcda;
+  
+  }
+  
+  .GetStartButton a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .GetStartButton:hover,
+  .GetStartButton:active {
+    background-color: #5d5a57;
+    color: white;
+  
+  }
+  
+  .GetStartButton a:hover,
+  .GetStartButton a:active {
+    color: white;
+  
+  }
+  .features-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .features-card {
+    width: 32%;
+    position: relative;
+    min-height: 300px;
+    transition: 0.2s ease-out;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 3rem;
+  }
+  
+  .features-card:hover {
+    box-shadow: 10px 10px 20px #716f6c;
+  }
+  
+  .features-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    color: white;
+    font-size: 1.2rem;
+  }
+  
+  .features-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+  
+  .features-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+  }
+  
+  .card-1 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .card-2 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .card-3 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  .card-4 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .card-5 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .card-6 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .card-7 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .card-8 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .card-9 {
+    background-image: url("../../public/Images/uploadPaper.png");
+  }
+  
+  .section {
+    padding: 30px 20px 0;
+  }
+  
+  .section-container {
+    gap: 30px;
+  }
+  
+  .section-img img {
+    width: 100%;
+  }
+  
+  .section-desc {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .section-desc h3 {
+    font-size: 1.5rem;
+  }
+  
+  .cta-section {
+    padding: 50px 20px 80px;
+    color: #fff;
+    margin-right: 5rem;
+    margin-left: 5rem;
+  }
+  
+  .cta-section-container {
+    flex-direction: column;
+    gap: 30px;
+    color: white;
+    background: #4a4948;
+  }
+  
+  .card {
+    color: black;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .footer-container {
+    margin-top: 3rem;
+    padding: 3rem;
+  }
+  
+  /* Media Queries */
+  @media screen and (max-width: 768px) {
+    .container {
+      max-width: 100%;
+      padding-inline: 10px;
+    }
+  
+    .nav-bar {
+      padding: 0 1rem;
+    }
+  
+    .header-section {
+      flex-direction: column;
+    }
+    .header-left h1 {
+      font-size: 1rem;
+    }
+    .header-left {
+      max-width: 200px;
+    }
+    .header-right img {
+      padding-top: 3rem;
+      margin-left: 3rem;
+      width: 500px;
+    }
+    .features-card {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .cta-section-container {
+      flex-direction: column;
+    }
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .header-left {
+      max-width: 300px;
+    }
+    .header-right img {
+      padding-top: 3rem;
+      margin-left: 3rem;
+      width: 300px;
+    }
+    .header-left h1 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media screen and (max-width:480px) {
+    .container {
+      max-width: 900px;
+      padding-inline: 20px;
+    }
+    header {
+      padding: 0 10px;
+      margin-top:0.1rem;
+    }
+    .header-right img {
+      width: 360px;
+      margin-right:1rem;
+      margin-left: 1rem;
+    }
+    .GetStartButton {
+      padding: 10px 20px;
+      margin-left: .1rem;
+    
+    }
+  
+     .card {
+      padding: 10px;
+      width: 20rem;
+      margin-left: 3rem;
+      margin-right: 3rem;
+  
+    }
+   
+    
+    
+  }
+  
+  @media screen and (max-width:360px) {
+    
+    .header-right img {
+      width: 320px;
+      margin-right:1rem;
+      margin-left: 1rem;
+    }
+    
+    
+  }

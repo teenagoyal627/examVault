@@ -160,7 +160,7 @@ router.get('/all_paper', async (req, res) => {
     ])
     
     res.json(allPaper)
-    console.log(allPaper.length)
+    console.log(`${allPaper.length}`)
   } catch (error) {
     res.status(500).json({ error: 'error fetching data...' })
   }
@@ -419,7 +419,13 @@ router.put('/reject_paper',async (req, res) => {
 
 router.get('/search_papers', async (req, res) => {
   try {
-    let { title, subject, department, year, semester, paper_type, exam_type } = req.query;   
+    let { title, subject, department, year, semester, paper_type, exam_type } = req.query;  
+    const page=1; 
+    const limit=12
+    page=parseInt(page)
+    limit=parseInt(limit)
+    const skip=(page-1)*limit;
+    
     let query={}
 
     if (title && title.trim() !== "") {
