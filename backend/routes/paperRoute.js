@@ -159,7 +159,6 @@ router.get('/all_paper', async (req, res) => {
     console.log(`✅ Papers fetched: ${allPaper.length}`);
     res.json(allPaper);
   } catch (error) {
-    console.error("❌ Aggregation error:", error); 
     res.status(500).json({
       error: 'Server error',
       details: error.message,
@@ -422,11 +421,11 @@ router.put('/reject_paper',async (req, res) => {
 router.get('/search_papers', async (req, res) => {
   try {
     let { title, subject, department, year, semester, paper_type, exam_type } = req.query;  
-    const page=1; 
-    const limit=12
-    page=parseInt(page)
-    limit=parseInt(limit)
-    const skip=(page-1)*limit;
+    // let page=1; 
+    // let limit=12
+    // page=parseInt(page)
+    // limit=parseInt(limit)
+    // const skip=(page-1)*limit;
     
     let query={}
 
