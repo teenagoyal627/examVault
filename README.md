@@ -7,7 +7,7 @@
 ## 🚀 Table of Contents
 
 - [🧠 Introduction](#-introduction)
-- [⚙️ Tech Stack](#️-tech-stack)
+- [⚙️ Tech Stack](#-tech-stack)
 - [📑 Functionalities](#-functionalities)
 - [💡 Component-wise Explanation](#-component-wise-explanation)
   - [1. Authentication & Authorization](#1-authentication--authorization)
@@ -18,10 +18,7 @@
   - [6. New Papers (Teacher Review)](#6-new-papers-teacher-review)
   - [7. Statistics Dashboard](#7-statistics-dashboard)
   - [8. Logout](#8-logout)
-- [🛡️ Middleware & Edge Case Handling](#️-middleware--edge-case-handling)
-- [🖼️ Screenshots](#️-screenshots)
-- [📂 Project Structure](#-project-structure)
-- [👨‍💻 Author](#-author)
+- [Edge Case Handling](#-middleware--edge-case-handling)
 
 ---
 
@@ -69,7 +66,6 @@ Exam Vault serves as a **centralized repository** for academic papers. It provid
 ---
 ## 💡 Component-wise Explanation
 
----
 ### 1. Authentication & Authorization 
 
 - ✅ JWT Token for secure login
@@ -102,6 +98,7 @@ Exam Vault serves as a **centralized repository** for academic papers. It provid
  - Student ➝ /all-paper
  - Teacher ➝ If approved ➝ /all-paper, else ➝ /register
 
+---
 ### 3. 🗂️ All Papers Page
 
 - 📜 Displays only papers with status: `approved`
@@ -157,7 +154,7 @@ Exam Vault serves as a **centralized repository** for academic papers. It provid
 
 ![upload Paper](ScreenShots/uploadPaper.png)
 
-
+---
 ### My Papers (Upload History)
 - Users can view all papers they have uploaded.
 - Displays paper status: **Pending, Approved, Rejected**.
