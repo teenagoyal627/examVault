@@ -1,5 +1,6 @@
 import React from 'react'
 import './Filter.css'
+
 const AppliedFilters = ({filters,setFilters}) => {
     console.log(filters,setFilters)
 

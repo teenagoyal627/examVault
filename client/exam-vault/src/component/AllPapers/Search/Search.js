@@ -27,9 +27,9 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen,setCurrentPage,sea
     }
   };
 
-  useEffect(() => {
-    handleSearch()
-  }, [filters])
+  // useEffect(() => {
+  //   handleSearch()
+  // }, [filters])
 
   const handleSearch = async () => {
     try {

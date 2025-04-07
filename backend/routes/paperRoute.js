@@ -428,13 +428,15 @@ router.get('/search_papers', async (req, res) => {
     // const skip=(page-1)*limit;
     
     let query={}
+    let isTextSearch=false;
 
-    if (title && title.trim() !== "") {
-      query.$or = [
-        { $text: { $search: title } }, 
-        { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } } 
-      ];
-    }
+    // if (title && title.trim() !== "") {
+    //   isTextSearch=true;
+    //   query.$or = [
+    //     { $text: { $search: title } }, 
+    //     { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } } 
+    //   ];
+    // }
 
     if (subject) query.subject = subject;
     if (department) query.department = department;
@@ -447,14 +449,36 @@ router.get('/search_papers', async (req, res) => {
 
  let aggregationPipeline = [];
        
-    if(title){
-      aggregationPipeline.push({$addFields:{score:{$meta:"textScore"}}})
-      aggregationPipeline.push({$sort:{score:-1}})
+    // if(title && title.trim()!==""){
+    //   aggregationPipeline.push(
+    //     {$addFields:{
+    //       score:{$meta:"textScore"}}
+    //     })
+    //     aggregationPipeline.push({ $sort: { createdAt: -1 } })
+    // }else{
+    //   aggregationPipeline.push({ $sort: { createdAt: -1 } });
+    // }
 
+    // const papers = await PaperData.aggregate(aggregationPipeline)
+    // console.log(papers)
+
+    if (title && title.trim() !== "") {
+      const textSearchQuery = { $text: { $search: title } }
+      const ngramSearchQuery = { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } }
+    
+      // Use only $text? then allow score
+      const isOnlyText = true; // You decide this based on user preference
+    
+      if (isOnlyText) {
+        aggregationPipeline.push({ $match: textSearchQuery })
+        // aggregationPipeline.push({ $addFields: { score: { $meta: "textScore" } } })
+        aggregationPipeline.push({ $sort: {createdAt: -1 } })
+      } else {
+        aggregationPipeline.push({ $match: { $or: [textSearchQuery, ngramSearchQuery] } })
+        aggregationPipeline.push({ $sort: { createdAt: -1 } }) // no score
+      }
     }
-
-    const papers = await PaperData.aggregate(aggregationPipeline)
-    console.log(papers)
+    
 
     if (!papers.length) {
       return res.status(404).json({
@@ -477,3 +501,6 @@ router.get('/search_papers', async (req, res) => {
 })
 
 module.exports = router
+
+
+
