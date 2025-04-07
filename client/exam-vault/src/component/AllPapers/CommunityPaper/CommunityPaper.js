@@ -24,18 +24,23 @@ const CommunityPaper = () => {
 
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
-
+// const apiUrl="http://localhost:5003"
   useEffect(() => {
     fetchData()
   }, []);
 
   const fetchData = async () => {
+    
     try {
       const response = await axios.get(`${apiUrl}/papers/all_paper`);
       setPaperData(response.data || []);
       setLoading(false)
     } catch (error) {
-      console.error("Error fetching papers:", error);
+      if (error.response) {
+        console.error("🔥 Backend Error:", error.response.data);
+        alert(`Error: ${error.response?.data?.error || 'Something went wrong'}`);      } else {
+        console.error("Network or Axios error:", error.message);
+      }      
       setLoading(true)
     }
     

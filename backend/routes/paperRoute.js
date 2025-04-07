@@ -128,6 +128,8 @@ router.get('/my_paper', async (req, res) => {
 })
 
 router.get('/all_paper', async (req, res) => {
+  console.log(PaperData)
+  console.log("Type of PaperData.aggregate:", typeof PaperData.aggregate);
   try {
     const allPaper=await PaperData.aggregate([
       {
@@ -135,9 +137,7 @@ router.get('/all_paper', async (req, res) => {
           deleted: false, 
           paper_approval_status: "Approved"
         }
-      },
-      
-      
+      },      
       {
         $addFields: {
           download_count: {
@@ -154,15 +154,17 @@ router.get('/all_paper', async (req, res) => {
       {
         $sort:{created_at: -1}
       },
-      {
-        $limit:12
-      }
+  
     ])
-    
-    res.json(allPaper)
-    console.log(`${allPaper.length}`)
+    console.log(`✅ Papers fetched: ${allPaper.length}`);
+    res.json(allPaper);
   } catch (error) {
-    res.status(500).json({ error: 'error fetching data...' })
+    console.error("❌ Aggregation error:", error); 
+    res.status(500).json({
+      error: 'Server error',
+      details: error.message,
+      stack: error.stack
+    });
   }
 })
 
