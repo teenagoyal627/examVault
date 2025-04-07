@@ -445,7 +445,7 @@ router.get('/search_papers', async (req, res) => {
 
  console.log(query)
 
-    
+ let aggregationPipeline = [];
        
     if(title){
       aggregationPipeline.push({$addFields:{score:{$meta:"textScore"}}})
