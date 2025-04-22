@@ -1,9 +1,8 @@
 
 import React, { useState } from "react";
 import './Filter.css'
-import FieldsInput from "../../Authentication/Registration/Forms/FieldsInput";
+import FieldsInput from '../../FormInputs/FieldsInput'
 import subjects from "../UploadPaper/Subject";
-import axios from "axios";
 
 const ModalFilter = ({
   modalRef,

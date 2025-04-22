@@ -50,27 +50,10 @@ const TextFrontPage = () => {
 
   <a href="/registration" target="blank" className="features-card card-3">
     <h5 className="features-text">
-      Teachers and Students can check own uploaded papers.
-    </h5>
-  </a>
-
-  <a href="/registration" target="blank" className="features-card card-4">
-    <h5 className="features-text">
       Teahers and Students can check the analytics of the papers. 
     </h5>
   </a>
 
-  <a href="/registration" target="blank" className="features-card card-5">
-    <h5 className="features-text">
-      Teachers can approve or reject the uploded papers of the students. 
-            </h5>
-  </a>
-
-  <a href="/registration" target="blank" className="features-card card-6">
-    <h5 className="features-text">
-      Teachers and Students can download the approved papers.
-     </h5>
-  </a>
 
   <a href="/registration" target="blank" className="features-card card-7">
     <h5 className="features-text">

@@ -94,12 +94,12 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    border-radius: 5px;
     margin-bottom: 3rem;
   }
   
   .features-card:hover {
     box-shadow: 10px 10px 20px #716f6c;
+    border-radius: 2rem;
   }
   
   .features-text {
@@ -116,6 +116,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 3rem;
+
   }
   
   .features-card::before {
@@ -127,6 +128,7 @@ body {
     bottom: 0;
     background: rgba(0, 0, 0, 0.4);
     z-index: 0;
+    border-radius: 1rem;
   }
   
   .card-1 {
@@ -134,22 +136,11 @@ body {
   }
   
   .card-2 {
-    background-image: url("../../public/Images/uploadPaper.png");
+    background-image: url("../../public/Images/AllPaper.png");
   }
   
   .card-3 {
-    background-image: url("../../public/Images/uploadPaper.png");
-  }
-  .card-4 {
-    background-image: url("../../public/Images/uploadPaper.png");
-  }
-  
-  .card-5 {
-    background-image: url("../../public/Images/uploadPaper.png");
-  }
-  
-  .card-6 {
-    background-image: url("../../public/Images/uploadPaper.png");
+    background-image: url("../../public/Images/Stats.png");
   }
   
   .card-7 {

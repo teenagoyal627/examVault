@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import FrontPageNavbar from "../../../../Navbar/FrontPageNavbar";
 import Card from "../../../../UI/Card";
-import classes from "../Fields.module.css";
-import FieldsInput from "../FieldsInput";
+import classes from '../../../../FormInputs/Fields.module.css';
+import FieldsInput from '../../../../FormInputs/Fields.module.css';
 import { studentRegSubmitHandler } from "./Utility";
 import { useNavigate } from "react-router";
 import MessageBox from "../../../../MessageBox";

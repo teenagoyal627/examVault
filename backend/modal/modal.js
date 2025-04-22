@@ -1,3 +1,4 @@
 const UserData=require('./user')
 const { PaperData, generateNGrams } = require('./paper');
-module.exports = {  PaperData, generateNGrams, UserData };
+const NotesData=require('./notes')
+module.exports = {  PaperData, generateNGrams, UserData,NotesData };

@@ -16,6 +16,7 @@ import OpenPaper from './component/AllPapers/NewPapers/OpenPaper'
 import Logout from './component/Authentication/Logout/Logout'
 import MyProfile from './component/MyProfile/MyProfile'
 import HomePage from './HomePage/HomePage'
+import UploadNotesForm from './component/AllNotes/UploadNote/UploadNotesForm'
 
 const router=createBrowserRouter([
   {
@@ -86,6 +87,10 @@ const router=createBrowserRouter([
       {
         path:'my_profile',
         element:<MyProfile/>
+      },
+      {
+        path:'upload_notes',
+        element:<UploadNotesForm/>
       }
      
      
