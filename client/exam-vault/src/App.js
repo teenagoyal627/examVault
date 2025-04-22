@@ -17,6 +17,7 @@ import Logout from './component/Authentication/Logout/Logout'
 import MyProfile from './component/MyProfile/MyProfile'
 import HomePage from './HomePage/HomePage'
 import UploadNotesForm from './component/AllNotes/UploadNote/UploadNotesForm'
+import AllNotes from './component/AllNotes/UplodedNotes/AllNotes'
 
 const router=createBrowserRouter([
   {
@@ -91,6 +92,10 @@ const router=createBrowserRouter([
       {
         path:'upload_notes',
         element:<UploadNotesForm/>
+      },
+      {
+        path:'all_notes',
+        element:<AllNotes/>
       }
      
      
@@ -111,3 +116,6 @@ const App = () => {
 }
 
 export default App
+
+
+// yogitasharma123@gmail.com yogita123

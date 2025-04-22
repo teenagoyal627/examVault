@@ -42,7 +42,8 @@ const AllPaperNavBar = () => {
 
       <nav>
         <ul>
-          <li><a href='/all_paper' className={`link ${location.pathname === '/all_paper' ? 'active' : ''}`}>Home</a></li>
+          <li><a href='/all_paper' className={`link ${location.pathname === '/all_paper' ? 'active' : ''}`}>All Papers</a></li>
+          <li><a href='/all_notes' className={`link ${location.pathname === '/all_notes' ? 'active' : ''}`}>All Notes</a></li>
           <li><a href='/upload_paper' className={`link ${location.pathname === '/upload_paper' ? 'active' : ''}`}>Upload Paper</a></li>
           <li><a href='/my_paper' className={`link ${location.pathname === '/my_paper' ? 'active' : ''}`}>My Papers</a></li>
           <li><a href='/stats' className={`link ${location.pathname === '/stats' ? 'active' : ''}`}>Stats</a></li>

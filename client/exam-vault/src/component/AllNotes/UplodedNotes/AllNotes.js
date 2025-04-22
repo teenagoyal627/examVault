@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import classes from '../MyPaper/MyPaper.module.css';
-import { editPaperHandler, viewHandler } from '../MyPaper/MyPaperUtility';
+import classes from '../../AllPapers/MyPaper/MyPaper.module.css';
+import { editPaperHandler, viewHandler } from './Utility';
 import { useNavigate } from 'react-router';
-import PaperTabular from '../PaperTabular';
-import ImageUpload from '../ImageUpload';
+import PaperTabular from '../../AllPapers/PaperTabular';
+import ImageUpload from '../../AllPapers/ImageUpload';
 import axios from 'axios';
-import '../LoadingSpinner.css'
-import Pagination from '../Pagination/Pagination';
-import Search from '../Search/Search';
+import '../../AllPapers/LoadingSpinner.css'
+import Pagination from '../../AllPapers/Pagination/Pagination';
+import Search from '../../AllPapers/Search/Search';
 import { getAuth } from 'firebase/auth';
 
 
-const CommunityPaper = () => {
-  const [paperData, setPaperData] = useState([]);
+const AllNotes = () => {
+  const [notesData, setNotesData] = useState([]);
   const [searchResults, setSearchResults] = useState(null)
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
@@ -32,8 +32,8 @@ const CommunityPaper = () => {
   const fetchData = async () => {
     
     try {
-      const response = await axios.get(`${apiUrl}/papers/all_paper`);
-      setPaperData(response.data || []);
+      const response = await axios.get(`${apiUrl}/notes/all_notes`);
+      setNotesData(response.data || []);
       setLoading(false)
     } catch (error) {
       if (error.response) {
@@ -71,7 +71,7 @@ const CommunityPaper = () => {
   const recordsPerPage = 12;
   const lastIndex = currentPage * recordsPerPage
   const firstIndex = lastIndex - recordsPerPage;
-  const activeData = searchResults && searchResults.length > 0 ? searchResults : paperData
+  const activeData = searchResults && searchResults.length > 0 ? searchResults : notesData
   const records = activeData.slice(firstIndex, lastIndex)
   const numberOfPages = Math.ceil((activeData.length || 1) / recordsPerPage)
   const numbers = [...Array(numberOfPages).keys()].map((n) => n + 1)
@@ -96,7 +96,7 @@ const CommunityPaper = () => {
       ) : (
         <>
           <Search
-           paperData={paperData}
+           paperData={notesData}
             setSearchResults={setSearchResults}
              setIsModalOpen={setIsModalOpen}
              setCurrentPage={setCurrentPage}
@@ -130,4 +130,6 @@ const CommunityPaper = () => {
   );
 };
 
-export default CommunityPaper;
+export default AllNotes;
+
+
