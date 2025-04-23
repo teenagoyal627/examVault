@@ -10,6 +10,7 @@ const NotesSchema=new moongose.Schema({
     department:{type:String},
     unit_no:{type:String},
     created_at:{type:Date,default:Date.now},
+    file_url:{type:String},
 })
 
 const NotesData=moongose.modelNames("notes",NotesSchema)
