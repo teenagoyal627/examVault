@@ -1,7 +1,7 @@
-const moongose=require('mongoose')
+const mongoose=require('mongoose')
 const subjects=require("./subject")
 
-const NotesSchema=new moongose.Schema({
+const NotesSchema=new mongoose.Schema({
     user_id:{type:String},
     uploaded_by:{type:String},
     subject:{type:String,enum:subjects},
@@ -13,5 +13,5 @@ const NotesSchema=new moongose.Schema({
     file_url:{type:String},
 })
 
-const NotesData=moongose.modelNames("notes",NotesSchema)
+const NotesData=mongoose.model("notes",NotesSchema)
 module.exports=NotesData

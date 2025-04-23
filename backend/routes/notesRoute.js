@@ -20,6 +20,8 @@ const uploadNotesUrl = multer({ storage: multer.memoryStorage() })
 
 router.post('/upload_notes', verifyToken, uploadNotesUrl.single('file'), async (req, res) => {
   const { uid } = req
+  console.log("Request body",req.body)
+  console.log("File",req.file)
   try {
     if (!req.file) {
       console.log("file not received")
@@ -51,10 +53,12 @@ router.post('/upload_notes', verifyToken, uploadNotesUrl.single('file'), async (
             // format: 'pdf'
           },
           (error, result) => {
-            if (error) reject(error)
-            else resolve(result)
-            { console.log("error", error) }
-            { console.log(result, error) }
+            if (error) {reject(error)}
+            else{
+              resolve(result)
+              console.log(result)
+            } 
+            
           }
         )
         Readable.from(buffer).pipe(stream)

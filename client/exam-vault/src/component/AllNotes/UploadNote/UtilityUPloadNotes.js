@@ -146,7 +146,7 @@ export const newNotesSubmitHandler = async (
         const role=getRoleResponse.data.role;
         const teacherName=getRoleResponse.data.name;
         console.log("edit paper user role",role)
-
+               console.log(selectedFile)
      const formData = new FormData();
 
     formData.append("file", selectedFile);
@@ -167,7 +167,8 @@ export const newNotesSubmitHandler = async (
     const apiUrl = `${process.env.REACT_APP_APIURL}`
     const axiosUrl = id
       ? `${apiUrl}/notes/edit_notes/${id}`
-      : `${apiUrl}/notes/upload_notes`
+      : 'http://localhost:5001'
+      // : `${apiUrl}/notes/upload_notes`
       
       console.log(axiosUrl)
     const response=  await axiosMethod(axiosUrl, formData, {
