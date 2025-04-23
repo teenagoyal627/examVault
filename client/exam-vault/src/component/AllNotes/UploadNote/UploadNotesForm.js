@@ -65,7 +65,7 @@ const UploadNotesForm = () => {
           setShowModal(true)
           setModalContent({
             title: "Error",
-            body: `Error while getting the paper, ${error}`
+            body: `Error while getting the notes, ${error}`
           })
           setLoading(false)
         })
@@ -82,8 +82,8 @@ const UploadNotesForm = () => {
         <div className="loading-text"> 
         {isSubmitting 
           ? (id 
-              ? 'Please wait, the paper is being updated...' 
-              : 'Your paper is being submitted, this might take a moment...') 
+              ? 'Please wait, the notes is being updated...' 
+              : 'Your notes is being submitted, this might take a moment...') 
           : 'Wait a minute, data is being loaded...'
         }          </div>
       </div>

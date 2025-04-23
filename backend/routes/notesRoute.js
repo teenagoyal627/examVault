@@ -110,4 +110,59 @@ router.get('/all_notes',async(req,res)=>{
   }
 })
 
+
+router.get('/get_notes/:id', async (req, res) => {
+  const { id } = req.params
+  await NotesData.findById(id)
+    .then(notes => res.status(200).json(notes))
+    .catch(error =>
+      res.status(500).json({ message: 'Error while updating the paper', error })
+    )
+})
+
+
+
+const uploadEditNotes=multer()
+router.put('/edit_paper/:id',uploadEditNotes.none(),async (req, res) => {
+  const { id } = req.params
+  const {department, subject, year, semester,role, approved_by} =req.body
+  try {
+    const updateFields={
+      department,
+      subject,
+      year,
+      semester,
+      updated_at: Date.now(),
+    }
+
+    const updatedNotes = await NotesData.findByIdAndUpdate(
+      id,
+      updateFields,
+      {new:true}
+    )
+    if (!updatedNotes) {
+      return res.status(404).json({ message: 'Notes not found' })
+    }
+    else{
+      res.status(200).json({ message: 'Notes updated successfully', updatedPaper })
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error while updating the notes', error })
+  }
+})
+
+
+router.get('/my_notes', async (req, res) => {
+  try {
+    const { uid } = req.query
+    if (!uid) {
+      return res.status(400).json({ error: 'User ID is required' })
+    }
+    const notes = await NotesData.find({ user_id: uid}).sort({created_at: -1})
+    res.json(notes)
+  } catch (error) {
+    res.status(500).json({ error: 'internal server error' })
+  }
+})
+
 module.exports = router

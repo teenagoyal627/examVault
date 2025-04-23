@@ -18,6 +18,7 @@ import MyProfile from './component/MyProfile/MyProfile'
 import HomePage from './HomePage/HomePage'
 import UploadNotesForm from './component/AllNotes/UploadNote/UploadNotesForm'
 import AllNotes from './component/AllNotes/UplodedNotes/AllNotes'
+import MyNotes from './component/AllNotes/MyNotes/MyNotes'
 
 const router=createBrowserRouter([
   {
@@ -96,7 +97,17 @@ const router=createBrowserRouter([
       {
         path:'all_notes',
         element:<AllNotes/>
-      }
+      },
+      {
+        path:'my_notes',
+        element:<MyNotes/>,
+        children:[
+          {
+            path:':id/view_paper',
+            element:<DownloadPaper/>
+          }
+        ]
+      },
      
      
     ]

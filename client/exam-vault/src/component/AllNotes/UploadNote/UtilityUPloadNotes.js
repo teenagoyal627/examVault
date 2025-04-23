@@ -2,9 +2,9 @@ import { getAuth } from 'firebase/auth'
 import classes from '../../AllPapers/UploadPaper/UploadPaper.module.css'
 import axios from 'axios'
 
-export const newNotesChangeHandler = (e, setNewPaper) => {
+export const newNotesChangeHandler = (e, setNewNotes) => {
   const { name, value } = e.target
-  setNewPaper(prevPaper => ({
+  setNewNotes(prevPaper => ({
     ...prevPaper,
     [name]: value
   }))
@@ -86,7 +86,7 @@ export const fileChangeHandler = (
       body: 'PDF file size must be 50 MB or below.',
       confirmHandler:()=>{
         setShowModal(false)
-        navigate('/upload_paper')
+        navigate('/upload_notes')
         setSelectedFile(null)
       }
     })
@@ -135,7 +135,7 @@ export const newNotesSubmitHandler = async (
       return
     }
 
-    const idToken = await getAuth().currentUser.getIdToken()
+    const idToken = await getAuth().currentUser.getIdToken(true)
     const roleApiUrl = `${process.env.REACT_APP_APIURL}`
       
         const getRoleResponse=await axios.get(`${roleApiUrl}/login/get_role`,{
@@ -145,8 +145,6 @@ export const newNotesSubmitHandler = async (
         })
         const role=getRoleResponse.data.role;
         const teacherName=getRoleResponse.data.name;
-        console.log("edit paper user role",role)
-               console.log(selectedFile)
      const formData = new FormData();
 
     formData.append("file", selectedFile);
@@ -160,15 +158,13 @@ export const newNotesSubmitHandler = async (
 
     setLoading(true)
 
-   console.log(formData)
 
       
     const axiosMethod = id ? axios.put : axios.post
     const apiUrl = `${process.env.REACT_APP_APIURL}`
     const axiosUrl = id
       ? `${apiUrl}/notes/edit_notes/${id}`
-      : 'http://localhost:5001'
-      // : `${apiUrl}/notes/upload_notes`
+      : `${apiUrl}/notes/upload_notes`
       
       console.log(axiosUrl)
     const response=  await axiosMethod(axiosUrl, formData, {
@@ -198,7 +194,7 @@ export const newNotesSubmitHandler = async (
               body:"The notes was updated successfully. You can now view it in All Papers.",
               confirmHandler:()=>{
                 setShowModal(false)
-                navigate('/all_paper')
+                navigate('/all_notes')
               }
 
              })
@@ -209,7 +205,7 @@ export const newNotesSubmitHandler = async (
           body: 'The notes was uploaded successfully. You can now view it in My Papers',
           confirmHandler:()=>{
             setShowModal(false)
-            navigate('/my_paper')
+            navigate('/my_notes')
           }
         })
       }
