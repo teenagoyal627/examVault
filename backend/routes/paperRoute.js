@@ -58,7 +58,7 @@ router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req
               if (error) reject(error)
               else resolve(result)
             {console.log("error",error)}
-            {console.log(result, errror)}
+            {console.log(result, error)}
             }
           )
           Readable.from(buffer).pipe(stream)

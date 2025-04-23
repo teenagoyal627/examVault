@@ -54,7 +54,7 @@ router.post('/upload_notes', verifyToken, uploadNotesUrl.single('file'), async (
             if (error) reject(error)
             else resolve(result)
             { console.log("error", error) }
-            { console.log(result, errror) }
+            { console.log(result, error) }
           }
         )
         Readable.from(buffer).pipe(stream)
