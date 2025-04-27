@@ -1,13 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import classes from '../../AllPapers/MyPaper/MyPaper.module.css'
+import classes from '../../Papers/AllPapers/MyPaper/MyPaper.module.css'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { deleteHandler, deleteNotesHandler, editNotesHandler, viewHandler } from './MyNotesUtility'
-import MessageBox from '../.././MessageBox'
+import MessageBox from '../../MessageBox'
 import { Outlet, useLocation, useNavigate } from 'react-router'
-import PaperTabular from '../../AllPapers/PaperTabular'
-import ImageUpload from '../../AllPapers/ImageUpload'
-import Pagination from '../../AllPapers/Pagination/Pagination'
+import PaperTabular from '../../Papers/AllPapers/PaperTabular'
+import ImageUpload from '../../Papers/AllPapers/ImageUpload'
+import Pagination from '../../Papers/AllPapers/Pagination/Pagination'
 
 const MyNotes = () => {
     const [notesData, setNotesData] = useState([])

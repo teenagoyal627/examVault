@@ -1,8 +1,8 @@
 
 import React, { useState } from "react";
 import './Filter.css'
-import FieldsInput from '../../FormInputs/FieldsInput'
 import subjects from "../UploadPaper/Subject";
+import FieldsInput from "../../../FormInputs/FieldsInput";
 
 const ModalFilter = ({
   modalRef,

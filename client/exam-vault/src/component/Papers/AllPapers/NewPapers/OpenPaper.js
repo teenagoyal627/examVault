@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { approvedOrRejectPaper, approvePaperHandler, rejectPaperHandler } from './NewPaperUtility';
 import { editPaperHandler } from '../MyPaper/MyPaperUtility';
-import MessageBox from '../../MessageBox';
 import { getAuth } from 'firebase/auth';
 import classes from './OpenPaper.module.css'
 import PaperTabular from '../PaperTabular';
+import MessageBox from '../../../MessageBox';
 
 const OpenPaper = () => {
     const apiUrl = `${process.env.REACT_APP_APIURL}`

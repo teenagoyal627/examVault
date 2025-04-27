@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import Card from '../../UI/Card'
-import FieldsInput from '../../FormInputs/FieldsInput'
-import subjects from '../../AllPapers/UploadPaper/Subject'
-import classes from '../../AllPapers/UploadPaper/UploadPaper.module.css'
-import MessageBox from '../../MessageBox'
+import Card from '../../../UI/Card'
+import FieldsInput from '../../../FormInputs/FieldsInput'
+import subjects from './Subject'
+import classes from './UploadPaper.module.css'
+import MessageBox from '../../../MessageBox'
 import {
   fileChangeHandler,
   modalOpenHandler,
-  newNotesChangeHandler,
-  newNotesSubmitHandler
-} from './UtilityUPloadNotes'
+  newPaperChangeHandler,
+  newPaperSubmitHandler
+} from './UtilityUpload'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 
-const UploadNotesForm = () => {
-  const [newNotes, setNewNotes] = useState({
+const UploadPapers = () => {
+  const [newPaper, setNewPaper] = useState({
+    title: '',
     subject: '',
     department: '',
     year: '',
     semester: '',
-    unit_no:''
-
+    paper_type: '',
+    exam_type: ''
   })
 
   const navigate = useNavigate()
@@ -47,16 +48,18 @@ const UploadNotesForm = () => {
    }
     if (id) {
       setLoading(true)
-      axios.get(`${apiUrl}/notes/get_notes/${id}`)
+      axios.get(`${apiUrl}/papers/get_paper/${id}`)
         .then((response) => {
           const fileUrl=response.data.file_url
           const fileName=fileUrl.split('/').pop()
-          setNewNotes({
+          setNewPaper({
+            title:response.data.title ,
             subject: response.data.subject,
             department: response.data.department,
             year: response.data.year,
             semester: response.data.semester,
-            unit_no:response.data.unit_no
+            paper_type: response.data.paper_type,
+            exam_type: response.data.exam_type
           })
           setSelectedFile({name:fileName})
           setLoading(false)
@@ -65,7 +68,7 @@ const UploadNotesForm = () => {
           setShowModal(true)
           setModalContent({
             title: "Error",
-            body: `Error while getting the notes, ${error}`
+            body: `Error while getting the paper, ${error}`
           })
           setLoading(false)
         })
@@ -82,8 +85,8 @@ const UploadNotesForm = () => {
         <div className="loading-text"> 
         {isSubmitting 
           ? (id 
-              ? 'Please wait, the notes is being updated...' 
-              : 'Your notes is being submitted, this might take a moment...') 
+              ? 'Please wait, the paper is being updated...' 
+              : 'Your paper is being submitted, this might take a moment...') 
           : 'Wait a minute, data is being loaded...'
         }          </div>
       </div>
@@ -92,10 +95,10 @@ const UploadNotesForm = () => {
     <form
       onSubmit={e =>{
           setIsSubmitting(true)
-        newNotesSubmitHandler(
+        newPaperSubmitHandler(
           e,
           id,
-          newNotes,
+          newPaper,
           setShowModal,
           setModalContent,
           navigate,
@@ -107,9 +110,9 @@ const UploadNotesForm = () => {
       }
     >
       <Card>
-        <h5 className={classes.heading}>Upload Notes</h5>
+        <h5 className={classes.heading}>Upload Paper</h5>
         <hr />
-        <label className={classes.label}>Upload Notes <span className={classes.required}>*</span></label>
+        <label className={classes.label}>Upload Paper <span className={classes.required}>*</span></label>
         <br />
         <div className={classes.fileInputWrapper}>
           <button
@@ -123,7 +126,7 @@ const UploadNotesForm = () => {
               )
             }
           >
-            Select Notes File
+            Select Paper File
           </button>
           {selectedFile
            && (
@@ -146,21 +149,38 @@ const UploadNotesForm = () => {
           />
         </div>
         <FieldsInput
+          label='Title'
+          type='text'
+          name='title'
+          value={newPaper.title}
+          onChange={e => newPaperChangeHandler(e, setNewPaper)}
+          required={true}
+        />
+        <FieldsInput
+          label='Subject'
+          type='select'
+          name='subject'
+          value={newPaper.subject}
+          onChange={e => newPaperChangeHandler(e, setNewPaper)}
+          required={true}
+          options={subjects}
+          style={{ width: "1rem" }}
+        />
+        <FieldsInput
           label='Department'
           type='select'
           name='department'
-          value={newNotes.department}
-          onChange={e => newNotesChangeHandler(e, setNewNotes)}
+          value={newPaper.department}
+          onChange={e => newPaperChangeHandler(e, setNewPaper)}
           required={true}
           options={['CSE', 'CIVIL', 'ME', 'EE', 'Other']}
         />
-       
         <FieldsInput
           label='Year'
           type='select'
           name='year'
-          value={newNotes.year}
-          onChange={e => newNotesChangeHandler(e, setNewNotes)}
+          value={newPaper.year}
+          onChange={e => newPaperChangeHandler(e, setNewPaper)}
           required={true}
           options={['1st', '2nd', '3rd', '4th']}
         />
@@ -168,31 +188,30 @@ const UploadNotesForm = () => {
           label='Semester'
           type='select'
           name='semester'
-          value={newNotes.semester}
-          onChange={e => newNotesChangeHandler(e, setNewNotes)}
+          value={newPaper.semester}
+          onChange={e => newPaperChangeHandler(e, setNewPaper)}
           required={true}
           options={['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']}
         />
-         <FieldsInput
-          label='Subject'
+        <FieldsInput
+          label='Paper Type'
           type='select'
-          name='subject'
-          value={newNotes.subject}
-          onChange={e => newNotesChangeHandler(e, setNewNotes)}
+          name='paper_type'
+          value={newPaper.paper_type}
+          onChange={e => newPaperChangeHandler(e, setNewPaper)}
           required={true}
-          options={subjects}
-          style={{ width: "1rem" }}
+          options={['Main', 'Back', 'Other']}
         />
         <FieldsInput
-          label='Unit No.'
+          label='Exam Type'
           type='select'
-          name='unit_no'
-          value={newNotes.unit_no}
-          onChange={e => newNotesChangeHandler(e, setNewNotes)}
+          name='exam_type'
+          value={newPaper.exam_type}
+          onChange={e => newPaperChangeHandler(e, setNewPaper)}
           required={true}
-          options={['I', 'II', 'III', 'IV','V','VI','VII']}
+          options={['University', 'Midterm', 'Improvement', 'Other']}
         />
-        <button className={classes.button}>Upload</button>
+        <button className={classes.button}>Submit</button>
       </Card>
       {showModal && (
         <MessageBox
@@ -212,5 +231,4 @@ const UploadNotesForm = () => {
   )
 }
 
-export default UploadNotesForm
-
+export default UploadPapers

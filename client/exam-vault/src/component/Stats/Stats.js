@@ -3,7 +3,7 @@ import PaperPieChart from './PaperPieChart';
 import DepartmentPieChart from './DepartmentPiechart';
 import PaperTypePieChart from './PaperTypePiechart';
 import ExamTypePieChart from './ExamTypePiechart';
-import '../AllPapers/LoadingSpinner.css'
+import '../Papers/AllPapers/LoadingSpinner.css'
 import './Stats.css'
 const Stats = () => {
   return (

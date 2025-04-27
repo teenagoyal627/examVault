@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth'
-import classes from '../../AllPapers/UploadPaper/UploadPaper.module.css'
+import classes from '../../Papers/AllPapers/UploadPaper/UploadPaper.module.css'
 import axios from 'axios'
 
 export const newNotesChangeHandler = (e, setNewNotes) => {

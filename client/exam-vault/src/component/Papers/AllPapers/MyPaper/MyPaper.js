@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import classes from './MyPaper.module.css'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { deleteHandler, deletePaperHandler, editPaperHandler, viewHandler } from './MyPaperUtility'
-import MessageBox from '../../MessageBox'
 import { Outlet, useLocation, useNavigate } from 'react-router'
 import PaperTabular from '../PaperTabular'
 import ImageUpload from '../ImageUpload'
 import Pagination from '../Pagination/Pagination'
+import MessageBox from '../../../MessageBox'
 
 const MyPaper = () => {
   const [paperData, setPaperData] = useState([])

@@ -5,20 +5,21 @@ import Login from './component/Authentication/Login/Login'
 import FrontPage from './component/FrontPage/FrontPage'
 import TeacherRegistration from './component/Authentication/Registration/Forms/RegistrationForms/TeacherRegistration'
 import StudentRegistration from './component/Authentication/Registration/Forms/RegistrationForms/StudentRegistration'
-import AllPaper from './component/AllPapers/AllPaper'
-import UploadPapers from './component/AllPapers/UploadPaper/UploadPapers'
-import MyPaper from './component/AllPapers/MyPaper/MyPaper'
-import CommunityPaper from './component/AllPapers/CommunityPaper/CommunityPaper'
-import DownloadPaper from './component/AllPapers/MyPaper/DownloadPaper'
+import AllPaper from './component/Papers/AllPapers/AllPaper'
+import UploadPapers from './component/Papers/AllPapers/UploadPaper/UploadPapers'
+import MyPaper from './component/Papers/AllPapers/MyPaper/MyPaper'
+import CommunityPaper from './component/Papers/AllPapers/CommunityPaper/CommunityPaper'
+import DownloadPaper from './component/Papers/AllPapers/MyPaper/DownloadPaper'
 import Stats from './component/Stats/Stats'
-import NewPaper from './component/AllPapers/NewPapers/NewPaper'
-import OpenPaper from './component/AllPapers/NewPapers/OpenPaper'
+import NewPaper from './component/Papers/AllPapers/NewPapers/NewPaper'
+import OpenPaper from './component/Papers/AllPapers/NewPapers/OpenPaper'
 import Logout from './component/Authentication/Logout/Logout'
 import MyProfile from './component/MyProfile/MyProfile'
 import HomePage from './HomePage/HomePage'
-import UploadNotesForm from './component/AllNotes/UploadNote/UploadNotesForm'
-import AllNotes from './component/AllNotes/UplodedNotes/AllNotes'
-import MyNotes from './component/AllNotes/MyNotes/MyNotes'
+import UploadNotes from './component/Notes/UploadNote/UploadNotes'
+import AllNotes from './component/Notes/AllUplodedNotes/AllNotes'
+import MyNotes from './component/Notes/MyNotes/MyNotes'
+import DownloadNotes from './component/Notes/DownloadNotes'
 
 const router=createBrowserRouter([
   {
@@ -45,7 +46,6 @@ const router=createBrowserRouter([
     path:'/',
     element:<AllPaper/>,
     children:[
-
       {
         path:'all_paper',
         element:<CommunityPaper/>
@@ -92,18 +92,30 @@ const router=createBrowserRouter([
       },
       {
         path:'upload_notes',
-        element:<UploadNotesForm/>
+        element:<UploadNotes/>
+      },
+      {
+        path:'upload_notes/:id?',
+        element:<UploadNotes/>
+      },
+      {
+        path:'edit_paper/:id?',
+        element:<UploadNotes/>
       },
       {
         path:'all_notes',
         element:<AllNotes/>
       },
       {
+        path:'all_notes/:id/view_notes',
+        element:<DownloadNotes/>
+    },
+      {
         path:'my_notes',
         element:<MyNotes/>,
         children:[
           {
-            path:':id/view_paper',
+            path:':id/view_notes',
             element:<DownloadPaper/>
           }
         ]

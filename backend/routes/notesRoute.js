@@ -123,7 +123,7 @@ router.get('/get_notes/:id', async (req, res) => {
 
 
 const uploadEditNotes=multer()
-router.put('/edit_paper/:id',uploadEditNotes.none(),async (req, res) => {
+router.put('/edit_notes/:id',uploadEditNotes.none(),async (req, res) => {
   const { id } = req.params
   const {department, subject, year, semester,role, approved_by} =req.body
   try {
@@ -164,5 +164,37 @@ router.get('/my_notes', async (req, res) => {
     res.status(500).json({ error: 'internal server error' })
   }
 })
+
+router.get('/:id/view_notes', async (req, res) => {
+  try {
+    const { id } = req.params
+    await NotesData.findOne({ _id: id })
+      .then(notes => res.status(200).json(notes))
+      .catch(error =>
+        res.status(404).json({ message: 'Notes not found', error })
+      )
+  } catch (error) {
+    res.status(404).json({ message: error })
+  }
+})
+
+
+router.post('/download_notes',verifyToken,async(req,res)=>{
+  try{
+    const {uid}=req;
+    const{notes_id}=req.body;
+   await NotesData.findByIdAndUpdate(
+    notes_id,
+    {$addToSet:{download_user_ids:uid}},
+    {new:true}
+  )
+
+res.status(200).json({message:"Notes successfullly downloaded"})
+
+  }catch(error){
+    res.status(403).json({message:"User is not Authorized"})
+  }
+})
+
 
 module.exports = router

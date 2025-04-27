@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import classes from '../../AllPapers/MyPaper/MyPaper.module.css';
-import { editPaperHandler, viewHandler } from './Utility';
+import classes from '../../Papers/AllPapers/MyPaper/MyPaper.module.css';
+import { editNotesHandler, viewHandler } from './Utility';
 import { useNavigate } from 'react-router';
-import PaperTabular from '../../AllPapers/PaperTabular';
-import ImageUpload from '../../AllPapers/ImageUpload';
+import ImageUpload from '../../Papers/AllPapers/ImageUpload';
 import axios from 'axios';
-import '../../AllPapers/LoadingSpinner.css'
-import Pagination from '../../AllPapers/Pagination/Pagination';
-import Search from '../../AllPapers/Search/Search';
+import '../../Papers/AllPapers/LoadingSpinner.css'
+import Pagination from '../../Papers/AllPapers/Pagination/Pagination';
+import Search from '../../Papers/AllPapers/Search/Search';
 import { getAuth } from 'firebase/auth';
+import NotesTabular from './NotesTabular';
 
 
 const AllNotes = () => {
@@ -107,10 +107,10 @@ const AllNotes = () => {
               <div key={index} className={classes.paperCard}>
                 <ImageUpload data={data} />
                 <div className={classes.paperDetails}>
-                  <PaperTabular data={data} approvedBy={true} />
+                  <NotesTabular data={data} approvedBy={true} />
                   <button onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
                   {role === "teacher" && (
-                    <button className={classes.Button} onClick={()=>editPaperHandler(data._id,navigate)}>Edit</button>
+                    <button className={classes.Button} onClick={()=>editNotesHandler(data._id,navigate)}>Edit</button>
                   )}
                 </div>
               </div>
