@@ -125,13 +125,14 @@ router.get('/get_notes/:id', async (req, res) => {
 const uploadEditNotes=multer()
 router.put('/edit_notes/:id',uploadEditNotes.none(),async (req, res) => {
   const { id } = req.params
-  const {department, subject, year, semester,role, approved_by} =req.body
+  const {department, subject, year, semester,unit_no} =req.body
   try {
     const updateFields={
       department,
       subject,
       year,
       semester,
+      unit_no,
       updated_at: Date.now(),
     }
 
@@ -144,7 +145,7 @@ router.put('/edit_notes/:id',uploadEditNotes.none(),async (req, res) => {
       return res.status(404).json({ message: 'Notes not found' })
     }
     else{
-      res.status(200).json({ message: 'Notes updated successfully', updatedPaper })
+      res.status(200).json({ message: 'Notes updated successfully', updatedNotes })
     }
   } catch (error) {
     res.status(500).json({ message: 'Error while updating the notes', error })

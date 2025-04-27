@@ -124,12 +124,6 @@ const router=createBrowserRouter([
      
     ]
   },
-  // {
-  //   path:"/view_paper",
-  //   element:<DownloadPaper/>
-  // }
- 
-
 ])
 
 const App = () => {

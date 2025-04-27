@@ -158,8 +158,6 @@ export const newNotesSubmitHandler = async (
 
     setLoading(true)
 
-
-      
     const axiosMethod = id ? axios.put : axios.post
     const apiUrl = `${process.env.REACT_APP_APIURL}`
     const axiosUrl = id
