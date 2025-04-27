@@ -19,8 +19,8 @@ export const deleteNotesHandler=async(id,setShowModal,modalContent,setPaperData)
         try{
             await axios.put(`${apiUrl}/notes/${id}/delete`)
             setShowModal(false)
-            setPaperData((prevPaper)=>
-               prevPaper.filter((paper)=>paper._id!==id)
+            setPaperData(prevnotes=>
+               prevnotes.filter((notes)=>notes._id!==id)
            )
         }catch(error){
             console.log(error)
@@ -31,6 +31,6 @@ export const deleteNotesHandler=async(id,setShowModal,modalContent,setPaperData)
 }
 
 export const viewHandler=async(id,navigate)=>{
-     navigate(`${id}/view_paper`)
+     navigate(`${id}/view_notes`)
 
 }

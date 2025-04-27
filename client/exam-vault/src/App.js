@@ -43,7 +43,7 @@ const router=createBrowserRouter([
     element:<Login/>
   },
   {
-    path:'/',
+    path:'',
     element:<AllPaper/>,
     children:[
       {
@@ -113,13 +113,13 @@ const router=createBrowserRouter([
       {
         path:'my_notes',
         element:<MyNotes/>,
-        children:[
-          {
-            path:':id/view_notes',
-            element:<DownloadPaper/>
-          }
-        ]
+        
       },
+      {
+          path:'my_notes/:id/view_notes',
+          element:<DownloadNotes/>
+        
+      }
      
      
     ]

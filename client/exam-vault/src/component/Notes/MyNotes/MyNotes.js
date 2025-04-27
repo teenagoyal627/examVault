@@ -5,9 +5,9 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { deleteHandler, deleteNotesHandler, editNotesHandler, viewHandler } from './MyNotesUtility'
 import MessageBox from '../../MessageBox'
 import { Outlet, useLocation, useNavigate } from 'react-router'
-import PaperTabular from '../../Papers/AllPapers/PaperTabular'
 import ImageUpload from '../../Papers/AllPapers/ImageUpload'
 import Pagination from '../../Papers/AllPapers/Pagination/Pagination'
+import NotesTabular from '../AllUplodedNotes/NotesTabular'
 
 const MyNotes = () => {
     const [notesData, setNotesData] = useState([])
@@ -97,7 +97,7 @@ const MyNotes = () => {
                         <div key={index} className={classes.paperCard}>
                             <ImageUpload data={data} />
                             <div className={classes.paperDetails}>
-                                <PaperTabular data={data} approvedBy={approvedBy} />
+                                <NotesTabular data={data} approvedBy={approvedBy} />
                                 <div>
                                     <button onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
                                     <button style={{ background: "rgb(255, 165, 0)" }} onClick={() => editNotesHandler(data._id, navigate)} className={classes.Button}>
