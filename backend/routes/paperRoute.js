@@ -422,12 +422,14 @@ router.put('/reject_paper', async (req, res) => {
 router.get('/search_papers', async (req, res) => {
   try {
     let { title, subject, department, year, semester, paper_type, exam_type, page = 1, limit = 12 } = req.query;
-
     page = parseInt(page)
     limit = parseInt(limit)
     const skip = (page - 1) * limit;
 
-    let filter = {}
+    let filter = {
+      deleted:false, 
+      paper_approval_status:"Approved"
+    }
     let isTextSearch = false;
 
     if (subject) filter.subject = subject;
@@ -437,18 +439,18 @@ router.get('/search_papers', async (req, res) => {
     if (paper_type) filter.paper_type = paper_type;
     if (exam_type) filter.exam_type = exam_type;
 
-    console.log(filter)
 
     let aggregationPipeline = [];
 
-    if(Object.keys(filter).length>0){
-      aggregationPipeline.push({$match:filter})
-    }
+    // if(Object.keys(filter).length>0){
+    //   aggregationPipeline.push({$match:filter})
+    // }
 
     if(title && title.trim()!==""){
       aggregationPipeline.push({
         $match:{
-          $text:{$search:title}
+          $text:{$search:title},
+          ...filter
         }
       })
       aggregationPipeline.push({
@@ -456,12 +458,12 @@ router.get('/search_papers', async (req, res) => {
           score:{$meta:"textScore"}
         }
       })
-      aggregationPipeline.push({
-        $match:{
-          deleted: false,
-          paper_approval_status: "Approved"
-          }        
-      })
+      // aggregationPipeline.push({
+      //   $match:{
+      //     deleted: false,
+      //     paper_approval_status: "Approved"
+      //     }        
+      // })
       aggregationPipeline.push({
         $sort:{
           score:-1,
@@ -469,15 +471,8 @@ router.get('/search_papers', async (req, res) => {
         }
       })
     }else{
-      aggregationPipeline.push({
-        $match:{
-          deleted: false,
-          paper_approval_status: "Approved"
-          }        
-      })
-      aggregationPipeline.push({
-        $sort:{ created_at:-1}
-      })
+      aggregationPipeline.push({$match:filter})
+      aggregationPipeline.push({$sort:{ created_at:-1}})
     }
 
     aggregationPipeline.push({$skip:skip});
