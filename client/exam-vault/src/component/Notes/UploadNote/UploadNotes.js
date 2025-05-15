@@ -146,6 +146,14 @@ const UploadNotesForm = () => {
           />
         </div>
         <FieldsInput
+          label='Title'
+          type='text'
+          name='title'
+          value={newNotes.title}
+          onChange={e => newNotesChangeHandler(e, setNewNotes)}
+          required={true}
+        />
+        <FieldsInput
           label='Department'
           type='select'
           name='department'

@@ -71,6 +71,7 @@ router.post('/upload_notes', verifyToken, uploadNotesUrl.single('file'), async (
     const newNotes = new NotesData({
       user_id: uid,
       uploaded_by: userName,
+      title:req.body.title,
       subject: req.body.subject,
       year: req.body.year,
       semester: req.body.semester,
@@ -125,9 +126,10 @@ router.get('/get_notes/:id', async (req, res) => {
 const uploadEditNotes=multer()
 router.put('/edit_notes/:id',uploadEditNotes.none(),async (req, res) => {
   const { id } = req.params
-  const {department, subject, year, semester,unit_no} =req.body
+  const {title,department, subject, year, semester,unit_no} =req.body
   try {
     const updateFields={
+      title,
       department,
       subject,
       year,
@@ -197,5 +199,86 @@ res.status(200).json({message:"Notes successfullly downloaded"})
   }
 })
 
+
+router.get('/search_notes', async (req, res) => {
+  try {
+    let { title,subject, department, year, semester, unit_no } = req.query;  
+    // let page=1; 
+    // let limit=12
+    // page=parseInt(page)
+    // limit=parseInt(limit)
+    // const skip=(page-1)*limit;
+    
+    let query={}
+    let isTextSearch=false;
+
+    // if (title && title.trim() !== "") {
+    //   isTextSearch=true;
+    //   query.$or = [
+    //     { $text: { $search: title } }, 
+    //     { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } } 
+    //   ];
+    // }
+
+    if (subject) query.subject = subject;
+    if (department) query.department = department;
+    if (year) query.year = year;
+    if (semester) query.semester = semester;
+    if (unit_no) query.unit_no = unit_no;
+
+ console.log(query)
+
+ let aggregationPipeline = [];
+       
+    // if(title && title.trim()!==""){
+    //   aggregationPipeline.push(
+    //     {$addFields:{
+    //       score:{$meta:"textScore"}}
+    //     })
+    //     aggregationPipeline.push({ $sort: { createdAt: -1 } })
+    // }else{
+    //   aggregationPipeline.push({ $sort: { createdAt: -1 } });
+    // }
+
+    // const papers = await PaperData.aggregate(aggregationPipeline)
+    // console.log(papers)
+
+    if (title && title.trim() !== "") {
+      const textSearchQuery = { $text: { $search: title } }
+      const ngramSearchQuery = { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } }
+    
+      // Use only $text? then allow score
+      const isOnlyText = true; // You decide this based on user preference
+    
+      if (isOnlyText) {
+        aggregationPipeline.push({ $match: textSearchQuery })
+        // aggregationPipeline.push({ $addFields: { score: { $meta: "textScore" } } })
+        aggregationPipeline.push({ $sort: {createdAt: -1 } })
+      } else {
+        aggregationPipeline.push({ $match: { $or: [textSearchQuery, ngramSearchQuery] } })
+        aggregationPipeline.push({ $sort: { createdAt: -1 } }) // no score
+      }
+    }
+    
+
+    if (!papers.length) {
+      return res.status(404).json({
+        message: 'No search results found.',
+        data: []
+      });
+    }
+    else{
+      res.status(200).json({
+        message: 'Searched papers fetched successfully.',
+        data: papers
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: 'An error occurred while searching papers.',
+      error: error.message
+    })
+  }
+})
 
 module.exports = router

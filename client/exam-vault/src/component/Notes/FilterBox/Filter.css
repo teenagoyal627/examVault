@@ -1,0 +1,136 @@
+
+  .modal-dialog{
+    z-index:1090;
+    height: 30rem;
+  
+  }
+  
+  
+  .filter_button {
+    color: rgb(4, 4, 4);
+    padding: 10px 20px;
+    margin-top: .6rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 15rem;
+    transition: background-color 0.3s;
+    background-color: #dcdcda;
+  }
+  
+  .filter_button:hover {
+    background-color: #ff8800;
+    color: white;
+    border: 1px solid white;
+  }
+  
+  .filter-section {
+    margin-bottom: 1px;
+  }
+  
+  .filter-section label {
+    display: block;
+    margin-bottom: 1px;
+  }
+  
+  .gender-checkbox {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .gender-checkbox input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  .modal-content{
+    margin-top: 5rem;
+    z-index: 1100; 
+    margin-left: 10rem;
+  }
+  .select-dropdown{
+    width: 29rem;
+    height: 2.5rem;
+  }
+  
+  .filter-badge {
+    display: inline-flex;
+    background-color: #286eb9;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    cursor: pointer;
+
+  }
+  .applied-filter-badge{
+    display: inline-flex;
+    background-color: #030303;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+  }
+  
+  .remove-btn {
+    background: none;
+    border: none;
+    color: white;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: -.1rem;
+  }
+  
+  
+  @media screen and (max-width:400px) {
+  
+    .filter_button {
+      color:black;
+      margin-top: .1rem;
+      width: 20rem;
+      padding: 8px 5px;
+      margin-left: 1rem;
+  
+    }
+    
+    .modal-content{
+      width: 20rem;
+      margin-top: 5rem;
+      margin-left: 1rem;
+    }
+    .select-dropdown{
+      width: 17.8rem;
+      height: 2.5rem;
+    }
+    
+  }
+  
+  
+  @media screen and (max-width:360px) {
+  
+    .filter_button {
+      color:black;
+      margin-top: .1rem;
+      width: 17rem;
+      padding: 8px 5px;
+      margin-left: 1rem;
+  
+    }
+    
+    .modal-content{
+      width: 20rem;
+      margin-top: 5rem;
+      margin-left: 1rem;
+    }
+    .select-dropdown{
+      width: 17.8rem;
+      height: 2.5rem;
+    }
+  }
+  
+  
+  

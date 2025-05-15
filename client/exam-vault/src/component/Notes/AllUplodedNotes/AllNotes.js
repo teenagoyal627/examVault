@@ -6,9 +6,9 @@ import ImageUpload from '../../Papers/AllPapers/ImageUpload';
 import axios from 'axios';
 import '../../Papers/AllPapers/LoadingSpinner.css'
 import Pagination from '../../Papers/AllPapers/Pagination/Pagination';
-import Search from '../../Papers/AllPapers/Search/Search';
 import { getAuth } from 'firebase/auth';
 import NotesTabular from './NotesTabular';
+import SearchNotes from '../Search/Search';
 
 
 const AllNotes = () => {
@@ -95,7 +95,7 @@ const AllNotes = () => {
         </div>
       ) : (
         <>
-          <Search
+          <SearchNotes
            paperData={notesData}
             setSearchResults={setSearchResults}
              setIsModalOpen={setIsModalOpen}
@@ -110,7 +110,7 @@ const AllNotes = () => {
                   <NotesTabular data={data} approvedBy={true} />
                   <button onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
                   {role === "teacher" && (
-                    <button className={classes.Button} onClick={()=>editNotesHandler(data._id,navigate)}>Edit</button>
+                    <button style={{ background: "rgb(255, 165, 0)" }} className={classes.Button} onClick={()=>editNotesHandler(data._id,navigate)}>Edit</button>
                   )}
                 </div>
               </div>

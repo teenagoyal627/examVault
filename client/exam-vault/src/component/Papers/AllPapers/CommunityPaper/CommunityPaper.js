@@ -110,7 +110,7 @@ const CommunityPaper = () => {
                   <PaperTabular data={data} approvedBy={true} />
                   <button onClick={() => viewHandler(data._id, navigate)} className={classes.Button}>View</button>
                   {role === "teacher" && (
-                    <button className={classes.Button} onClick={()=>editPaperHandler(data._id,navigate)}>Edit</button>
+                    <button style={{ background: "rgb(255, 165, 0)" }} className={classes.Button} onClick={()=>editPaperHandler(data._id,navigate)}>Edit</button>
                   )}
                 </div>
               </div>

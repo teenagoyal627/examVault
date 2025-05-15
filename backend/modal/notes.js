@@ -4,6 +4,7 @@ const subjects=require("./subject")
 const NotesSchema=new mongoose.Schema({
     user_id:{type:String},
     uploaded_by:{type:String},
+    title:{type:String},
     subject:{type:String,enum:subjects},
     year:{type:String},
     semester:{type:String},

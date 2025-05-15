@@ -38,7 +38,7 @@ const AllPaperNavBar = () => {
     <>
     
     <header className='header'>
-      <h3 className='logo-link'>Exam Vault</h3>
+      <h3 className='logo-link'>Notes & Paper Hub</h3>
 
       <nav>
         <ul>

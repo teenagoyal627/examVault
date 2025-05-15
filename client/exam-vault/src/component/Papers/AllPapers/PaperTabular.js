@@ -113,14 +113,14 @@ const PaperTabular = ({ data, approvedBy }) => {
               <td>{data.comment}</td>
             </tr>
           )}
-          {
-            data.download_count >0 &&(
+          {/* {
+            data.download_count >0 &&( */}
           <tr>
             <td><strong>Download Count</strong></td>
             <td>{data.download_count}</td>
           </tr>
-            )
-          }
+            {/* )
+          } */}
         </tbody>
       </table>
     </div>

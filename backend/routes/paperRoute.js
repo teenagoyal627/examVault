@@ -1,13 +1,13 @@
 const express = require('express')
-const { PaperData,generateNGrams, UserData } = require('../modal/modal')
+const { PaperData, generateNGrams, UserData } = require('../modal/modal')
 const router = express.Router()
 const { v4: uuidv4 } = require('uuid')
 const cloudinary = require('cloudinary').v2
 const verifyToken = require('../middleWare/jwtToken')
 const multer = require('multer')
 const { Readable } = require('stream')
-const file_type=require('../modal/fileType')
-const path=require('path')
+const file_type = require('../modal/fileType')
+const path = require('path')
 
 cloudinary.config({
   cloud_name: 'dpw3l4137',
@@ -17,99 +17,99 @@ cloudinary.config({
 
 const uploadPaperUrl = multer({ storage: multer.memoryStorage() })
 
-router.post('/upload_paper',verifyToken,uploadPaperUrl.single('file'),async (req, res) => {
+router.post('/upload_paper', verifyToken, uploadPaperUrl.single('file'), async (req, res) => {
   console.log("paper is uploading ")
 
-    const { uid } = req
-    try {
-      if (!req.file) {
-        console.log("❗ No file received");
-        return res.status(400).json({ message: 'No File Uploaded.' })
-      }
-      console.log("🟢 File received:", req.file.originalname);
-      const ext=path.extname(req.file.originalname).toLowerCase().replace('.','')
-      if(!file_type.includes(ext)){
-        return res.status(400).json({message:`Invalid file type. Allowed: ${file_type.join(', ')}`})
-      }
-
-      const user = await UserData.findOne({ user_id: uid })
-      console.log(user)
-      const { role, name, user_approval_status } = user
-      const userName=name
-
-      if (user_approval_status !== 'Approved') {
-        return res.status(403).json({
-            message: 'You are not approved by admin. Please contact to admin...'
-          })
-      }
-
-      const uniqueFileName = uuidv4()
-      
-      const uploadToCloudinary = buffer => {
-        return new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            {
-              resource_type: 'raw',
-              folder: `${uid}`,
-              public_id: uniqueFileName,
-              // format: 'pdf'
-            },
-            (error, result) => {
-              if (error) reject(error)
-              else resolve(result)
-            {console.log("error",error)}
-            {console.log(result, error)}
-            }
-          )
-          Readable.from(buffer).pipe(stream)
-        })
-      }
-
-      const uploadResponse = await uploadToCloudinary(req.file.buffer)
-      console.log(uploadResponse)
-      const file_url = uploadResponse.secure_url
-      console.log('Uploading PDF URL:', file_url);
-
-
-      let paper_approval_status = 'Pending'
-      let paper_approval_at = null
-      let paper_approved_by = null
-      let paper_comment = 'no comment'
-      let paper_updated_at = null
-
-      if (role === 'teacher') {
-        paper_approval_status = 'Approved'
-        paper_approval_at = Date.now()
-        paper_approved_by = name
-      }
-
-      const newPaper = new PaperData({
-        user_id: uid,
-        uploaded_by:userName,
-        title:req.body.title,
-        subject: req.body.subject,
-        paper_type: req.body.paper_type,
-        exam_type: req.body.exam_type,
-        year: req.body.year,
-        semester: req.body.semester,
-        department: req.body.department,
-        paper_approval_status,
-        approval_at: paper_approval_at,
-        approved_by: paper_approved_by,
-        comment: paper_comment,
-        updated_at: paper_updated_at,
-        deleted: false,
-        file_url: file_url,
-
-      })
-
-      await newPaper.save()
-      return res.status(200).json({ success: true, message: 'Paper successfully uploaded...' })
-    } catch (error) {
-      // console.log(error)
-      res.status(500).json({ error: 'server error', error })
+  const { uid } = req
+  try {
+    if (!req.file) {
+      console.log("❗ No file received");
+      return res.status(400).json({ message: 'No File Uploaded.' })
     }
+    console.log("🟢 File received:", req.file.originalname);
+    const ext = path.extname(req.file.originalname).toLowerCase().replace('.', '')
+    if (!file_type.includes(ext)) {
+      return res.status(400).json({ message: `Invalid file type. Allowed: ${file_type.join(', ')}` })
+    }
+
+    const user = await UserData.findOne({ user_id: uid })
+    console.log(user)
+    const { role, name, user_approval_status } = user
+    const userName = name
+
+    if (user_approval_status !== 'Approved') {
+      return res.status(403).json({
+        message: 'You are not approved by admin. Please contact to admin...'
+      })
+    }
+
+    const uniqueFileName = uuidv4()
+
+    const uploadToCloudinary = buffer => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            resource_type: 'raw',
+            folder: `${uid}`,
+            public_id: uniqueFileName,
+            // format: 'pdf'
+          },
+          (error, result) => {
+            if (error) reject(error)
+            else resolve(result)
+            { console.log("error", error) }
+            { console.log(result, error) }
+          }
+        )
+        Readable.from(buffer).pipe(stream)
+      })
+    }
+
+    const uploadResponse = await uploadToCloudinary(req.file.buffer)
+    console.log(uploadResponse)
+    const file_url = uploadResponse.secure_url
+    console.log('Uploading PDF URL:', file_url);
+
+
+    let paper_approval_status = 'Pending'
+    let paper_approval_at = null
+    let paper_approved_by = null
+    let paper_comment = 'no comment'
+    let paper_updated_at = null
+
+    if (role === 'teacher') {
+      paper_approval_status = 'Approved'
+      paper_approval_at = Date.now()
+      paper_approved_by = name
+    }
+
+    const newPaper = new PaperData({
+      user_id: uid,
+      uploaded_by: userName,
+      title: req.body.title,
+      subject: req.body.subject,
+      paper_type: req.body.paper_type,
+      exam_type: req.body.exam_type,
+      year: req.body.year,
+      semester: req.body.semester,
+      department: req.body.department,
+      paper_approval_status,
+      approval_at: paper_approval_at,
+      approved_by: paper_approved_by,
+      comment: paper_comment,
+      updated_at: paper_updated_at,
+      deleted: false,
+      file_url: file_url,
+
+    })
+
+    await newPaper.save()
+    return res.status(200).json({ success: true, message: 'Paper successfully uploaded...' })
+  } catch (error) {
+    // console.log(error)
+    res.status(500).json({ error: 'server error', error })
   }
+}
 )
 
 router.get('/my_paper', async (req, res) => {
@@ -119,7 +119,7 @@ router.get('/my_paper', async (req, res) => {
     if (!uid) {
       return res.status(400).json({ error: 'User ID is required' })
     }
-    const papers = await PaperData.find({ user_id: uid, deleted: false }).sort({created_at: -1})
+    const papers = await PaperData.find({ user_id: uid, deleted: false }).sort({ created_at: -1 })
     res.json(papers)
     console.log(papers.file_url)
   } catch (error) {
@@ -131,30 +131,30 @@ router.get('/all_paper', async (req, res) => {
   console.log(PaperData)
   console.log("Type of PaperData.aggregate:", typeof PaperData.aggregate);
   try {
-    const allPaper=await PaperData.aggregate([
+    const allPaper = await PaperData.aggregate([
       {
         $match: {
-          deleted: false, 
+          deleted: false,
           paper_approval_status: "Approved"
         }
-      },      
+      },
       {
         $addFields: {
           download_count: {
-            $size: { $ifNull: ["$download_user_ids", []] } 
+            $size: { $ifNull: ["$download_user_ids", []] }
           }
         }
       },
-      
+
       // {
       //   $project: {
       //     download_user_ids: 0
       //   }
       // },
       {
-        $sort:{created_at: -1}
+        $sort: { created_at: -1 }
       },
-  
+
     ])
     console.log(`✅ Papers fetched: ${allPaper.length}`);
     res.json(allPaper);
@@ -167,14 +167,14 @@ router.get('/all_paper', async (req, res) => {
   }
 })
 
-router.get('/new_papers',async(req,res)=>{
-  try{
-    const newPapers=await PaperData.find({
-      paper_approval_status:'Pending'
-    }).sort({created_at: -1})
+router.get('/new_papers', async (req, res) => {
+  try {
+    const newPapers = await PaperData.find({
+      paper_approval_status: 'Pending'
+    }).sort({ created_at: -1 })
     res.json(newPapers)
-  }catch(error){
-    res.status(500).json({message:"Error while fetching the new paper data."})
+  } catch (error) {
+    res.status(500).json({ message: "Error while fetching the new paper data." })
   }
 })
 
@@ -188,14 +188,14 @@ router.get('/get_paper/:id', async (req, res) => {
 })
 
 
-const uploadEditPaper=multer()
-router.put('/edit_paper/:id',uploadEditPaper.none(),async (req, res) => {
+const uploadEditPaper = multer()
+router.put('/edit_paper/:id', uploadEditPaper.none(), async (req, res) => {
   const { id } = req.params
-  const { title, department, subject, year, semester, paper_type, exam_type,role, approved_by} =req.body
-    //  console.log(role)
+  const { title, department, subject, year, semester, paper_type, exam_type, role, approved_by } = req.body
+  //  console.log(role)
   try {
 
-    const updateFields={
+    const updateFields = {
       title,
       department,
       subject,
@@ -207,18 +207,18 @@ router.put('/edit_paper/:id',uploadEditPaper.none(),async (req, res) => {
       deleted: false,
     }
 
-    if(role==='teacher'){
-      updateFields.paper_approval_status="Approved";
-      updateFields.approved_by=approved_by
-      updateFields.approval_at=Date.now()
+    if (role === 'teacher') {
+      updateFields.paper_approval_status = "Approved";
+      updateFields.approved_by = approved_by
+      updateFields.approval_at = Date.now()
     }
 
     const updatedPaper = await PaperData.findByIdAndUpdate(
       id,
       updateFields,
-      {new:true}
+      { new: true }
     )
-      // console.log("updatedPaper",updatedPaper)
+    // console.log("updatedPaper",updatedPaper)
     if (!updatedPaper) {
       return res.status(404).json({ message: 'Paper not found' })
     }
@@ -253,21 +253,21 @@ router.get('/:id/view_paper', async (req, res) => {
   }
 })
 
-router.post('/download_papers',verifyToken,async(req,res)=>{
-  try{
-    const {uid}=req;
-    const{paper_id}=req.body;
+router.post('/download_papers', verifyToken, async (req, res) => {
+  try {
+    const { uid } = req;
+    const { paper_id } = req.body;
     // console.log(paper_id)
-   await PaperData.findByIdAndUpdate(
-    paper_id,
-    {$addToSet:{download_user_ids:uid}},
-    {new:true}
-  )
+    await PaperData.findByIdAndUpdate(
+      paper_id,
+      { $addToSet: { download_user_ids: uid } },
+      { new: true }
+    )
 
-res.status(200).json({message:"Paper successfullly downloaded"})
+    res.status(200).json({ message: "Paper successfullly downloaded" })
 
-  }catch(error){
-    res.status(403).json({message:"User is not Authorized"})
+  } catch (error) {
+    res.status(403).json({ message: "User is not Authorized" })
   }
 })
 
@@ -298,7 +298,7 @@ router.get('/paper_stats', async (req, res) => {
 router.get('/department_stats', async (req, res) => {
   try {
     const stats = await PaperData.aggregate([
-      { $match: { deleted: false, paper_approval_status:'Approved' } },
+      { $match: { deleted: false, paper_approval_status: 'Approved' } },
       {
         $group: {
           _id: '$department',
@@ -324,7 +324,7 @@ router.get('/department_stats', async (req, res) => {
 router.get('/exam_type_stats', async (req, res) => {
   try {
     const stats = await PaperData.aggregate([
-      { $match: { deleted: false, paper_approval_status:'Approved'  } },
+      { $match: { deleted: false, paper_approval_status: 'Approved' } },
       {
         $group: {
           _id: '$exam_type',
@@ -350,7 +350,7 @@ router.get('/exam_type_stats', async (req, res) => {
 router.get('/paper_type_stats', async (req, res) => {
   try {
     const stats = await PaperData.aggregate([
-      { $match: { deleted: false,paper_approval_status:'Approved'  } },
+      { $match: { deleted: false, paper_approval_status: 'Approved' } },
       {
         $group: {
           _id: '$paper_type',
@@ -383,17 +383,17 @@ const verifyTeacher = (req, res, next) => {
   next()
 }
 
-router.put('/approve_paper',async (req, res) => {
+router.put('/approve_paper', async (req, res) => {
   try {
-    const { paperId, status,approved_by,approval_at} = req.body
+    const { paperId, status, approved_by, approval_at } = req.body
     // console.log(approval_at)
     if (!paperId || !status) {
       return res.status(400).json({ message: 'Paper ID and status are required' })
     }
     const paper = await PaperData.findById(paperId)
-    paper.paper_approval_status= status
-    paper.approved_by=approved_by 
-    paper.approval_at=approval_at
+    paper.paper_approval_status = status
+    paper.approved_by = approved_by
+    paper.approval_at = approval_at
     await paper.save()
     res.status(200).json({ message: 'Paper status updated successfully' })
   } catch (error) {
@@ -401,16 +401,16 @@ router.put('/approve_paper',async (req, res) => {
   }
 })
 
-router.put('/reject_paper',async (req, res) => {
+router.put('/reject_paper', async (req, res) => {
   try {
-    const { paperId, status,approved_by,comment} = req.body
+    const { paperId, status, approved_by, comment } = req.body
     if (!paperId || !status) {
       return res.status(400).json({ message: 'Paper ID and status are required' })
     }
     const paper = await PaperData.findById(paperId)
-    paper.paper_approval_status= status
-    paper.approved_by=approved_by 
-    paper.comment=comment
+    paper.paper_approval_status = status
+    paper.approved_by = approved_by
+    paper.comment = comment
     await paper.save()
     res.status(200).json({ message: 'Paper status updated successfully' })
   } catch (error) {
@@ -418,67 +418,60 @@ router.put('/reject_paper',async (req, res) => {
   }
 })
 
+
 router.get('/search_papers', async (req, res) => {
   try {
-    let { title, subject, department, year, semester, paper_type, exam_type } = req.query;  
-    // let page=1; 
-    // let limit=12
-    // page=parseInt(page)
-    // limit=parseInt(limit)
-    // const skip=(page-1)*limit;
-    
-    let query={}
-    let isTextSearch=false;
+    let { title, subject, department, year, semester, paper_type, exam_type, page = 1, limit = 12 } = req.query;
 
-    // if (title && title.trim() !== "") {
-    //   isTextSearch=true;
-    //   query.$or = [
-    //     { $text: { $search: title } }, 
-    //     { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } } 
-    //   ];
-    // }
+    page = parseInt(page)
+    limit = parseInt(limit)
+    const skip = (page - 1) * limit;
 
-    if (subject) query.subject = subject;
-    if (department) query.department = department;
-    if (year) query.year = year;
-    if (semester) query.semester = semester;
-    if (paper_type) query.paper_type = paper_type;
-    if (exam_type) query.exam_type = exam_type;
+    let filter = {}
+    let isTextSearch = false;
 
- console.log(query)
+    if (subject) filter.subject = subject;
+    if (department) filter.department = department;
+    if (year) filter.year = year;
+    if (semester) filter.semester = semester;
+    if (paper_type) filter.paper_type = paper_type;
+    if (exam_type) filter.exam_type = exam_type;
 
- let aggregationPipeline = [];
-       
-    // if(title && title.trim()!==""){
-    //   aggregationPipeline.push(
-    //     {$addFields:{
-    //       score:{$meta:"textScore"}}
-    //     })
-    //     aggregationPipeline.push({ $sort: { createdAt: -1 } })
-    // }else{
-    //   aggregationPipeline.push({ $sort: { createdAt: -1 } });
-    // }
+    console.log(filter)
 
-    // const papers = await PaperData.aggregate(aggregationPipeline)
-    // console.log(papers)
+    let aggregationPipeline = [];
 
-    if (title && title.trim() !== "") {
-      const textSearchQuery = { $text: { $search: title } }
-      const ngramSearchQuery = { ngrams: { $in: generateNGrams(title.toLowerCase(), 2) } }
-    
-      // Use only $text? then allow score
-      const isOnlyText = true; // You decide this based on user preference
-    
-      if (isOnlyText) {
-        aggregationPipeline.push({ $match: textSearchQuery })
-        // aggregationPipeline.push({ $addFields: { score: { $meta: "textScore" } } })
-        aggregationPipeline.push({ $sort: {createdAt: -1 } })
-      } else {
-        aggregationPipeline.push({ $match: { $or: [textSearchQuery, ngramSearchQuery] } })
-        aggregationPipeline.push({ $sort: { createdAt: -1 } }) // no score
-      }
+    if(Object.keys(filter).length>0){
+      aggregationPipeline.push({$match:filter})
     }
-    
+
+    if(title && title.trim()!==""){
+      aggregationPipeline.push({
+        $match:{
+          $text:{$search:title}
+        }
+      })
+      aggregationPipeline.push({
+        $addFields:{
+          score:{$meta:"textScore"}
+        }
+      })
+      aggregationPipeline.push({
+        $sort:{
+          score:-1,
+          created_at:-1
+        }
+      })
+    }else{
+      aggregationPipeline.push({
+        $sort:{ created_at:-1}
+      })
+    }
+
+    aggregationPipeline.push({$skip:skip});
+    aggregationPipeline.push({$limit:limit})
+
+    const papers=await PaperData.aggregate(aggregationPipeline)
 
     if (!papers.length) {
       return res.status(404).json({
@@ -486,7 +479,7 @@ router.get('/search_papers', async (req, res) => {
         data: []
       });
     }
-    else{
+    else {
       res.status(200).json({
         message: 'Searched papers fetched successfully.',
         data: papers
