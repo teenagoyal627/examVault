@@ -457,12 +457,24 @@ router.get('/search_papers', async (req, res) => {
         }
       })
       aggregationPipeline.push({
+        $match:{
+          deleted: false,
+          paper_approval_status: "Approved"
+          }        
+      })
+      aggregationPipeline.push({
         $sort:{
           score:-1,
           created_at:-1
         }
       })
     }else{
+      aggregationPipeline.push({
+        $match:{
+          deleted: false,
+          paper_approval_status: "Approved"
+          }        
+      })
       aggregationPipeline.push({
         $sort:{ created_at:-1}
       })
