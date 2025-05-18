@@ -145,12 +145,6 @@ router.get('/all_paper', async (req, res) => {
           }
         }
       },
-
-      // {
-      //   $project: {
-      //     download_user_ids: 0
-      //   }
-      // },
       {
         $sort: { created_at: -1 }
       },

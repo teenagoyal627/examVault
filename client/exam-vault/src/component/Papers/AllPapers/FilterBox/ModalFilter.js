@@ -28,6 +28,7 @@ const ModalFilter = ({
     setFilters(prev => ({ ...prev, ...filters }));
     console.log(filters)
     handleClose(); 
+    // handleFilter()
   };
 
 

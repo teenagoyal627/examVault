@@ -37,6 +37,7 @@ const Search = ({ paperData, setSearchResults, setIsModalOpen,setCurrentPage,sea
       if (query.trim() !== "") {
         params.append("title", query)
       }
+
       Object.keys(filters).forEach((key) => {
         if (filters[key]) {
           params.append(key, filters[key])
