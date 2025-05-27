@@ -10,10 +10,11 @@ export const loginSubmitHandler = async (
   loginData,
   setShowModal,
   setModalContent,
-  navigate
+  navigate,
+  setLoading
 ) => {
-  e.preventDefault()
   try {
+    console.log("login button is clicked.....")
     await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
     const idToken = await getAuth().currentUser.getIdToken(true);
     const apiUrl = `${process.env.REACT_APP_APIURL}`;
@@ -22,21 +23,23 @@ export const loginSubmitHandler = async (
     });
     const { role, status, name } = response.data;
     console.log("Role:", role, "Status:", status, "Name:", name);
-
     if (role === 'teacher') {
       if (status === 'Approved') {
+        // setLoading(false)
         toast.success(`Hello ${name}! Welcome to Exam Vault. Glad to have you here!`);
         sessionStorage.setItem("authToken", idToken);
-        setTimeout(() => 
-          navigate('/all_paper'),
-        3000);
+        // setTimeout(() => 
+        //   // navigate('/all_paper'),
+        // 3000);
       } else {
+        // setLoading(false)
         setShowModal(true);
         setModalContent({ title: 'Approval Pending', body: 'Your approval is still pending. Please wait.' });
       }
     }
 
     else if (role === 'student') {
+      // setLoading(false)
       toast.success(`${name} successfully logged in!`);
       sessionStorage.setItem("authToken", idToken);
       setTimeout(() => navigate('/upload_paper'), 3000);
@@ -44,6 +47,7 @@ export const loginSubmitHandler = async (
 
   } catch (error) {
     console.log(error)
+    // setLoading(false)
     setShowModal(true);
     setModalContent({
       title: 'Login Error',

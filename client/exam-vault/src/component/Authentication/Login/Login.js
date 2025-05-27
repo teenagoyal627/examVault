@@ -6,6 +6,7 @@ import {
 } from "./LoginUtility";
 import FrontPageNavbar from "../../Navbar/FrontPageNavbar";
 import classes from "./Login.module.css";
+import '../../Papers/AllPapers/LoadingSpinner.css'
 import MessageBox from "../../MessageBox";
 import { useNavigate } from "react-router";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
@@ -22,7 +23,7 @@ const Login = () => {
     body: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-
+  const[loading,setLoading]=useState(false)
 useEffect(()=>{
   const token=sessionStorage.getItem("authToken")
   if(token){
@@ -40,13 +41,24 @@ useEffect(()=>{
   return (
     <div>
       <FrontPageNavbar />
+      {loading &&(
+    <div className="loading-backdrop">
+      <div className="loading-box">
+        <div className="loading-spinner"></div>
+        
+        <div className="loading-text"> Please wait....       </div>
+      </div>
+    </div>
+   )}
       <div className={classes.modal}>
         <h5 className={classes.heading}>Login Form</h5>
         <hr />
         <form
-          onSubmit={(e) =>
-            loginSubmitHandler(e, loginData, setShowModal, setModalContent,navigate)
-          }
+          onSubmit={(e) =>{
+            setLoading(true)
+            e.preventDefault()
+            loginSubmitHandler(e, loginData, setShowModal, setModalContent,navigate,setLoading)
+          }}
           className={classes.loginForm}
         >
 
