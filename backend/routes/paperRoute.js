@@ -131,32 +131,44 @@ router.get('/all_paper', async (req, res) => {
   console.log(PaperData)
   console.log("Type of PaperData.aggregate:", typeof PaperData.aggregate);
   try {
-    const allPaper = await PaperData.aggregate([
-      {
-        $match: {
-          deleted: false,
-          paper_approval_status: "Approved"
-        }
-      },
-      {
-        $addFields: {
-          download_count: {
-            $size: { $ifNull: ["$download_user_ids", []] }
-          }
-        }
-      },
-      {
-        $sort: { created_at: -1 }
-      },
+    let {page=1,limit=12}=req.query;
+    page=parseInt(page)
+    limit=parseInt(limit)
+    const skip=(page-1)*limit;
 
-    ])
-    console.log(`✅ Papers fetched: ${allPaper.length}`);
-    res.json(allPaper);
+    const matchStage={
+      deleted:false,
+      paper_approval_status:"Approved"
+    }
+
+    const aggregationPipeline=[
+      {$match:matchStage},
+      {
+          $addFields: {
+            download_count: {
+              $size: { $ifNull: ["$download_user_ids", []] }
+            }
+          }
+        },
+        {
+          $sort: { created_at: -1 }
+        },
+        {$skip:skip},
+        {$limit:limit}
+    ]
+
+    const papers=await PaperData.aggregate(aggregationPipeline)
+    const total=await PaperData.countDocuments(matchStage)
+
+    res.status(200).json({
+      message:"Fetched paginated papers successfully",
+      data:papers,
+      total:total
+    })
   } catch (error) {
     res.status(500).json({
-      error: 'Server error',
-      details: error.message,
-      stack: error.stack
+      message:"Server error",
+      error: error.message
     });
   }
 })
@@ -415,16 +427,15 @@ router.put('/reject_paper', async (req, res) => {
 
 router.get('/search_papers', async (req, res) => {
   try {
-    let { title, subject, department, year, semester, paper_type, exam_type, page = 1, limit = 12 } = req.query;
-    page = parseInt(page)
-    limit = parseInt(limit)
-    const skip = (page - 1) * limit;
+    let { title, subject, department, year, semester, paper_type, exam_type} = req.query;
+    // page = parseInt(page)
+    // limit = parseInt(limit)
+    // const skip = (page - 1) * limit;
 
     let filter = {
       deleted:false, 
       paper_approval_status:"Approved"
     }
-    let isTextSearch = false;
 
     if (subject) filter.subject = subject;
     if (department) filter.department = department;
@@ -435,10 +446,7 @@ router.get('/search_papers', async (req, res) => {
 
 
     let aggregationPipeline = [];
-
-    // if(Object.keys(filter).length>0){
-    //   aggregationPipeline.push({$match:filter})
-    // }
+    // let countMatch={}
 
     if(title && title.trim()!==""){
       aggregationPipeline.push({
@@ -447,30 +455,25 @@ router.get('/search_papers', async (req, res) => {
           ...filter
         }
       })
-      aggregationPipeline.push({
-        $addFields:{
-          score:{$meta:"textScore"}
-        }
-      })
-      // aggregationPipeline.push({
-      //   $match:{
-      //     deleted: false,
-      //     paper_approval_status: "Approved"
-      //     }        
-      // })
-      aggregationPipeline.push({
-        $sort:{
+      // aggregationPipeline.push(countMatch)
+      aggregationPipeline.push({$addFields:{score:{$meta:"textScore"}}})
+      aggregationPipeline.push({$sort:{
           score:-1,
           created_at:-1
         }
       })
     }else{
       aggregationPipeline.push({$match:filter})
+      // aggregationPipeline.push(countMatch)
       aggregationPipeline.push({$sort:{ created_at:-1}})
     }
 
-    aggregationPipeline.push({$skip:skip});
-    aggregationPipeline.push({$limit:limit})
+    // const countPipeline=[countMatch,{$count:"totalCount"}]
+    // const countResult=await PaperData.aggregate(countPipeline)
+    // const totalCount=countResult[0]?.totalCount || 0
+
+    // aggregationPipeline.push({$skip:skip});
+    // aggregationPipeline.push({$limit:limit})
 
     const papers=await PaperData.aggregate(aggregationPipeline)
 
