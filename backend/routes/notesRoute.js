@@ -90,7 +90,12 @@ router.post('/upload_notes', verifyToken, uploadNotesUrl.single('file'), async (
 
 router.get('/all_notes',async(req,res)=>{
   try{
-    const allNotes=await NotesData.aggregate([
+    let{page =1, limit =12}=req.query
+    page=parseInt(page)
+    limit=parseInt(limit)
+    const skip=(page-1)*limit;
+
+   const aggregationPipeline=[
       {
         $addFields:{
           download_count:{
@@ -99,9 +104,17 @@ router.get('/all_notes',async(req,res)=>{
         }
       },{
         $sort:{created_at:-1}
-      }
-    ])
-    res.json(allNotes)
+      },
+      {$skip:skip},
+      {$limit:limit}
+    ]
+    const allNotes=await NotesData.aggregate(aggregationPipeline)
+    const total=await NotesData.countDocuments(allNotes)
+    res.status(200).json({
+      message:"Fetched notes successfully",
+      data:allNotes,
+      total:total
+    })
 
 
   }catch(error){
