@@ -446,7 +446,6 @@ router.get('/search_papers', async (req, res) => {
 
 
     let aggregationPipeline = [];
-    // let countMatch={}
 
     if(title && title.trim()!==""){
       aggregationPipeline.push({
@@ -455,7 +454,6 @@ router.get('/search_papers', async (req, res) => {
           ...filter
         }
       })
-      // aggregationPipeline.push(countMatch)
       aggregationPipeline.push({$addFields:{score:{$meta:"textScore"}}})
       aggregationPipeline.push({$sort:{
           score:-1,
@@ -464,7 +462,6 @@ router.get('/search_papers', async (req, res) => {
       })
     }else{
       aggregationPipeline.push({$match:filter})
-      // aggregationPipeline.push(countMatch)
       aggregationPipeline.push({$sort:{ created_at:-1}})
     }
 
