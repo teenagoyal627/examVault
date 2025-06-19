@@ -225,7 +225,6 @@ router.get('/search_notes', async (req, res) => {
     if (semester) filter.semester = semester;
     if (unit_no) filter.unit_no = unit_no;
 
- console.log(query)
 
  let aggregationPipeline = [];
        
