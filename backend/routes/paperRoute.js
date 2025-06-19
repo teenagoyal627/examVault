@@ -427,14 +427,14 @@ router.put('/reject_paper', async (req, res) => {
 
 router.get('/search_papers', async (req, res) => {
   try {
-    let { title, subject, department, year, semester, paper_type, exam_type} = req.query;
-    // page = parseInt(page)
-    // limit = parseInt(limit)
-    // const skip = (page - 1) * limit;
+    let { title, subject, department, year, semester, paper_type, exam_type,paper_approval_status} = req.query;
+    
+  
+    const status=paper_approval_status || "Approved"
 
     let filter = {
       deleted:false, 
-      paper_approval_status:"Approved"
+      paper_approval_status:status
     }
 
     if (subject) filter.subject = subject;
@@ -465,12 +465,7 @@ router.get('/search_papers', async (req, res) => {
       aggregationPipeline.push({$sort:{ created_at:-1}})
     }
 
-    // const countPipeline=[countMatch,{$count:"totalCount"}]
-    // const countResult=await PaperData.aggregate(countPipeline)
-    // const totalCount=countResult[0]?.totalCount || 0
-
-    // aggregationPipeline.push({$skip:skip});
-    // aggregationPipeline.push({$limit:limit})
+   
 
     const papers=await PaperData.aggregate(aggregationPipeline)
 
