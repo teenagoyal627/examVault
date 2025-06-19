@@ -4,12 +4,13 @@ const Pagination = ({
     currentPage,
     setCurrentPage,
     numberOfPages,
-    numbers
+    numbers,
+    onPageChange
 }) => {
 
     const presentPage = () => {
         if (currentPage !== 1) {
-            setCurrentPage(currentPage - 1)
+            onPageChange(currentPage - 1)
         }
     }
 
@@ -19,31 +20,34 @@ const Pagination = ({
 
     const nextPage = () => {
         if (currentPage < numberOfPages) {
-            setCurrentPage(currentPage + 1)
+            onPageChange(currentPage + 1)
         }
     }
     return (
         <div>
-            <nav className="pagination1">
-                <ul className="pagination">
-                    <li className="page-item">
-                        <button style={{color:"black"}} className="page-link" onClick={presentPage}>Prev</button>
-                    </li>
-                    {numbers.map((n, i) => (
-                        <li
-                            key={n}
-                            className={`page-item ${currentPage === n ? 'active':'' }`}
-                        >
-                            <button className={`page-link ${currentPage === n ? 'active' : ''}`} onClick={() => changePage(n)}>{i+1}</button>
-                        </li>
-                    ))}
-                    <li className="page-item">
-                        <button  style={{color:"black"}} className="page-link" onClick={nextPage}>
-                            Next
-                        </button>
-                    </li>
-                </ul>
-            </nav>
+             <nav className="pagination1">
+        <ul className="pagination">
+          <li className="page-item">
+            <button style={{ color: 'black' }} className="page-link" onClick={presentPage}>Prev</button>
+          </li>
+          {[...Array(numberOfPages).keys()].map((_, i) => (
+            <li
+              key={i + 1}
+              className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}
+            >
+              <button
+                className={`page-link ${currentPage === i + 1 ? 'active' : ''}`}
+                onClick={() => onPageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
+            </li>
+          ))}
+          <li className="page-item">
+            <button style={{ color: 'black' }} className="page-link" onClick={nextPage}>Next</button>
+          </li>
+        </ul>
+      </nav>
 
         </div>
     )

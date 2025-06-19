@@ -21,18 +21,18 @@ export const AuthProvider=({children})=>{
 
       const fetchUserRole = async (user) => {
         try {
+          const token=sessionStorage.getItem('authToken')
+          if(token!==null){
           const idToken = await user.getIdToken();
-          console.log(idToken)
           const apiUrl = `${process.env.REACT_APP_APIURL}`
-    
           const response = await axios.get(`${apiUrl}/login/get_role`, {
             headers: {
               Authorization: `Bearer ${idToken}`
             }
           });
-          {console.log(response.data)}
           setUserRole(response.data.role);
           isRoleFetched.current=true
+        }
         } catch (error) {
           console.log("Failed to fetch user role", error);
         }

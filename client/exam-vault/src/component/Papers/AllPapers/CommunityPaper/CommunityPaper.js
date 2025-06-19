@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classes from '../MyPaper/MyPaper.module.css';
 import { editPaperHandler, viewHandler } from '../MyPaper/MyPaperUtility';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import PaperTabular from '../PaperTabular';
 import ImageUpload from '../ImageUpload';
 import axios from 'axios';
@@ -18,22 +18,28 @@ const CommunityPaper = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [role, setRole] = useState(null);
+  const[searchParams,setSearchParams]=useSearchParams()
+  const[totalPapers,setTotalPapers]=useState(0)
 
+  useEffect(()=>{
+    const pageFromParams=parseInt(searchParams.get("page") || "1")
+    setCurrentPage(pageFromParams)
+  },[searchParams])
 
   const navigate = useNavigate()
-
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
-// const apiUrl="http://localhost:5003"
   useEffect(() => {
     fetchData()
-  }, []);
+  }, [currentPage]);
 
   const fetchData = async () => {
-    
+    setLoading(true)
     try {
-      const response = await axios.get(`${apiUrl}/papers/all_paper`);
-      setPaperData(response.data || []);
+      const response = await axios.get(`${apiUrl}/papers/all_paper?page=${currentPage}`);
+      setPaperData(response.data.data || []);
+      console.log("paper data",paperData)
+      setTotalPapers(response.data.total)
       setLoading(false)
     } catch (error) {
       if (error.response) {
@@ -42,6 +48,8 @@ const CommunityPaper = () => {
         console.error("Network or Axios error:", error.message);
       }      
       setLoading(true)
+    }finally{
+      setLoading(false)
     }
     
     try {
@@ -72,8 +80,12 @@ const CommunityPaper = () => {
   const lastIndex = currentPage * recordsPerPage
   const firstIndex = lastIndex - recordsPerPage;
   const activeData = searchResults && searchResults.length > 0 ? searchResults : paperData
-  const records = activeData.slice(firstIndex, lastIndex)
-  const numberOfPages = Math.ceil((activeData.length || 1) / recordsPerPage)
+  const records =  searchResults && searchResults.length > 0 
+  ? activeData.slice(firstIndex, lastIndex)
+  : paperData
+  const numberOfPages= searchResults && searchResults.length > 0 
+  ? Math.ceil((activeData.length || 1) / recordsPerPage)
+  : Math.ceil(totalPapers/recordsPerPage)
   const numbers = [...Array(numberOfPages).keys()].map((n) => n + 1)
 
 
@@ -100,6 +112,8 @@ const CommunityPaper = () => {
             setSearchResults={setSearchResults}
              setIsModalOpen={setIsModalOpen}
              setCurrentPage={setCurrentPage}
+             searchResults={searchResults}
+             defaultParams={{paper_approval_status:"Approved"}}
               />
 
           <div className={classes.paperContainer} >
@@ -121,6 +135,11 @@ const CommunityPaper = () => {
             setCurrentPage={setCurrentPage}
             numberOfPages={numberOfPages}
             numbers={numbers}
+            onPageChange={(pageNum)=>{
+              const params=new URLSearchParams(searchParams.toString())
+              params.set("page",pageNum)
+              setSearchParams(params)
+            }}
           />
         </>
 

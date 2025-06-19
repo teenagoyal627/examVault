@@ -6,6 +6,7 @@ import FieldsInput from '../../../../FormInputs/FieldsInput';
 import { studentRegSubmitHandler } from "./Utility";
 import { useNavigate } from "react-router";
 import MessageBox from "../../../../MessageBox";
+import '../../../../Papers/AllPapers/LoadingSpinner.css'
 const StudentRegistration = () => {
   const navigate = useNavigate();
   const [studentData, setStudentData] = useState({
@@ -30,7 +31,7 @@ const StudentRegistration = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const[loading,setLoading]=useState(false)
   useEffect(()=>{
    const token=sessionStorage.getItem("authToken")
    if(token){
@@ -64,19 +65,29 @@ const StudentRegistration = () => {
   return (
     <div>
       <FrontPageNavbar />
+      {loading &&(
+    <div className="loading-backdrop">
+      <div className="loading-box">
+        <div className="loading-spinner"></div>
+        
+        <div className="loading-text">Creating your account and verifying your credentials, please wait...      </div>
+      </div>
+    </div>
+   )}
       <Card>
         <h5 className={classes.heading}>Student Registration Form</h5>
         <hr />
         <form
-          onSubmit={(e) =>
+          onSubmit={(e) =>{
             studentRegSubmitHandler(
               e,
               studentData,
               navigate,
               setShowModal,
-              setModalContent
+              setModalContent,
+              setLoading
             )
-          }
+           } }
         >
           <FieldsInput
             label="Name"

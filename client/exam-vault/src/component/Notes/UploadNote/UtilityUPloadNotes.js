@@ -148,6 +148,7 @@ export const newNotesSubmitHandler = async (
      const formData = new FormData();
 
     formData.append("file", selectedFile);
+    formData.append("title",newNotes.title);
     formData.append("department", newNotes.department);
     formData.append("subject", newNotes.subject);
     formData.append("year", newNotes.year);

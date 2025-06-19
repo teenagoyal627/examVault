@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Search.css'
 import FilterButton from '../FilterBox/FilterButton'
 import AppliedFilters from '../FilterBox/AppliedFilters'
@@ -8,35 +8,39 @@ const SearchContainer = ({
   handleInputChange,
   handleSearch,
   setFilters,
-  filters
+  filters,
+  setSearchParams,
+  searchParams
 }) => {
 
   return (
-    
+
     <div className="search-container">
       <div className="search-top-row">
-    <input
-      type="text"
-      placeholder="Search on title"
-      value={query}
-      onChange={handleInputChange}
-      className="search-input"
-    />
-    
-    <button onClick={handleSearch} className="search-button">
-      Search
-    </button>
+        <input
+          type="text"
+          placeholder="Search on title"
+          value={query}
+          onChange={handleInputChange}
+          className="search-input"
+        />
 
-    <FilterButton
-     setFilters={setFilters} 
-     handleFilter={handleSearch}
-     filters={filters}
-    />
+        <button onClick={handleSearch} className="search-button">
+          Search
+        </button>
+
+        <FilterButton
+          setFilters={setFilters}
+          handleFilter={handleSearch}
+          filters={filters}
+          setSearchParams={setSearchParams}
+          searchParams={searchParams}
+        />
       </div>
-    <div className='applied-filters-section'>
-    <AppliedFilters filters={filters} setFilters={setFilters}/>
+      <div className='applied-filters-section'>
+        <AppliedFilters filters={filters} setFilters={setFilters} handleSearch={handleSearch} setSearchParams={setSearchParams} searchParams={searchParams} />
+      </div>
     </div>
-  </div>
 
   )
 }

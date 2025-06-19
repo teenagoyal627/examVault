@@ -46,7 +46,7 @@ useEffect(()=>{
       <div className="loading-box">
         <div className="loading-spinner"></div>
         
-        <div className="loading-text"> Please wait....       </div>
+        <div className="loading-text">Checking your details, please hold on....      </div>
       </div>
     </div>
    )}
@@ -98,7 +98,7 @@ useEffect(()=>{
         body={modalContent.body}
         handleConfirm={() =>handleConfirm(setShowModal, navigate, modalContent)}
       />
-      <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} />
+      <ToastContainer position="top-right" autoClose={1000} hideProgressBar={false} />
     </div>
   );
 };

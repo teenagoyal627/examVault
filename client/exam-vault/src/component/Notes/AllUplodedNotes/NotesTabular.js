@@ -17,7 +17,15 @@ const NotesTabular = ({ data, approvedBy }) => {
     <div >
       <table className={classes.paperTable}>
         <tbody>
-         
+        <tr>
+            <td>
+              <strong>Title</strong>
+            </td>
+            <td>
+              {data.title}
+            </td>
+          </tr>
+
           <tr>
             <td>
               <strong>Year/Sem</strong>

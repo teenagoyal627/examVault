@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './Filter.css'
 import subjects from "../UploadPaper/Subject";
 import FieldsInput from "../../../FormInputs/FieldsInput";
@@ -9,11 +9,16 @@ const ModalFilter = ({
   handleClose,
   setFilters,
   handleFilter,
-  currentFilters
+  currentFilters,
+  setSearchParams,
+  searchParams
 }) => {
 
-  const [filters, updateFilters] = useState({...currentFilters});
+  const [filters, updateFilters] = useState({});
 
+useEffect(()=>{
+  updateFilters(currentFilters)
+},[currentFilters])
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target
@@ -24,11 +29,31 @@ const ModalFilter = ({
   };
 
  
+  // const applyFilters = () => {
+  //   const updated={}
+  //   Object.entries(filters).forEach(([key,value])=>{
+  //     if(value){
+  //       updated[key]=value
+  //     }
+  //   })
+  //   setSearchParams(updated)
+  //   // setFilters(prev => ({ ...prev, ...filters }));
+  //   // console.log("filters",filters)
+  //   handleClose(); 
+  //   // handleFilter()
+  // };
+
   const applyFilters = () => {
-    setFilters(prev => ({ ...prev, ...filters }));
-    console.log(filters)
-    handleClose(); 
-    // handleFilter()
+    const newParams = new URLSearchParams(searchParams.toString());
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value) {
+        newParams.set(key, value);
+      } else {
+        newParams.delete(key);
+      }
+    });
+    setSearchParams(newParams);
+    handleClose();
   };
 
 

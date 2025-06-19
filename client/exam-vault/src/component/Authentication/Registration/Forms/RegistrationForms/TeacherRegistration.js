@@ -6,6 +6,7 @@ import FieldsInput from '../../../../FormInputs/FieldsInput';
 import { teacherRegSubmitHandler, teacherHandleConfirm } from "./Utility";
 import { useNavigate} from "react-router";
 import MessageBox from "../../../../MessageBox";
+import '../../../../Papers/AllPapers/LoadingSpinner.css'
 
 const TeacherRegistration = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const TeacherRegistration = () => {
     title: "",
     body: "",
   });
-
+  const[loading,setLoading]=useState(false)
 
   const handleTeacherChange = (event) => {
     const { name, value } = event.target;
@@ -48,6 +49,15 @@ const TeacherRegistration = () => {
   return (
     <div>
       <FrontPageNavbar />
+      {loading && (
+        <div className="loading-backdrop">
+        <div className="loading-box">
+          <div className="loading-spinner"></div>
+          
+          <div className="loading-text">Creating your account and verifying your credentials, please wait...</div>
+        </div>
+      </div>
+      )}
       <Card>
         <h5 className={classes.heading}>Teacher Registration Form</h5>
         <h5 style={{ fontSize: ".9rem" }}>
@@ -56,15 +66,16 @@ const TeacherRegistration = () => {
         </h5>
         <hr />
         <form
-          onSubmit={(e) =>
+          onSubmit={(e) =>{     
             teacherRegSubmitHandler(
               e,
               teacherData,
               navigate,
               setShowModal,
-              setModalContent
+              setModalContent,
+              setLoading
             )
-          }
+           }}
         >
           <FieldsInput
             label="Name"

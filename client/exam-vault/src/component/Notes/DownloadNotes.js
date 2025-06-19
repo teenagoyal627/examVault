@@ -54,7 +54,6 @@ const downloadHandler = async() => {
   }
   const sub=data.subject 
   const semester=data.semester 
-  const paperType=data.paper_type
 
   const idToken=await user.getIdToken()
  axios.post(`${apiUrl}/notes/download_notes`,{
@@ -76,7 +75,7 @@ const downloadHandler = async() => {
 
       link.href = window.URL.createObjectURL(blob);
       
-      link.download = `${sub} ${semester} ${paperType}.${extension}`; 
+      link.download = `${sub} ${semester}.${extension}`; 
       link.click();
 
       window.URL.revokeObjectURL(link.href);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import classes from '../MyPaper/MyPaper.module.css';
 import { viewHandler } from '../MyPaper/MyPaperUtility';
 import PaperTabular from '../PaperTabular';
@@ -15,22 +15,26 @@ const NewPaper = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchResults, setSearchResults] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const[searchParams,setSearchParams]=useSearchParams() 
   const navigate = useNavigate()
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
 
-  console.log(searchResults)
+  useEffect(()=>{
+      const pageFromParams=parseInt(searchParams.get("page") || "1")
+      setCurrentPage(pageFromParams)
+    },[searchParams])
 
 
   useEffect(() => {
     fetchData()
-  }, []);
+  }, [currentPage]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${apiUrl}/papers/new_papers`);
       console.log(response.data)
-      setPaperData(response.data||[]);
+      setPaperData(response.data ||[]);
       setSearchResults([])
       console.log(searchResults)
       setLoading(false)
@@ -46,7 +50,9 @@ const NewPaper = () => {
   const firstIndex = lastIndex - recordsPerPage;
   const activeData =searchResults.length>0 ? searchResults : paperData
   console.log(activeData)
-  const records = paperData.slice(firstIndex, lastIndex)
+  const records =  searchResults && searchResults.length > 0 
+  ? activeData.slice(firstIndex, lastIndex)
+  : paperData
   const numberOfPages = Math.ceil((paperData.length || 1) / recordsPerPage)
   const numbers = [...Array(numberOfPages).keys()].map((n) => n + 1)
 
@@ -84,7 +90,7 @@ const NewPaper = () => {
            setIsModalOpen={setIsModalOpen}
            setCurrentPage={setCurrentPage} 
            searchResults={searchResults}
-           pendingPapers={paperData}
+           defaultParams={{paper_approval_status:"Pending"}}
            />
 
           <div className={classes.paperContainer} >
@@ -106,6 +112,11 @@ const NewPaper = () => {
             setCurrentPage={setCurrentPage}
             numberOfPages={numberOfPages}
             numbers={numbers}
+            onPageChange={(pageNum)=>{
+              const params=new URLSearchParams(searchParams.toString())
+              params.set("page",pageNum)
+              setSearchParams(params)
+            }}
           />
         </>
       )}

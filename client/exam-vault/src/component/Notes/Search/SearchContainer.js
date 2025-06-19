@@ -8,7 +8,9 @@ const SearchNotesContainer = ({
   handleInputChange,
   handleSearch,
   setFilters,
-  filters
+  filters,
+  setSearchParams,
+  searchParams
 }) => {
 
   return (
@@ -31,10 +33,12 @@ const SearchNotesContainer = ({
      setFilters={setFilters} 
      handleFilter={handleSearch}
      filters={filters}
+     setSearchParams={setSearchParams}
+     searchParams={searchParams}
     />
       </div>
     <div className='applied-filters-section'>
-    <AppliedFilters filters={filters} setFilters={setFilters}/>
+    <AppliedFilters filters={filters} setFilters={setFilters} handleSearch={handleSearch} setSearchParams={setSearchParams} searchParams={searchParams} />
     </div>
   </div>
 

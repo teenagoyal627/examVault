@@ -1,7 +1,14 @@
 import React, { useRef, useState } from 'react'
 import ModalFilter from './ModalFilter'
 
-const FilterButton = ({setFilters,handleFilter,filters}) => {
+const FilterButton = (
+  {
+    setFilters,
+    handleFilter,
+    filters,
+    setSearchParams,
+    searchParams
+  }) => {
   
   const[showFilterModal,setShowFilterModal]=useState(false)
   const modalRef=useRef(null)
@@ -16,6 +23,8 @@ const FilterButton = ({setFilters,handleFilter,filters}) => {
         setFilters={setFilters}
         handleFilter={handleFilter}
         currentFilters={filters}
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}
         />
         
       )}

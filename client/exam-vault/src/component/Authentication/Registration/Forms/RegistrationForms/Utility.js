@@ -14,9 +14,10 @@ export const studentRegSubmitHandler = async (
   regData,
   navigate,
   setShowModal,
-  setModalContent
+  setModalContent,
+  setLoading
 ) => {
-  e.preventDefault();
+  e.preventDefault()
   if(!validate(regData.password, regData.confirmPass)){
     setShowModal(true)
     setModalContent({
@@ -32,8 +33,8 @@ export const studentRegSubmitHandler = async (
     })
     return;
  }
-
   try {
+    setLoading(true)
     await createUserWithEmailAndPassword(
       auth,
       regData.email,
@@ -59,12 +60,14 @@ export const studentRegSubmitHandler = async (
           Authorization:`Bearer ${idToken}`,
         }
       }).then((res) => {
+        setLoading(false)
         sessionStorage.setItem("authToken",idToken)
         navigate("/all_paper");
       });
        
       }
    catch (error) {
+    setLoading(false)
     switch (error.code) {
       case "auth/email-already-in-use":
         setShowModal(true);
@@ -86,10 +89,10 @@ export const teacherRegSubmitHandler = async (
   regData,
   navigate,
   setShowModal,
-  setModalContent
+  setModalContent,
+  setLoading
 ) => {
-  console.log(regData)
-  e.preventDefault();
+  e.preventDefaut()
   if(!validate(regData.password, regData.confirmPass)){
     setShowModal(true)
     setModalContent({
@@ -106,6 +109,7 @@ export const teacherRegSubmitHandler = async (
       return;
    }
   try {
+    setLoading(true)
     await createUserWithEmailAndPassword(
       auth,
       regData.email,
@@ -125,12 +129,14 @@ export const teacherRegSubmitHandler = async (
             Authorization:`Bearer ${idToken}`,
           }
         })
+        setLoading(false)
         setShowModal(true);
         setModalContent({
           title: "Registration Successful",
           body: "Your registration has been submitted. Once approved, you will be notified.",
         });
   } catch (error) {
+    setLoading(false)
     switch (error.code) {
       case "auth/email-already-in-use":
         setShowModal(true);

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './Filter.css'
 import subjects from "../../Papers/AllPapers/UploadPaper/Subject";
 import FieldsInput from "../../FormInputs/FieldsInput";
@@ -9,11 +9,16 @@ const ModalFilter = ({
   handleClose,
   setFilters,
   handleFilter,
-  currentFilters
+  currentFilters,
+  setSearchParams,
+  searchParams
 }) => {
 
   const [filters, updateFilters] = useState({...currentFilters});
 
+  useEffect(()=>{
+    updateFilters(currentFilters)
+  },[currentFilters])
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target
@@ -24,11 +29,25 @@ const ModalFilter = ({
   };
 
  
-  const applyFilters = () => {
-    setFilters(prev => ({ ...prev, ...filters }));
-    console.log(filters)
-    handleClose(); 
-  };
+  // const applyFilters = () => {
+  //   setFilters(prev => ({ ...prev, ...filters }));
+  //   console.log(filters)
+  //   handleClose(); 
+  // };
+
+  const applyFilters=()=>{
+    const newParams=new URLSearchParams(searchParams.toString())
+    Object.entries(filters).forEach(([key,value])=>{
+      if(value){
+        newParams.set(key,value)
+      }else{
+        newParams.delete(key)
+      }
+    })
+    setSearchParams(newParams)
+    handleFilter()
+    handleClose()
+  }
 
 
   return (
@@ -102,24 +121,7 @@ const ModalFilter = ({
                   required={false}
                   options={['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']}
                 />
-                <FieldsInput
-                  label='Paper Type'
-                  type='select'
-                  name='paper_type'
-                  value={filters.paper_type}
-                  onChange={handleFilterChange} 
-                  required={false}
-                  options={['Main', 'Back', 'Other']}
-                />
-                <FieldsInput
-                  label='Exam Type'
-                  type='select'
-                  name='exam_type'
-                  value={filters.exam_type}
-                  onChange={handleFilterChange} 
-                  required={false}
-                  options={['University', 'Midterm', 'Improvement', 'Other']}
-                />
+                
               </div>
 
 

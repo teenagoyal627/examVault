@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import classes from '../../Papers/AllPapers/MyPaper/MyPaper.module.css';
 import { editNotesHandler, viewHandler } from './Utility';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import ImageUpload from '../../Papers/AllPapers/ImageUpload';
 import axios from 'axios';
 import '../../Papers/AllPapers/LoadingSpinner.css'
 import Pagination from '../../Papers/AllPapers/Pagination/Pagination';
 import { getAuth } from 'firebase/auth';
 import NotesTabular from './NotesTabular';
-import SearchNotes from '../Search/Search';
+import SearchNotes from '../Search/SearchNotes';
 
 
 const AllNotes = () => {
@@ -18,7 +18,16 @@ const AllNotes = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [role, setRole] = useState(null);
+  const[searchParams,setSearchParams]=useSearchParams() 
+  const[totalNotes,setTotalNotes]=useState(0)
 
+
+
+    useEffect(()=>{
+      const pageFromParams=parseInt(searchParams.get("page") || "1")
+      setCurrentPage(pageFromParams)
+    },[searchParams])
+  
 
   const navigate = useNavigate()
 
@@ -27,21 +36,22 @@ const AllNotes = () => {
 // const apiUrl="http://localhost:5003"
   useEffect(() => {
     fetchData()
-  }, []);
+  }, [currentPage]);
 
   const fetchData = async () => {
-    
+    setLoading(true)
     try {
       const response = await axios.get(`${apiUrl}/notes/all_notes`);
-      setNotesData(response.data || []);
+      setNotesData(response.data.data || []);
+      setTotalNotes(response.data.total)
       setLoading(false)
     } catch (error) {
       if (error.response) {
-        console.error("Backend Error:", error.response.data);
         alert(`Error: ${error.response?.data?.error || 'Something went wrong'}`);      } else {
-        console.error("Network or Axios error:", error.message);
       }      
       setLoading(true)
+    }finally{
+      setLoading(false)
     }
     
     try {
@@ -72,8 +82,8 @@ const AllNotes = () => {
   const lastIndex = currentPage * recordsPerPage
   const firstIndex = lastIndex - recordsPerPage;
   const activeData = searchResults && searchResults.length > 0 ? searchResults : notesData
-  const records = activeData.slice(firstIndex, lastIndex)
-  const numberOfPages = Math.ceil((activeData.length || 1) / recordsPerPage)
+  const records = searchResults && searchResults.length > 0 ? activeData.slice(firstIndex, lastIndex) : notesData
+  const numberOfPages = searchResults && searchResults.length > 0 ? Math.ceil((activeData.length || 1) / recordsPerPage): Math.ceil(totalNotes/recordsPerPage)
   const numbers = [...Array(numberOfPages).keys()].map((n) => n + 1)
 
 
@@ -96,10 +106,11 @@ const AllNotes = () => {
       ) : (
         <>
           <SearchNotes
-           paperData={notesData}
+            notesData={notesData}
             setSearchResults={setSearchResults}
              setIsModalOpen={setIsModalOpen}
              setCurrentPage={setCurrentPage}
+             
               />
 
           <div className={classes.paperContainer} >
@@ -121,6 +132,11 @@ const AllNotes = () => {
             setCurrentPage={setCurrentPage}
             numberOfPages={numberOfPages}
             numbers={numbers}
+            onPageChange={(pageNum)=>{
+              const params=new URLSearchParams(searchParams.toString())
+              params.set("page",pageNum)
+              setSearchParams(params)
+            }}
           />
         </>
 

@@ -38,8 +38,8 @@ const AllPaperNavBar = () => {
     <>
     
     <header className='header'>
-      <h3 className='logo-link'>Notes & Paper Hub</h3>
-
+      <a href='/all_paper' className='logo-link'>Notes & Paper Hub</a>
+         
       <nav>
         <ul>
           <li><a href='/all_paper' className={`link ${location.pathname === '/all_paper' ? 'active' : ''}`}>All Papers</a></li>
