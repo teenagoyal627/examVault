@@ -241,7 +241,8 @@ router.get('/search_notes', async (req, res) => {
         })
         aggregationPipeline.push({ $sort: {score:-1, createdAt: -1 } })
     }else{
-      aggregationPipeline.push({ $sort: {score:-1, createdAt: -1 } });
+      aggregationPipeline.push({$match:filter})
+      aggregationPipeline.push({ $sort: {createdAt: -1 } });
     }
 
     const notes = await NotesData.aggregate(aggregationPipeline)    
