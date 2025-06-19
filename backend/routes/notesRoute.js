@@ -219,11 +219,11 @@ router.get('/search_notes', async (req, res) => {
    
     let filter={}
 
-    if (subject) query.subject = subject;
-    if (department) query.department = department;
-    if (year) query.year = year;
-    if (semester) query.semester = semester;
-    if (unit_no) query.unit_no = unit_no;
+    if (subject) filter.subject = subject;
+    if (department) filter.department = department;
+    if (year) filter.year = year;
+    if (semester) filter.semester = semester;
+    if (unit_no) filter.unit_no = unit_no;
 
  console.log(query)
 
