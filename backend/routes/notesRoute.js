@@ -249,13 +249,13 @@ router.get('/search_notes', async (req, res) => {
     }
     else{
       res.status(200).json({
-        message: 'Searched papers fetched successfully.',
+        message: 'Searched notes fetched successfully.',
         data: notes
       })
     }
   } catch (error) {
     res.status(500).json({
-      message: 'An error occurred while searching papers.',
+      message: 'An error occurred while searching notes.',
       error: error.message
     })
   }
