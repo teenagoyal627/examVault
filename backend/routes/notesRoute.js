@@ -230,13 +230,19 @@ router.get('/search_notes', async (req, res) => {
  let aggregationPipeline = [];
        
     if(title && title.trim()!==""){
+      aggregationPipeline.push({
+        $match:{
+          ...filter,
+          $text:{$search:title}
+        }
+      })
       aggregationPipeline.push(
         {$addFields:{
           score:{$meta:"textScore"}}
         })
-        aggregationPipeline.push({ $sort: { createdAt: -1 } })
+        aggregationPipeline.push({ $sort: {score:-1, createdAt: -1 } })
     }else{
-      aggregationPipeline.push({ $sort: { createdAt: -1 } });
+      aggregationPipeline.push({ $sort: {score:-1, createdAt: -1 } });
     }
 
     const notes = await NotesData.aggregate(aggregationPipeline)    
