@@ -4,11 +4,10 @@ import AllPaperNavBar from '../../Navbar/AllPaperNavBar'
 
 const AllPaper = () => {
   return (
-    <div>
+    <>
     <AllPaperNavBar/>
     <Outlet/>
-  
-    </div>            
+    </>            
   )
 }
 

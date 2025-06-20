@@ -20,6 +20,7 @@ import UploadNotes from './component/Notes/UploadNote/UploadNotes'
 import AllNotes from './component/Notes/AllUplodedNotes/AllNotes'
 import MyNotes from './component/Notes/MyNotes/MyNotes'
 import DownloadNotes from './component/Notes/DownloadNotes'
+import AllPaperNavBar from './component/Navbar/AllPaperNavBar'
 
 const router=createBrowserRouter([
   {
@@ -128,7 +129,10 @@ const router=createBrowserRouter([
 
 const App = () => {
   return (
-    <RouterProvider router={router} />
+
+<RouterProvider router={router} />
+
+  
   )
 }
 
