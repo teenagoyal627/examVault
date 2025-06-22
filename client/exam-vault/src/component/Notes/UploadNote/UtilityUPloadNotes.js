@@ -190,7 +190,7 @@ export const newNotesSubmitHandler = async (
              setShowModal(true)
              setModalContent({
               title:"Edit Successful",
-              body:"The notes was updated successfully. You can now view it in All Papers.",
+              body:"The notes was updated successfully. You can now view it in All notes.",
               confirmHandler:()=>{
                 setShowModal(false)
                 navigate('/all_notes')
@@ -201,7 +201,7 @@ export const newNotesSubmitHandler = async (
         setShowModal(true)
         setModalContent({
           title:'Upload Successful',
-          body: 'The notes was uploaded successfully. You can now view it in My Papers',
+          body: 'The notes was uploaded successfully. You can now view it in My notes',
           confirmHandler:()=>{
             setShowModal(false)
             navigate('/my_notes')

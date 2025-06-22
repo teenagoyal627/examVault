@@ -1,16 +1,29 @@
 
-  .profile-card {
-    background-color: white;
-    justify-content: center;
-    margin-top: 5rem;
-    margin-left: 45rem;
-    padding: 30px;
-    width: 500px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-
+.profile-card {
+  background-color: white;
+  padding: 30px;
+  width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.editable-input {
+  background-color: #f0f0f0;
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.disabled-value{
+  color:#d6cece;
+  cursor: not-allowed;
+}
+.editButton{
+  cursor: pointer;
+}
   
   table {
     width: 100%;

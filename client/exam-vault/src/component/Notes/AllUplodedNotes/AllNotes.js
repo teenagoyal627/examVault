@@ -100,7 +100,7 @@ const AllNotes = () => {
         <div className="loading-backdrop">
           <div className="loading-box">
             <div className="loading-spinner"></div>
-            <div className="loading-text">Retrieving papers, this might take a moment...</div>
+            <div className="loading-text">Retrieving notes, this might take a moment...</div>
           </div>
         </div>
       ) : (

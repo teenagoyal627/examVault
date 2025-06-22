@@ -3,6 +3,7 @@ import { getAuth } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import "./MyProfile.css";
 import { useNavigate } from "react-router-dom";
+import { FiEdit } from "react-icons/fi";
 
 const MyProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -10,6 +11,8 @@ const MyProfile = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
+  const[editingField,setEditingField]=useState({})
+  const[editedData,setEditedData]=useState({})
 
   const apiUrl = `${process.env.REACT_APP_APIURL}`;
 
@@ -48,10 +51,17 @@ const MyProfile = () => {
       weekday: "long"
     });
   };
+
+  const editProfileHandler=(fieldName)=>{
+    console.log("edit button click")
+    console.log(fieldName)
+    setEditingField((prev)=>({...prev,[fieldName]:true}))
+    setEditedData((prev)=>({...prev,[fieldName]:userData[fieldName]}))
+  }
   const navigate = useNavigate();
 
-  const editHandler = (id) => {
-    navigate(`/edit_profile/${id}`);
+  const saveEditedData = (id) => {
+    navigate(`/my_profile`);
   };
 
   return (
@@ -85,19 +95,36 @@ const MyProfile = () => {
                 .map(([key, value]) => (
                   <tr key={key}>
                     <td className="label">{key.toUpperCase()}</td>
-                    <td className="value">{value}</td>
+                    <td className={`value ${key==="email" ? "disabled-value":""}`}>
+                      {editingField[key] ? (
+                        <input
+                        className="editable-input"
+                        value={editedData[key] ?? ""}
+                        onChange={(e)=>setEditedData((prev)=>({...prev,[key]:e.target.value}))}/>
+                      ):(
+                        editedData[key]??userData[key]
+                      )}
+                    </td>
+                    {key==="email"? (
+                      <td></td>
+                    ):(
+                      <td>
+                        <FiEdit className="editButton" onClick={()=>editProfileHandler(key)} />
+                      </td>
+                    )}
                   </tr>
                 ))}
+                
             {userData && (
               <tr>
                 <td className="label">CREATED_AT</td>
-                <td className="value">{CreatedAtDate(userData.created_at)}</td>
+                <td className="disabled-value">{CreatedAtDate(userData.created_at)}</td>
               </tr>
             )}
           </tbody>
         </table>
-        <button className="edit-btn" onClick={() => editHandler(userData._id)}>
-          Edit
+        <button className="edit-btn" onClick={() => saveEditedData(userData._id)}>
+          Save
         </button>
       </div>
     </>

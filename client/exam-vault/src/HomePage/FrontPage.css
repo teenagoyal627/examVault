@@ -24,13 +24,9 @@ body {
     padding: 40px 20px;
   }
   
-  .header-left h1 {
+  .header-left h2 {
     margin-top: 20px;
     font-size: 2rem;
-    font-weight: bold;
-    color: "white";
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
   
   .header-left {
@@ -40,183 +36,195 @@ body {
   .header-left p {
     font-size: 1rem;
     line-height: 1.5;
+    color: #333;
   }
   
   .header-right img {
     width: 450px;
   }
-  
+
   .GetStartButton {
-    color: white;
     padding: 10px 20px;
-    margin: 10px 0;
-    border: none;
+    height: 50px;
+    margin: 10px 5px;
     border-radius: 5px;
     cursor: pointer;
-    width: 15rem;
-    transition: background-color 0.3s;
-    background-color: #dcdcda;
-  
-  }
-  
-  .GetStartButton a {
-    color: black;
-    text-decoration: none;
-  }
-  
-  .GetStartButton:hover,
-  .GetStartButton:active {
-    background-color: #5d5a57;
-    color: white;
-  
-  }
-  
-  .GetStartButton a:hover,
-  .GetStartButton a:active {
-    color: white;
-  
-  }
-  .features-header {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .features-card {
-    width: 32%;
-    position: relative;
-    min-height: 300px;
-    transition: 0.2s ease-out;
-    background-size: cover;
-    background-position: center;
-    color: white;
+    width: 12rem;
     text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    margin-bottom: 3rem;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.3s ease;
   }
   
-  .features-card:hover {
-    box-shadow: 10px 10px 20px #716f6c;
-    border-radius: 2rem;
-  }
-  
-  .features-text {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    color: white;
+  .gradient-bg {
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
+    color: black;
+    border: none;
     font-size: 1.2rem;
   }
   
-  .features-area {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 3rem;
+  .gradient-bg:hover {
+    filter: brightness(0.9);
+    color: white;
+  }
+  
+  .outlined {
+    border: 2px solid #72818d;
+    color: black;
+    background: white;
+    font-size: 1.2rem;
 
   }
   
-  .features-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 0;
-    border-radius: 1rem;
-  }
-  
-  .card-1 {
-    background-image: url("../../public/Images/uploadPaper.png");
-  }
-  
-  .card-2 {
-    background-image: url("../../public/Images/AllPaper.png");
-  }
-  
-  .card-3 {
-    background-image: url("../../public/Images/Stats.png");
-  }
-  
-  .card-7 {
-    background-image: url("../../public/Images/uploadPaper.png");
-  }
-  
-  .card-8 {
-    background-image: url("../../public/Images/uploadPaper.png");
-  }
-  
-  .card-9 {
-    background-image: url("../../public/Images/uploadPaper.png");
-  }
-  
-  .section {
-    padding: 30px 20px 0;
-  }
-  
-  .section-container {
-    gap: 30px;
-  }
-  
-  .section-img img {
-    width: 100%;
-  }
-  
-  .section-desc {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .section-desc h3 {
-    font-size: 1.5rem;
-  }
-  
-  .cta-section {
-    padding: 50px 20px 80px;
-    color: #fff;
-    margin-right: 5rem;
-    margin-left: 5rem;
-  }
-  
-  .cta-section-container {
-    flex-direction: column;
-    gap: 30px;
+  .outlined:hover {
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
     color: white;
-    background: #4a4948;
+    border: none;
+  }
+
+  .features-section{
+    padding: 60px 20px;
+    height: 30rem;
+    /* background-color: #f9fbfc; */
+    text-align:  center;
+  }
+
+  .section-title{
+    font-size: 2rem;
+    color: #2b2b2b;
+  }
+
+  .section-subtitle{
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 40px;
+  }
+
+  .features-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+  }
+
+  .feature-card{
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px 20px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    transition: 0.3s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .feature-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+  }
+
+  .feature-icon{
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 15px;
+    color: #5cb3f5;
   }
   
-  .card {
-    color: black;
-    padding: 20px;
-    border-radius: 5px;
+  .feature-card h3{
+    margin: 10px 0 8px ;
+    font-size: 1.25rem;
+    color: #333;
+  }
+
+  .feature-card p{
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .about-section {
+    padding: 60px 0;
+  }
+  
+  .about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  
+  .about-text {
+    flex: 1;
+    max-width: 600px;
+  }
+  
+  .about-text h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  .about-image {
+    flex: 1;
+    max-width: 500px;
     text-align: center;
   }
   
-  .card-header {
-    font-size: 1.5rem;
-    font-weight: bold;
+  .about-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
   }
+  .faq-section {
+  padding: 60px 0;
+}
+
+.faq-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 2rem;
+}
+
+.faq-item {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease-in-out;
+}
+
+.faq-item:hover {
+  transform: translateY(-4px);
+}
+
+.faq-item h4 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.faq-item p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.simple-footer {
+  background-color: #f0f0f0;
+  padding: 1rem 0;
+  text-align: center;
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 2rem;
+  border-top: 1px solid #ddd;
+}
+
+
   
-  .card-body {
-    padding: 20px;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    margin-bottom: 20px;
-  }
-  
-  .footer-container {
-    margin-top: 3rem;
-    padding: 3rem;
-  }
-  
-  /* Media Queries */
   @media screen and (max-width: 768px) {
     .container {
       max-width: 100%;

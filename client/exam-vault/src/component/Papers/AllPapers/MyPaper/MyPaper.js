@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import classes from './MyPaper.module.css'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { deleteHandler, deletePaperHandler, editPaperHandler, viewHandler } from './MyPaperUtility'
-import { Outlet, useLocation, useNavigate } from 'react-router'
+import { Outlet, useLocation, useNavigate, useSearchParams } from 'react-router'
 import PaperTabular from '../PaperTabular'
 import ImageUpload from '../ImageUpload'
 import Pagination from '../Pagination/Pagination'
@@ -25,8 +25,15 @@ const MyPaper = () => {
     body: ''
   })
 
+  const[searchParams,setSearchParams]=useSearchParams()
+
   const apiUrl = `${process.env.REACT_APP_APIURL}`
 
+  useEffect(()=>{
+        const pageFromParams=parseInt(searchParams.get("page") || "1")
+        setCurrentPage(pageFromParams)
+      },[searchParams])
+    
   useEffect(() => {
     const token=sessionStorage.getItem("authToken")
     if(!token){
@@ -129,6 +136,11 @@ const MyPaper = () => {
           setCurrentPage={setCurrentPage}
           numberOfPages={numberOfPages}
           numbers={numbers}
+          onPageChange={(pageNum)=>{
+            const params=new URLSearchParams(searchParams.toString())
+            params.set("page",pageNum)
+            setSearchParams(params)
+          }}
         />
       )}
     </>

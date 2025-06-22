@@ -1,117 +1,120 @@
-import './FrontPage.css'
+import "./FrontPage.css";
 import { Link } from "react-router-dom";
 
 const TextFrontPage = () => {
   return (
     <div>
-       <header>
+      <header id="/">
         <div className="header-section flex container">
+
           <div className="header-left">
-            <h1>Notes & Papers Hub </h1>
+            <h2>Centralized Hub for Academic Notes & Papers</h2>
             <p>
-            Here teachers as well as students can acess the exam papers as well as notes of the semesters. 
-            Teachers can uplod the notes of the semesters and students can easily download from this hub.
+              Here teachers as well as students can acess the exam papers as
+              well as notes of the semesters. Teachers can uplod the notes of
+              the semesters and students can easily download from this hub.
             </p>
-            <button className="GetStartButton">
-              <Link
-                to="/registration"
-                style={{ textDecoration: "none"}}
-              >
-                Registration
-              </Link>
-            </button>
+            <Link to="/registration" style={{ textDecoration: "none" }} className="GetStartButton gradient-bg">Registration</Link>
+            <Link to="/login_form" style={{ textDecoration: "none" }} className="GetStartButton outlined">Learn More</Link>
           </div>
+
+
+
           <div className="header-right">
-            <img src="Images/student.jpeg" alt="Notes & Paper Hub" />
+            <img src="Images/frontpageImage.jpg" alt="Notes & Paper Hub" />
           </div>
         </div>
       </header>
 
-      <section className="features-section">
+      <section id="features" className="features-section">
         <div className="container">
-          <div className="features-header flex">
-            <h4 className="features-heading-text">
-              Some Functionalities of Notes & Papers
-            </h4>{" "}
+          <div className="features-header">
+            <h2 className="section-title">Core Features of Notes & Papers Hub</h2>
+            <p className="section-subtitle">Explore key tools designed for students and teachers</p>
           </div>
-          <hr />
-          <div className="features-area flex">
-  <a href="/registration" target="blank" className="features-card card-1">
-    <h5 className="features-text">
-      Teachers and Students can upload the papers of the exams.
-    </h5>
-  </a>
 
-  <a href="/registration" target="blank" className="features-card card-2">
-    <h5 className="features-text">
-      Teachers and Students can preview the all approved exam papers.
-        </h5>
-  </a>
+          <div className="features-grid">
 
-  <a href="/registration" target="blank" className="features-card card-3">
-    <h5 className="features-text">
-      Teahers and Students can check the analytics of the papers. 
-    </h5>
-  </a>
+            <Link to='/registration' className="feature-card">
+              <span className="feature-icon">📤</span>
+              <h3>Upload Papers</h3>
+              <p>Teachers & students can upload exam papers easily.</p>
+            </Link>
 
+            <Link to='/registration' className="feature-card">
+              <span className="feature-icon">👀</span>
+              <h3>Preview Papers</h3>
+              <p>View all approved exam papers and notes. </p>
+            </Link>
 
-  <a href="/registration" target="blank" className="features-card card-7">
-    <h5 className="features-text">
-      Teachers can upload the notes of the semester.
-     </h5>
-  </a>
+            <Link to='/registration' className="feature-card">
+              <span className="feature-icon">📊</span>
+              <h3>View Analytics</h3>
+              <p>Check subject-wise, year-wise paper statistics.</p>
+            </Link>
 
-  <a href="/registration" target="blank" className="features-card card-8">
-    <h5 className="features-text">
-      Students can download the semesters wise notes.
-     </h5>
-  </a>
+            <Link to='/registration' className="feature-card">
+              <span className="feature-icon">🔍</span>
+              <h3>Search Papers & Notes </h3>
+              <p>Teachers and students can search the notes & papers for preview. </p>
+            </Link>
 
-  <a href="/registration" target="blank" className="features-card card-9">
-    <h5 className="features-text">
-      Teachers and Students can preview the semesters notes.
-     </h5>
-  </a>
-</div>
+          </div>
         </div>
       </section>
 
-      <section className="cta-section">
-  <div className="container flex cta-section-container">
-    {/* <h2 style={{ color: "white" }}>Join Us in Making a Difference</h2> */}
-    <div className="card">
-      <h5 className="card-header" style={{background:"white"}}>Notes & Papers Hub</h5>
-      <div className="card-body">
-        <p className="card-text">
-          Here Teacher and students can use this portal, this portal is for both teahers and students. 
-          Here they can upload, download, preview, the papers and notes. 
-          for take advantage of this hub, please login or signup.
-        </p>
-        <button className="GetStartButton" style={{marginRight:"3rem"}}>
-          <Link
-            to="/registration"
-            style={{  textDecoration: "none" }}
-          >
-            Registration
-          </Link>
-        </button>
-        <button className="GetStartButton" style={{marginRight:"3rem"}}>
-          <Link
-            to="/login_form"
-            style={{ textDecoration: "none" }}
-          >
-            Login
-          </Link>
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
+      <section id="about" className="about-section">
+        <div className="container flex about-container">
+          <div className="about-text">
+            <h2>About Notes & Papers Hub</h2>
+            <p>
+              Notes & Papers Hub is designed to streamline academic resources sharing between teachers and students.
+              Whether it's uploading exam papers, previewing content,or downloading semester notes — our platform ensures everything is accessible one place.
+            </p>
+          </div>
+          <div className="about-image">
+            <img src="Images/About.jpg" alt="about section" />
+          </div>
+        </div>
+      </section>
 
-      <br />
-      <br />
-    </div>
-  )
-}
+      <section className="faq-section container">
+        <h2 className="section-title">Frequently Asked Questions</h2>
+        <p className="section-subtitle">Answers to common questions from students and teachers</p>
 
-export default TextFrontPage
+        <div className="faq-grid">
+
+          <div className="faq-item">
+            <h4>📝 How do I upload exam papers?</h4>
+            <p>Once you're registered and logged in, go to the upload section, choose the paper file and semester, and click upload.</p>
+          </div>
+
+          <div className="faq-item">
+            <h4>📚 Can students download notes freely?</h4>
+            <p>Yes, after login, students can browse notes semester-wise and download them easily.</p>
+          </div>
+
+          <div className="faq-item">
+            <h4>👁️ How can I preview papers before downloading?</h4>
+            <p>Click on any View paper to preview it in image formate before downloading.</p>
+          </div>
+
+          <div className="faq-item">
+            <h4>📈 Who can access analytics?</h4>
+            <p>Both teachers and students can view analytics like most downloaded papers, subjects, and semester-wise data.</p>
+          </div>
+
+        </div>
+      </section>
+      <footer className="simple-footer">
+        <div className="container">
+          <p>© {new Date().getFullYear()} Notes & Papers Hub. All rights reserved.</p>
+        </div>
+      </footer>
+
+
+    </div>
+  );
+};
+
+export default TextFrontPage;

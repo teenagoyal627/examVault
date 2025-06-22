@@ -7,7 +7,19 @@ const FrontPageNavbar = () => {
   const props = {
     items: [
       {
-        text: 'Registration',
+        text: 'Home',
+        link:'/#'
+      },
+      {
+        text:'Features',
+        link:'/#features'
+      },
+      {
+        text:'About',
+        link:'/#about'
+      },
+      {
+        text:'Registration',
         link:'/registration'
       },
       {
@@ -15,19 +27,53 @@ const FrontPageNavbar = () => {
         link: '/login_form'
       }
     ],
+    // logo: {
+    //   text: 'Notes & Papers Hub',
+    //   link:'/'
+    // },
     logo: {
-      text: 'Notes & Papers Hub',
-      link:'/'
+      text: (
+        <span style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src="Images/logo2.jpg"
+            alt="Logo"
+            style={{
+              height: '70px',
+              width: '70px',
+              marginRight: '10px',
+              marginTop:"10px"
+
+            }}
+          />
+          Notes & Papers Hub
+        </span>
+      ),
+      link: '/'
     },
     style: {
       barStyles: {
-        background: 'rgb(61, 62, 60)',
+        background: 'transparent',
         fontSize:"1.35rem",
+        color:"black",
+        boxShadow:"none"
       },
       sidebarStyles: {
-        background: '#222',
-        buttonColor: 'white'
+        background: '#fff',
+        color:'black',
+        buttonColor: 'black'
       }, 
+      linkStyles:{
+        textDecoration:'none',
+        color:'black',
+        fontWeight:'500',
+        padding:'20px',
+      },
+      logoStyles: {
+        fontWeight: '400',
+        fontSize: '1.9rem',
+        color: 'black',
+
+      }
 
     }
   }
