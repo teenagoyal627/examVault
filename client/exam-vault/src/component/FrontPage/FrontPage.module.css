@@ -1,48 +1,142 @@
-.heading{
+.registrationWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .leftSection {
+    flex: 1;
+    margin-left: 10rem;
+    max-width: 700px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .leftSection h2 {
+    font-size: 2rem;
+    color: #222;
+    margin: 0;
+  }
+  
+  .leftSection p {
+    font-size: 1rem;
+    margin: 1rem 0;
+    color: #444;
+  }
+  
+  .illustration {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin-top: 1rem;
+    display: block;
+  }
+
+    .rightSection {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .registerBox {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-size: 1.3rem;
-    font-weight: bold;
+    height:400px;
+    width: 620px;
+    margin-bottom: 6rem;
+  }
+  
+  .registerBox h3 {
     margin-bottom: 1rem;
-}
-
-.button{
-  color: rgb(4, 4, 4);
-  padding: 10px 20px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.3s;
-  background-color: #dcdcda;
-  font-size: 1.2rem;
-}
-h3{
-    text-align: center;
-}
-
-.button:hover{
-    background-color: green;
-    color: white;
-}
-.icon{
-    margin-right: .4rem;
-    margin-bottom: .5rem;
-}
-
-.cardWidth{
-    width: 30rem;
-    background-color:#f7f7f7;
-    padding: 1rem;
+    font-size: 1.7rem;
+  }
+  
+  .button {
+    display: block;
+    width: 100%;
+    background-color: #f1f1f1;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1.5rem;
     border-radius: 8px;
-    box-shadow:0 2px 10px black;
-    margin: 5rem auto;
-}
-
-@media(max-width:600px) {
-
-    .cardWidth{
-        width: 20rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #333;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .button:hover {
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
+    color: white;
+  }
+  
+  .loginBtn {
+    background-color: #e0e0e0;
+    margin-top: 1rem;
+  }
+  
+  .loginBtn:hover {
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
+    color: #fff;
+  }
+  
+  .icon {
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+  
+  .divider {
+    margin: 1rem 0;
+    font-weight: 600;
+    color: #888;
+  }
+ 
+  @media (max-width: 768px) {
+    .registrationWrapper {
+      flex-direction: column;
+      padding: 1rem;
     }
-    
-}
+  
+    .leftSection {
+      margin: 0; 
+      padding: 1rem;
+      align-items: center;
+      text-align: center;
+      max-width: 100%; 
+    }
+  
+    .leftSection h2, 
+    .leftSection p {
+      text-align: justify;
+
+    }
+  
+    .illustration {
+      width: 500px;
+      height: auto;
+    }
+  
+    .rightSection {
+      margin-top: 1rem;
+    }
+  
+    .registerBox {
+      margin-top: 2rem;
+      width: 410px;
+      max-width: 80vw;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+ 
+      
+  }
+  

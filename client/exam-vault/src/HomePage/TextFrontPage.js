@@ -83,7 +83,6 @@ const TextFrontPage = () => {
         <p className="section-subtitle">Answers to common questions from students and teachers</p>
 
         <div className="faq-grid">
-
           <div className="faq-item">
             <h4>📝 How do I upload exam papers?</h4>
             <p>Once you're registered and logged in, go to the upload section, choose the paper file and semester, and click upload.</p>
@@ -106,11 +105,7 @@ const TextFrontPage = () => {
 
         </div>
       </section>
-      <footer className="simple-footer">
-        <div className="container">
-          <p>© {new Date().getFullYear()} Notes & Papers Hub. All rights reserved.</p>
-        </div>
-      </footer>
+     
 
 
     </div>

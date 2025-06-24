@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from "react";
 import axios from "axios";
-import "./Search.css";
+import "./Search.module.css";
 import SearchNotesContainer from "./SearchContainer";
 import { useSearchParams } from "react-router-dom";
 

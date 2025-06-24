@@ -1,9 +1,9 @@
 import React from 'react'
 import './Card.css'
-const Card = (props) => {
+const Card = ({children,height,marginTop,width}) => {
   return (
-    <div className='all-card-ui'> 
-      {props.children}
+    <div className='all-card-ui' style={{height:height,marginTop:marginTop,width:width}}> 
+      {children}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react'
-import './Search.css'
+import classes from './Search.module.css'
 import FilterButton from '../FilterBox/FilterButton'
 import AppliedFilters from '../FilterBox/AppliedFilters'
 
@@ -15,17 +15,17 @@ const SearchNotesContainer = ({
 
   return (
     
-    <div className="search-container">
-      <div className="search-top-row">
+    <div className={classes.searchContainer}>
+      <div className={classes.searchTopRow}>
     <input
       type="text"
       placeholder="Search on title"
       value={query}
       onChange={handleInputChange}
-      className="search-input"
+      className={classes.searchInput}
     />
     
-    <button onClick={handleSearch} className="search-button">
+    <button onClick={handleSearch} className={classes.searchButton}>
       Search
     </button>
 

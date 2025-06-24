@@ -1,0 +1,19 @@
+
+.simple-footer {
+    background-color: #f0f0f0;
+    padding: 1rem 0;
+    text-align: center;
+    color: #555;
+    font-size: 0.95rem;
+    margin-top: 7rem;
+    height: auto;
+    border-top: 1px solid #ddd;
+  }
+
+  @media (max-width:768px) {
+   .simple-footer{
+    text-align: center;
+    padding: 1rem;
+    
+   }
+  }

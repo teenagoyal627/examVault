@@ -1,6 +1,44 @@
 .label {
     font-size: 1.2rem;
   }
+
+  .heading {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 200px;
+    margin-bottom: 1rem;
+  }
+  .uploadContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .leftSection {
+    flex: 1;
+    margin-left: 10rem;
+    max-width: 700px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .illustration {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin-top: 1rem;
+    display: block;
+  }
+
+    .rightSection {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   .fileInputWrapper {
     display: flex;
@@ -10,7 +48,7 @@
     border-radius: 5px;
     padding: 0.5rem;
     margin-bottom: 1rem;
-    width: 33rem;
+    width: auto;
     background-color: #f9f9f9;
     height: 6rem;
   }
@@ -18,16 +56,16 @@
   .customFileButton {
     padding: .9rem 1rem;
     margin-left: 1rem;
-    background-color: #b4d1f0;
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
     color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 30rem;
+    width: 43rem;
   }
   
   .customFileButton:hover {
-    background-color: #0056b3;
+    /* background: #0477f1; */
     color:white
   }
   
@@ -60,12 +98,12 @@
     width: 100%;
     font-size: 1.2rem;
     transition: background-color 0.3s;
-    background-color: #dcdcda;
+    background-color: #f1f1f1;
   }
   
   
   .button:hover{
-    background-color: green;
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
     color: white;
   }
   .required{

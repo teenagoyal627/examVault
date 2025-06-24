@@ -7,7 +7,7 @@
 }
 
 .paperCard{
-    background-color:#f7f7f7;
+    background-color:#ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     overflow: hidden;
@@ -45,7 +45,7 @@
   .Button {
     margin-top: 1rem;
     padding: 0.5rem;
-    background-color: #4caf50;
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
     margin-left: .5rem;
     width: 100%;
     color: #fff;
@@ -53,6 +53,10 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+  }
+
+  .Button:hover{
+    color: black;
   }
 
   .paperTable {
@@ -68,7 +72,7 @@
   }
   
   .paperTable th {
-    background-color: #f2f2f2; 
+    background-color: #ffffff; 
     font-weight: bold;
     text-align: left;
   }
@@ -98,7 +102,7 @@
   }
   
   .uploadButton {
-    background-color: #28a745;
+    background: linear-gradient(to right, #8ED6F8, #5CB3F5);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -108,7 +112,7 @@
   }
   
   .uploadButton:hover {
-    background-color: #46bf62;
+    color: black;
    
   }
   

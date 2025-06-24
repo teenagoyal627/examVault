@@ -74,8 +74,11 @@ const StudentRegistration = () => {
       </div>
     </div>
    )}
-      <Card>
-        <h5 className={classes.heading}>Student Registration Form</h5>
+      <Card height="50rem" marginTop=".8rem">
+      <div style={{textAlign:'center', marginTop:'-5rem'}}>
+          <img src="Images/studentReg.jpg" alt="" style={{width:'120px', marginBottom:'1rem', borderRadius:'1rem'}}/>
+        </div>
+        <h4 className={classes.heading} style={{marginTop:'-1.6rem'}}>Student Registration Form</h4>
         <hr />
         <form
           onSubmit={(e) =>{

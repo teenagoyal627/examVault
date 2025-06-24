@@ -92,6 +92,15 @@ const UploadPapers = () => {
       </div>
     </div>
    )}
+   <div className={classes.uploadContainer}>
+    <div className={classes.leftSection}>
+       <img 
+               src='Images/uploadPaper.jpg'
+               alt="upload paper"
+               className={classes.illustration}
+               />
+    </div>
+    <div className={classes.rightSection}>
     <form
       onSubmit={e =>{
           setIsSubmitting(true)
@@ -109,11 +118,8 @@ const UploadPapers = () => {
       }
       }
     >
-      <Card>
-        <h5 className={classes.heading}>Upload Paper</h5>
-        <hr />
-        <label className={classes.label}>Upload Paper <span className={classes.required}>*</span></label>
-        <br />
+      <Card marginTop="3rem" width="50rem">
+        <h5 className={classes.heading}>Upload Exam Paper</h5>
         <div className={classes.fileInputWrapper}>
           <button
             type='button'
@@ -126,7 +132,7 @@ const UploadPapers = () => {
               )
             }
           >
-            Select Paper File
+            Select Paper File <span className={classes.required}>*</span>
           </button>
           {selectedFile
            && (
@@ -227,6 +233,8 @@ const UploadPapers = () => {
         />
       )}
     </form>
+    </div>
+    </div>
     </>
   )
 }

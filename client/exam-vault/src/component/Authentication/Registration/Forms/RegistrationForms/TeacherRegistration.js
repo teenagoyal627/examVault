@@ -58,10 +58,13 @@ const TeacherRegistration = () => {
         </div>
       </div>
       )}
-      <Card>
-        <h5 className={classes.heading}>Teacher Registration Form</h5>
-        <h5 style={{ fontSize: ".9rem" }}>
-          Note: Account approval might take some time. Please contact
+      <Card height="43rem" marginTop="2rem">
+        <div style={{textAlign:'center', marginTop:'-4rem'}}>
+          <img src="Images/teacherReg.jpg" alt="" style={{width:'120px', marginBottom:'1rem', borderRadius:'1rem'}}/>
+        </div>
+        <h5 className={classes.heading}> 👩‍🏫 Teacher Registration</h5>
+        <h5 style={{ fontSize: ".9rem" ,color:'#555', textAlign:'center'}}>
+          Account approval might take some time. Please contact
           administrator
         </h5>
         <hr />

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import ModalFilter from './ModalFilter'
+import classes from '../Search/Search.module.css'
 
 const FilterButton = (
   {
@@ -15,7 +16,7 @@ const FilterButton = (
 
   return (
     <div>
-      <button type='button' className='search-button' onClick={()=>setShowFilterModal(true)}>Apply Filter</button>
+      <button type='button' className={classes.searchButton} onClick={()=>setShowFilterModal(true)}>Apply Filter</button>
       {showFilterModal && (
         <ModalFilter 
         modalRef={modalRef}

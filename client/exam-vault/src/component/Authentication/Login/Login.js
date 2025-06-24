@@ -51,6 +51,9 @@ useEffect(()=>{
     </div>
    )}
       <div className={classes.modal}>
+      <div style={{textAlign:'center', marginTop:'-5rem'}}>
+          <img src="Images/login.jpg" alt="" style={{width:'150px', marginTop:'1.4rem',marginBottom:'1rem', borderRadius:'1rem'}}/>
+        </div>
         <h5 className={classes.heading}>Login Form</h5>
         <hr />
         <form
