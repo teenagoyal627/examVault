@@ -24,8 +24,7 @@ const Pagination = ({
         }
     }
     return (
-        <div>
-             <nav className="pagination1">
+        <nav className="pagination1">
         <ul className="pagination">
           <li className="page-item">
             <button style={{ color: 'black' }} className="page-link" onClick={presentPage}>Prev</button>
@@ -49,7 +48,6 @@ const Pagination = ({
         </ul>
       </nav>
 
-        </div>
     )
 
 }

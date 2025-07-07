@@ -1,13 +1,13 @@
 .pagination1 {
     display: flex;
     justify-content: center;
-    margin: 2rem ;
+    margin-right: 33rem ;
     margin-top: 6rem;
+    margin-bottom: 2rem;
   }
   
   .pagination {
     list-style: none;
-    
     display: flex;
     gap: .1rem;
     background-color:rgb(66, 67, 64);

@@ -95,7 +95,7 @@ const UploadPapers = () => {
    <div className={classes.uploadContainer}>
     <div className={classes.leftSection}>
        <img 
-               src='Images/uploadPaper.jpg'
+               src='/Images/uploadPaper.jpg'
                alt="upload paper"
                className={classes.illustration}
                />
@@ -217,7 +217,7 @@ const UploadPapers = () => {
           required={true}
           options={['University', 'Midterm', 'Improvement', 'Other']}
         />
-        <button className={classes.button}>Submit</button>
+        <button className={classes.button}>Submit Paper</button>
       </Card>
       {showModal && (
         <MessageBox

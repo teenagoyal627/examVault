@@ -105,27 +105,29 @@ const MyProfile = () => {
                         editedData[key]??userData[key]
                       )}
                     </td>
-                    {key==="email"? (
+                    {/* {key==="email"? (
                       <td></td>
-                    ):(
+                    )
+                    :(
                       <td>
                         <FiEdit className="editButton" onClick={()=>editProfileHandler(key)} />
                       </td>
-                    )}
+                    )
+                    } */}
                   </tr>
                 ))}
                 
             {userData && (
               <tr>
                 <td className="label">CREATED_AT</td>
-                <td className="disabled-value">{CreatedAtDate(userData.created_at)}</td>
+                <td className="">{CreatedAtDate(userData.created_at)}</td>
               </tr>
             )}
           </tbody>
         </table>
-        <button className="edit-btn" onClick={() => saveEditedData(userData._id)}>
+        {/* <button className="edit-btn" onClick={() => saveEditedData(userData._id)}>
           Save
-        </button>
+        </button> */}
       </div>
     </>
   );

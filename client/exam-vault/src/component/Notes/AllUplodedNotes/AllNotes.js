@@ -89,7 +89,8 @@ const AllNotes = () => {
 
   return (
     <>
-      {isModalOpen ? (
+
+      {records.length !== 0 && !loading &&isModalOpen ? (
         <div className={classes.noPaperMessage}>
           <p>No Search results found.....</p>
           <button onClick={() =>setIsModalOpen(false)} className={classes.uploadButton}>

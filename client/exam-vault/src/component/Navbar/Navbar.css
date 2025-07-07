@@ -1,6 +1,6 @@
 nav ul {
   display: flex;
-  margin-left: 50rem;
+  margin-left: 17rem;
   list-style: none;
   padding: 0;
   margin-bottom: .1rem;
@@ -11,7 +11,7 @@ nav ul li a {
   text-decoration: none;
   color: black;
   font-size: 20px;
-  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 nav ul li {

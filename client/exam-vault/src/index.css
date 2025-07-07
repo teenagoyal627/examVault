@@ -2,3 +2,6 @@
   overflow-y: hidden;
 } */
 
+nav ul li a {
+  box-sizing: border-box;
+}

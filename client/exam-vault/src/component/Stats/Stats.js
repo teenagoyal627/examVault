@@ -9,7 +9,7 @@ const Stats = () => {
   return (
     <>
    
-      <div className="stats-container">
+  <div className="stats-container">
    <PaperPieChart/>
    <DepartmentPieChart/>
    <PaperTypePieChart/>

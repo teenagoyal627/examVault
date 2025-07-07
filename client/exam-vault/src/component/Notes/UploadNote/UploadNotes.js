@@ -89,6 +89,15 @@ const UploadNotesForm = () => {
       </div>
     </div>
    )}
+   <div className={classes.uploadContainer}>
+       <div className={classes.leftSection}>
+          <img 
+                  src='/Images/uploadPaper.jpg'
+                  alt="upload paper"
+                  className={classes.illustration}
+                  />
+       </div>
+       <div className={classes.rightSection}>
     <form
       onSubmit={e =>{
           setIsSubmitting(true)
@@ -106,11 +115,8 @@ const UploadNotesForm = () => {
       }
       }
     >
-      <Card>
+      <Card marginTop="3rem" width="50rem">
         <h5 className={classes.heading}>Upload Notes</h5>
-        <hr />
-        <label className={classes.label}>Upload Notes <span className={classes.required}>*</span></label>
-        <br />
         <div className={classes.fileInputWrapper}>
           <button
             type='button'
@@ -200,7 +206,7 @@ const UploadNotesForm = () => {
           required={true}
           options={['I', 'II', 'III', 'IV','V','VI','VII']}
         />
-        <button className={classes.button}>Upload</button>
+        <button className={classes.button}>Submit Notes</button>
       </Card>
       {showModal && (
         <MessageBox
@@ -216,6 +222,8 @@ const UploadNotesForm = () => {
         />
       )}
     </form>
+      </div>
+    </div>
     </>
   )
 }

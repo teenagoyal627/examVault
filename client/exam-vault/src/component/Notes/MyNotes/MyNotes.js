@@ -84,9 +84,9 @@ const MyNotes = () => {
             )}
             {userId && notesData.length === 0 && !loading && (
                 <div className={classes.noPaperMessage}>
-                    <p>You have not uploaded any papers yet. Please upload a paper first.</p>
-                    <button onClick={() => navigate('/upload_paper')} className={classes.uploadButton}>
-                        Upload Paper
+                    <p>You have not uploaded any notes yet. Please upload notes first.</p>
+                    <button onClick={() => navigate('/upload_notes')} className={classes.uploadButton}>
+                        Upload Notes
                     </button>
                 </div>
             )}

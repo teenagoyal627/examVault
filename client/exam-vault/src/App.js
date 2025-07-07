@@ -75,7 +75,6 @@ const router=createBrowserRouter([
       {
         path:'stats',
         element:<Stats/>
-
       },
       {
         path:'my_paper',
