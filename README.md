@@ -1,6 +1,6 @@
-# 📚 Exam Vault
+# 📚 Notes & Paper Hub
 
-**Exam Vault** is a role-based web application designed to streamline the management and distribution of academic exam papers. It empowers **teachers** to review and approve student-submitted papers and allows **students** to easily access approved papers. This platform also includes real-time statistics, filters, file uploads, and access control to ensure a robust academic repository system.
+**Notes & Paper Hub** is a role-based web application designed to streamline the **management and distribution of academic exam papers and study notes**. It empowers **teachers** to upload, review, and approve student-submitted resources, and allows **students** to easily access approved **papers and notes**. The platform includes powerful features like real-time statistics, dynamic filters, secure file uploads, and role-based access control—making it a comprehensive academic repository system for educational institutions.
 
 ---
 
@@ -14,23 +14,26 @@
   - [2. Registration & Login](#2-registration--login)
   - [3. All Papers Page](#3-all-papers-page)
   - [4. Upload Paper](#4-upload-paper)
-  - [5. My Papers](#5-my-papers-page)
-  - [6. New Papers (Teacher Review)](#6-new-papers-teacher-review)
-  - [7. Statistics Dashboard](#7-statistics-dashboard)
-  - [8. Logout](#8-logout)
+  - [5. Upload Notes](#5-upload-notes)
+  - [6. My Papers](#6-my-papers-page)
+  - [7. New Papers (Teacher Review)](#7-new-papers-teacher-review)
+  - [8. Statistics Dashboard](#8-statistics-dashboard)
+  - [9. Logout](#9-logout)
 - [Edge Case Handling](#-middleware--edge-case-handling)
 
 ---
 
-## 🧠 Introduction
+## Introduction
 
-Exam Vault serves as a **centralized repository** for academic papers. It provides:
+Notes & Paper Hub serves as a **centralized repository** for academic exam papers and study notes. It provides:
+
 - Role-based authentication (Teacher/Student)
-- Paper submission & review workflows
+- Resource submission and review workflows
 - Filtering and search capabilities
 - Approval system with dynamic content rendering
+- Teachers can directly upload notes and manage student submissions
+- Students can download approved notes and papers
 - Secure, intuitive user experience
-
 ---
 
 ## ⚙️ Tech Stack 
@@ -50,17 +53,20 @@ Exam Vault serves as a **centralized repository** for academic papers. It provid
 - **JWT(JSON Web Token)**
 
 ---
-
 ## 📑 Functionalities
 
 - 👤 Register as a **Teacher** or **Student**
 - 🔐 Login with secure JWT-based authentication
-- 📄 Upload papers with file validation
-- 📊 View & filter approved papers
-- Teachers and Student both can checked the own uploaded papers
-- ✅ Teachers can approve/reject/edit papers
-- 📈 Stats Dashboard with dynamic charts
-- 📥 Pagination and search
+- 📄 Students can upload exam papers (pending teacher review)
+- 📄 Teachers can upload exam papers (auto-approved)
+- 📝 Teachers can upload subject-wise notes directly
+- 📥 Students can download teacher-uploaded notes
+- 📊 View & filter approved exam papers and notes
+- 📁 "My Papers" section for users to track their own uploads
+- 📂 "My Notes" section for teachers to view their uploaded notes
+- ✅ Teachers can approve/reject/edit student-submitted exam papers
+- 📈 Stats Dashboard with dynamic charts and insights
+- 🔍 Pagination, filtering, and search functionality
 - 🚪 Logout and session clearing
 
 ---

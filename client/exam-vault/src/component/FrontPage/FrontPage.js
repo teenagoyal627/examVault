@@ -8,7 +8,7 @@ const FrontPage = () => {
     <div>
     <FrontPageNavbar/>
      <FrontPageCard/>
-     <Footer/>
+     {/* <Footer/> */}
     </div>
   )
 }
