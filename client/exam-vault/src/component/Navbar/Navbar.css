@@ -1,61 +1,69 @@
-nav ul {
-  display: flex;
-  margin-left: 17rem;
-  list-style: none;
-  padding: 0;
-  margin-bottom: .1rem;
-  margin-right: 1rem;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: black;
-  font-size: 20px;
-  margin-right: 1rem;
-}
-
-nav ul li {
-  text-decoration: none;
-  color: black;
-  margin-top: .3rem;
-}
-
-.logout{
-  font-size: 20px;
-  color: black;
-  margin-left: 1.3rem;
-  cursor: pointer;
-}
-
-.logout:hover {
-  cursor: pointer;
-  text-decoration: none;
- }
-
- .link.active {
-  border: 2px solid #f2eeee; 
-  background: linear-gradient(to right, #8ED6F8, #5CB3F5);
-  color: white;
-  border-radius: 8px;     
-  padding: 8px 18px;       
-}
-
+/* Header Container */
 .header {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between; /* Space between logo and nav */
   align-items: center;
-  padding: 15px 20px;
-  /* background-color: #424340; */
-  color: white;
+  padding: 10px 40px;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
 }
 
+/* Logo + text container */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
 
+/* Logo Text */
 .logo-link {
   text-decoration: none;
   color: black;
   font-size: 1.5rem;
+  font-weight: 600;
+  margin-left: 10px;
 }
 
+/* Nav list styling */
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 10px;  /* ✅ replaces margin-right madness */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
+/* Nav link styles */
+nav ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 19px;
+  padding: 6px 12px;
+  transition: background-color 0.2s;
+  border-radius: 6px;
+}
 
+nav ul li a:hover {
+  background-color: #f0f0f0;
+}
 
+/* Active link styling */
+.link.active {
+  background: linear-gradient(to right, #8ED6F8, #5CB3F5);
+  color: white;
+  border-radius: 6px;
+  padding: .7rem;
+}
+
+/* Logout button */
+.logout {
+  font-size: 16px;
+  color: red;
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+.logout:hover {
+  background-color: #ffe5e5;
+  border-radius: 6px;
+}

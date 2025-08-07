@@ -5,7 +5,8 @@ import { createContext, useEffect, useRef, useState } from "react";
 export const AuthContext=createContext() 
 
 export const AuthProvider=({children})=>{
-    const[userRole,setUserRole]=useState('')
+    const[userRole,setUserRole]=useState('');
+    const[loading,setLoading]=useState(true);
     const isRoleFetched=useRef(false)
 
     useEffect(()=>{
@@ -13,6 +14,7 @@ export const AuthProvider=({children})=>{
       if(storedRole){
         setUserRole(storedRole)
         isRoleFetched.current=true;
+        setLoading(false);
         return;
       }
         
@@ -20,6 +22,8 @@ export const AuthProvider=({children})=>{
         const unsubscribe=onAuthStateChanged(auth,async(user)=>{
             if(user && !isRoleFetched.current){
               await  fetchUserRole(user)
+            }else{
+              setLoading(false)
             }
         })
         return ()=>unsubscribe()
@@ -39,15 +43,19 @@ export const AuthProvider=({children})=>{
           const role=response.data.role 
           setUserRole(role)
           sessionStorage.setItem("userRole",role)
-          isRoleFetched.current=true
+          isRoleFetched.current=true;
+          setLoading(false);
         }
         } catch (error) {
           console.log("Failed to fetch user role", error);
-        }
+        }finally {
+    isRoleFetched.current = true;
+    setLoading(false);
       };
+    }
     return(
-        <AuthContext.Provider value={{userRole}}>
-            {children}
+        <AuthContext.Provider value={{userRole,loading}}>
+            {!loading && children}
         </AuthContext.Provider>
     )
 }
