@@ -77,6 +77,9 @@ Notes & Paper Hub serves as a **centralized repository** for academic exam paper
 ---
 
 ## 💡 Component-wise Explanation
+**Screenshot**  
+![Home Page](ScreenShots/HomePage.png)
+
 
 ### 1. Authentication & Authorization 
 
