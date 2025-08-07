@@ -6,20 +6,23 @@
 
 ## 🚀 Table of Contents
 
-- [🧠 Introduction](#-introduction)
-- [⚙️ Tech Stack](#-tech-stack)
-- [📑 Functionalities](#-functionalities)
-- [💡 Component-wise Explanation](#-component-wise-explanation)
+- [Introduction](#introduction)
+- [Tech Stack](#tech-stack)
+- [Functionalities](#functionalities)
+- [Component-wise Explanation](#component-wise-explanation)
   - [1. Authentication & Authorization](#1-authentication--authorization)
   - [2. Registration & Login](#2-registration--login)
   - [3. All Papers Page](#3-all-papers-page)
-  - [4. Upload Paper](#4-upload-paper)
-  - [5. Upload Notes](#5-upload-notes)
-  - [6. My Papers](#6-my-papers-page)
-  - [7. New Papers (Teacher Review)](#7-new-papers-teacher-review)
-  - [8. Statistics Dashboard](#8-statistics-dashboard)
-  - [9. Logout](#9-logout)
-- [Edge Case Handling](#-middleware--edge-case-handling)
+  - [4. All Notes Page](#4-all-notes-page)
+  - [5. Upload Paper](#5-upload-paper)
+  - [6. Upload Notes](#6-upload-notes)
+  - [7. My Papers](#7-my-papers)
+  - [8. My Notes](#8-my-notes)
+  - [9. New Papers (Teacher Review)](#9-new-papers-teacher-review)
+  - [10. Statistics Dashboard](#10-statistics-dashboard)
+  - [11. Logout](#11-logout)
+- [Edge Case Handling](#edge-case-handling)
+- [Start the Project](#start-the-project)
 
 ---
 
@@ -34,25 +37,27 @@ Notes & Paper Hub serves as a **centralized repository** for academic exam paper
 - Teachers can directly upload notes and manage student submissions
 - Students can download approved notes and papers
 - Secure, intuitive user experience
+
 ---
 
 ## ⚙️ Tech Stack 
 
-### 🔧 Frontend
+### Frontend
 - **React.js** 
 - **Bootstrap** 
 - **React Router** 
 - **CSS** 
 - **Axios** 
-- **Chart.js(for stats)**
+- **Chart.js (for stats)**
 
-### 🛠 Backend
+### Backend
 - **Node.js** 
 - **Express.js** 
-- **MongoDB +Mongoose** 
-- **JWT(JSON Web Token)**
+- **MongoDB + Mongoose** 
+- **JWT (JSON Web Token)**
 
 ---
+
 ## 📑 Functionalities
 
 - 👤 Register as a **Teacher** or **Student**
@@ -70,6 +75,7 @@ Notes & Paper Hub serves as a **centralized repository** for academic exam paper
 - 🚪 Logout and session clearing
 
 ---
+
 ## 💡 Component-wise Explanation
 
 ### 1. Authentication & Authorization 
@@ -79,157 +85,150 @@ Notes & Paper Hub serves as a **centralized repository** for academic exam paper
 - 🔐 Role-based access: 
   - Students can only view approved papers & upload the papers
   - Teachers can access new papers review, approval, and edit functionalities
+
 ---
+
 ### 2. Registration & Login
+
 - Authentication is done via **Firebase Authentication**
 - User Approval Status: 
- - For Students: Auto-approved 
- - For teachers: Pending(Manual approval by admin)
+  - For Students: Auto-approved 
+  - For Teachers: Pending (Manual approval by admin)
 
-![Registration](ScreenShots/regPage.png)
-
-#### 👨‍🏫 Teacher Registration:
-![techReg](ScreenShots/techReg.png)
-
-#### 🧑 Student Registration:
-![studReg](ScreenShots/studReg.png)
-
-
-#### 🔐 Login: 
-
-- Email + Password verified
-- JWT Token generated 
-- Role and approval status checked 
-- Redirect: 
- - Student ➝ /all-paper
- - Teacher ➝ If approved ➝ /all-paper, else ➝ /register
+**Screenshots**  
+![Registration](ScreenShots/regPage.png)  
+![Teacher Registration](ScreenShots/techReg.png)  
+![Student Registration](ScreenShots/studReg.png)  
+![Login](ScreenShots/login.png)
 
 ---
-### 3. 🗂️ All Papers Page
 
-- 📜 Displays only papers with status: `approved`
-- 📄 Information shown:
-  - Title
-  - Subject
-  - Semester
-  - Department
-  - Paper Type
-  - Exam Type
+### 3. All Papers Page
 
-![all Paper](ScreenShots/allPaper.png)
-
-- 🔍 Search:
-  - Search papers by **title**
-
+- Displays only papers with status: `approved`
+- Information shown:
+  - Title, Subject, Semester, Department, Paper Type, Exam Type
+- 🔍 Search by title  
 - 🎛️ Filters:
-  - Department
-  - Semester
-  - Year
-  - Subject
-  - Paper Type (Main / Back / Other)
-  - Exam Type (University / Mid-Term / Important)
+  - Department, Semester, Year, Subject, Paper Type, Exam Type  
+- 📊 Pagination (12 papers per page)
+- ✏️ Edit Button for teachers only
 
-- 📊 Pagination:
-  - Displays 12 papers per page
-  - Maintains page state during search and filtering
-
-- ✏️ Edit Button:
-  - Visible only to users with role `teacher`
-  - Allows editing of approved papers
-
----
-### 4. 📤 Upload Paper
-
-- 📎 Supported File Types:
-  - `.pdf`, `.png`, `.jpeg`
-
-- 📝 Required Fields:
-  - Department
-  - Title
-  - Subject
-  - Semester
-  - Exam Type
-  - Paper Type
-
-- 🧠 Logic:
-  - If **student** uploads a paper → `status: pending`
-    - Routed to "New Papers" for teacher review
-  - If **teacher** uploads a paper → `status: approved`
-    - Immediately visible on All Papers page
-
-
-![upload Paper](ScreenShots/uploadPaper.png)
-
----
-### My Papers (Upload History)
-- Users can view all papers they have uploaded.
-- Displays paper status: **Pending, Approved, Rejected**.
-
-![my paper](ScreenShots/myPaper.png) 
-
+**Screenshot**  
+![All Papers](ScreenShots/allPaper.png)
 
 ---
 
-### 5. 📝 New Papers (Teacher Review)
+### 4. All Notes Page
 
-- 🔐 Only accessible to **teachers**
-- 📄 Lists all papers uploaded by **students** with `status: pending`
+- Displays all approved notes uploaded by teachers
+- Students can download these notes
+- Filters by department, subject, and semester
+- Search by note title
+- Paginated view
 
-- 👨‍🏫 Teacher Actions:
-  - ✅ **Approve**:
-    - Changes status to `approved`
-    - Paper appears in All Papers
-  - ❌ **Reject**:
-    - Opens a modal where the teacher writes a comment explaining rejection
-    - Paper status changes to `rejected`
-  - ✏️ **Edit**:
-    - Opens a pre-filled form allowing the teacher to update paper metadata or upload a new file
+**Screenshot**  
+![All Notes](ScreenShots/allNotes.png)
 
 ---
 
-### 6. 📊 Statistics Dashboard
+### 5. Upload Paper
 
-> Built using **Chart.js** with dynamic data fetched via MongoDB aggregation
+- Supported File Types: `.pdf`, `.png`, `.jpeg`
+- Required Fields:
+  - Department, Title, Subject, Semester, Exam Type, Paper Type
 
-- 🟢 **Pie Chart 1**: Paper Review Status
-  - Shows count of Approved, Pending, and Rejected papers
+**Logic:**
+- Student Upload ➝ `status: pending`
+- Teacher Upload ➝ `status: approved`
 
-- 🟡 **Pie Chart 2**: Department-wise Paper Count
-  - Displays how many papers are approved under each department
-
-- 🔵 **Pie Chart 3**: Paper Type Breakdown
-  - Main / Back / Other
-
-- 🔴 **Pie Chart 4**: Exam Type Distribution
-  - University / Mid-Term / Important
-
-- 👥 **Access**:
-  - Both students and teachers can view this page
-
+**Screenshot**  
+![Upload Paper](ScreenShots/uploadPapers.png)
 
 ---
 
-### 7. 🚪 Logout
+### 6. Upload Notes
 
-- Clears the JWT token from `sessionStorage`
-- Redirects user to the **Login** page
-- Secure logout using React navigation
+- Only available to teachers
+- Teachers can upload notes directly (no review required)
+- Required:
+  - Title, Department, Subject, Semester, and file
 
----
-
-### ⚠️ Edge Cases Handled
-
-- ❌ Duplicate registration is prevented using unique email/ID checks
-- 🔐 Invalid login credentials return proper error messages
-- 🚫 Unauthorized users are blocked from accessing protected routes
-- 🧾 Teachers with status `not_approved` are restricted from entering the app
-- 📎 Invalid file types or large files are rejected with clean error messages
-- 🔍 Filters and search gracefully handle no results (e.g., “No papers found”)
-- 🌐 API/network errors are caught and displayed to the user
+**Screenshot**  
+![Upload Notes](ScreenShots/uploadNotes.png)
 
 ---
 
+### 7. My Papers
 
+- View all papers uploaded by the logged-in user
+- Status: Pending, Approved, Rejected
+
+**Screenshot**  
+![My Papers](ScreenShots/myPaper.png)
+
+---
+
+### 8. My Notes
+
+- Visible only to teachers
+- Shows all notes uploaded by the teacher
+- Option to edit details or update the file
+
+**Screenshot**  
+![My Notes](ScreenShots/myNotes.png)
+
+---
+
+### 9. New Papers (Teacher Review)
+
+- For teachers only
+- Shows papers uploaded by students (status: pending)
+- Actions:
+  - ✅ Approve
+  - ❌ Reject (with reason)
+  - ✏️ Edit metadata or file
+
+**Screenshot**  
+![New Papers](ScreenShots/newPaper.png)
+
+---
+
+### 10. Statistics Dashboard
+
+Built using **Chart.js** + MongoDB aggregation
+
+- 📊 Pie Chart 1: Paper Review Status
+- 📘 Pie Chart 2: Department-wise Paper Count
+- 📂 Pie Chart 3: Paper Type Breakdown
+- 🧪 Pie Chart 4: Exam Type Distribution
+
+**Screenshot**  
+![Stats](ScreenShots/stats.png)
+
+---
+
+### 11. Logout
+
+- Clears JWT token from `sessionStorage`
+- Redirects to Login page
+- Secures logout process
+
+---
+
+## ⚠️ Edge Case Handling
+
+- ❌ Duplicate registration prevented
+- 🔐 Invalid login credentials show proper error messages
+- 🚫 Unauthorized access blocked
+- 📎 Invalid/large files rejected cleanly
+- 🧾 Teachers with `not_approved` status restricted
+- 🔍 Empty filter/search states handled gracefully
+- 🌐 API/network errors caught and displayed
+
+---
+
+## 🏁 Start the Project
 #### Starting the Client
 ```sh 
 #Navigate to client folder
