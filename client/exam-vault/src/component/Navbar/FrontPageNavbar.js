@@ -22,6 +22,7 @@ const FrontPageNavbar = () => {
             height: window.innerWidth < 768 ? '40px' : '50px',
             width: window.innerWidth < 768 ? '40px' : '50px',
             marginTop: '10px',
+            marginRight:'10px'
           }}
         />
         Notes & Paper Hub
@@ -36,7 +37,7 @@ const FrontPageNavbar = () => {
       fontWeight: '500',
       color: 'black',
       boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
-      padding: '10px 40px',
+      padding: '2px 10px',
       borderBottom: '1px solid #e0e0e0'
     },
     linkStyles: {
