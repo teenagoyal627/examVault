@@ -92,7 +92,7 @@ export const teacherRegSubmitHandler = async (
   setModalContent,
   setLoading
 ) => {
-  e.preventDefaut()
+  e.preventDefault();
   if(!validate(regData.password, regData.confirmPass)){
     setShowModal(true)
     setModalContent({
